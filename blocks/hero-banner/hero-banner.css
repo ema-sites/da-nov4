@@ -1,3 +1,4 @@
+/* full-bleed: the block spans the viewport, its inner column keeps the content width */
 .hero-banner-container .hero-banner-wrapper {
   max-width: unset;
   padding: 0;
@@ -32,14 +33,14 @@
 
 .hero-banner .hero-banner-inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   gap: 24px;
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: 40px 24px;
+  padding: 40px var(--content-gutter);
   box-sizing: border-box;
 }
 
@@ -51,11 +52,84 @@
   margin-top: 0;
 }
 
+.hero-banner .hero-banner-content > :last-child {
+  margin-bottom: 0;
+}
+
 .hero-banner .hero-banner-card picture,
 .hero-banner .hero-banner-card img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+/* default with a wide photo: text over the photo (mobile: text above the photo) */
+.hero-banner.hero-banner-overlay {
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.hero-banner.hero-banner-overlay .hero-banner-media {
+  position: relative;
+  order: 1;
+  height: 305px;
+}
+
+.hero-banner.hero-banner-overlay .hero-banner-media img {
+  object-position: 62% center;
+}
+
+.hero-banner.hero-banner-overlay .hero-banner-inner {
+  margin: 0;
+  padding: 30px var(--content-gutter);
+}
+
+.hero-banner.hero-banner-overlay .hero-banner-content h2 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+/* default without a photo / energy-lines: light grey text panel */
+.hero-banner.no-image {
+  min-height: 0;
+  background-color: var(--light-blue-grey-color);
+}
+
+.hero-banner.no-image .hero-banner-inner {
+  padding: 30px var(--content-gutter);
+}
+
+/* energy-lines: photo beside a light grey panel with the RBC energy lines */
+.hero-banner.energy-lines {
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+  background-color: var(--light-blue-grey-color);
+}
+
+.hero-banner.energy-lines .hero-banner-media {
+  position: relative;
+  height: 150px;
+}
+
+.hero-banner.energy-lines .hero-banner-media img {
+  object-position: center bottom;
+}
+
+.hero-banner.energy-lines .hero-banner-inner {
+  margin: 0;
+  padding: var(--content-gutter);
+}
+
+.hero-banner.energy-lines .hero-banner-content :is(h2, p) {
+  color: #000;
+}
+
+.hero-banner.energy-lines .hero-banner-content h2 {
+  font-size: 24px;
+  line-height: 30px;
 }
 
 /* split / split-overlap-card: text panel beside the photo */
@@ -99,7 +173,100 @@
 
 @media (width >= 900px) {
   .hero-banner .hero-banner-inner {
-    padding: 40px 32px;
+    padding: 40px var(--content-gutter);
+  }
+
+  /* default with a wide photo: photo fills the banner, text in the left half */
+  .hero-banner.hero-banner-overlay {
+    flex-direction: row;
+    align-items: flex-start;
+    min-height: 524px;
+  }
+
+  .hero-banner.hero-banner-overlay .hero-banner-media {
+    position: absolute;
+    height: auto;
+  }
+
+  .hero-banner.hero-banner-overlay .hero-banner-media img {
+    object-position: center;
+  }
+
+  .hero-banner.hero-banner-overlay .hero-banner-inner {
+    margin: 0 auto;
+    padding: 124px var(--content-gutter) 60px;
+  }
+
+  .hero-banner.hero-banner-overlay .hero-banner-content {
+    max-width: 570px;
+  }
+
+  .hero-banner.hero-banner-overlay .hero-banner-content h2 {
+    font-size: 50px;
+    font-weight: 500;
+    line-height: 55px;
+  }
+
+  .hero-banner.hero-banner-overlay .hero-banner-content p {
+    max-width: 473px;
+  }
+
+  .hero-banner.no-image .hero-banner-inner {
+    padding: 60px var(--content-gutter);
+  }
+
+  /* energy-lines: photo on the left, grey panel (45%) with the text on the right */
+  .hero-banner.energy-lines {
+    flex-direction: row;
+    align-items: center;
+    min-height: 500px;
+  }
+
+  .hero-banner.energy-lines::before,
+  .hero-banner.energy-lines::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  .hero-banner.energy-lines::before {
+    left: -210px;
+    right: 210px;
+    z-index: 1;
+    background: url("./energy-lines-grey-left.png") no-repeat 55% center;
+  }
+
+  .hero-banner.energy-lines::after {
+    right: 0;
+    width: 45%;
+    background-color: var(--light-blue-grey-color);
+  }
+
+  .hero-banner.energy-lines .hero-banner-media {
+    position: absolute;
+    right: 45%;
+    height: auto;
+  }
+
+  .hero-banner.energy-lines .hero-banner-media img {
+    object-position: 40% bottom;
+  }
+
+  .hero-banner.energy-lines .hero-banner-inner {
+    margin: 0 auto;
+    padding: 0 var(--content-gutter);
+  }
+
+  .hero-banner.energy-lines .hero-banner-content {
+    width: 50%;
+    max-width: 470px;
+    margin: 0 var(--content-gutter) 0 auto;
+  }
+
+  .hero-banner.energy-lines .hero-banner-content h2 {
+    font-size: 36px;
+    line-height: 44px;
   }
 
   .hero-banner.split,

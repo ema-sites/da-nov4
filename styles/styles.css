@@ -307,7 +307,8 @@ main .section.dark-blue-gradient a:any-link:not(.button) {
 /* a full-bleed hero section sits flush under the header */
 main > .section.carousel-hero-container,
 main > .section.carousel-hero-container:first-of-type,
-main > .section.branch-locator-container {
+main > .section.branch-locator-container,
+main > .section.hero-banner-container:not(.light-grey, .light-blue-grey, .dark-blue-gradient) {
   padding: 0;
 }
 

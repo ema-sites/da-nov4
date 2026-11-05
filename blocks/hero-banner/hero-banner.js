@@ -8,6 +8,11 @@
 
 const VIDEO_RE = /\.(mp4|webm|ogg)(\?|#|$)/i;
 
+// options that define their own layout; without one the default layout is picked from the photo
+const LAYOUT_OPTIONS = ['split', 'split-strip', 'split-overlap-card', 'video', 'video-2', 'energy-lines'];
+// photos at least this wide (width / height) are designed as full-bleed banner backgrounds
+const OVERLAY_MIN_RATIO = 2.4;
+
 function isMediaRow(row) {
   const hasPicture = !!row.querySelector('picture');
   const videoLink = [...row.querySelectorAll('a[href]')].find((a) => VIDEO_RE.test(a.href));
@@ -101,5 +106,22 @@ export default function decorate(block) {
   asides.forEach((a) => inner.append(a));
 
   block.replaceChildren(...[media, inner].filter((el) => el.children.length));
-  if (!media.children.length) block.classList.add('no-image');
+  if (!media.children.length) {
+    block.classList.add('no-image');
+    return;
+  }
+
+  // default banners (no layout option): wide photos that leave room for the text are
+  // used as a full-bleed background; narrower photos get the energy-lines panel layout
+  const hasLayout = LAYOUT_OPTIONS.some((c) => block.classList.contains(c));
+  const img = media.querySelector('img');
+  if (hasLayout || !img || block.classList.contains('hero-banner-has-video')) return;
+  block.classList.add('hero-banner-overlay');
+  const pickLayout = () => {
+    if (!img.naturalWidth || img.naturalWidth / img.naturalHeight >= OVERLAY_MIN_RATIO) return;
+    block.classList.remove('hero-banner-overlay');
+    block.classList.add('energy-lines');
+  };
+  if (img.complete) pickLayout();
+  else img.addEventListener('load', pickLayout, { once: true });
 }

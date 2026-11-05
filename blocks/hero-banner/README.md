@@ -20,6 +20,13 @@ Single block table. Content: Row 1 (media): background picture, and/or a link to
 | Orange | `orange` |
 | Video 2 | `video-2` |
 | Split Overlap Card | `split-overlap-card` |
+| Energy Lines | `energy-lines` |
+
+Without a layout option (`split`, `split-strip`, `split-overlap-card`, `video`, `video-2`, `energy-lines`) the layout follows the background picture:
+
+- wide photo (width / height of 2.4 or more, e.g. 1440x524): full-bleed background with the text in the left half (mobile: text above the photo);
+- narrower photo (e.g. 1200x579): `energy-lines` layout, i.e. photo on the left, light grey panel with the RBC energy lines and the text on the right (mobile: photo above the panel);
+- no photo: light grey text panel.
 
 ## Universal Editor fields
 

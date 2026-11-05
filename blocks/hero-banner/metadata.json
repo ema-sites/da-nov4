@@ -45,6 +45,10 @@
     {
       "class": "split-overlap-card",
       "label": "Split Overlap Card"
+    },
+    {
+      "class": "energy-lines",
+      "label": "Energy Lines"
     }
   ],
   "memberVariantIds": [
@@ -67,7 +71,12 @@
       "https://www.rbcroyalbank.com/travelinsurance",
       "https://www.rbcroyalbank.com/travelinsurance/",
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/compare-chequing-accounts.html"
-    ]
+    ],
+    "pagesUsing": [
+      "/avantages-des-services-bancaires-rbc/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use for the main banner at the top of a page. Use split for panel-beside-photo layouts, split-strip for a headline strip across the photo bottom, video/video-2 for background video. For promotional rows mid-page use columns-media or columns-promo."
 }
