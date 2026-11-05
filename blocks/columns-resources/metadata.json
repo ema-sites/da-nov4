@@ -11,7 +11,7 @@
     "purpose": "Resource link list (or body copy / expandable feature list) beside one or more bordered cross-sell cards"
   },
   "contentPattern": {
-    "structure": "one row: first cell is the lead column (heading plus link list, body copy, or with accordion sub-headings each followed by their content); each further cell is a bordered card (optional image, heading, text, trailing link paragraph as the CTA). With feature-panels every cell is an equal panel"
+    "structure": "one row: first cell is the lead column (heading plus link list, body copy, or with accordion sub-headings each followed by their content); each further cell is a bordered card (optional image, heading, text, trailing link paragraph as the CTA). With feature-panels every cell is an equal panel. Pictures inside link lists are treated as icons (shown beside the link); with feature-panels a picture closing a panel runs to the panel edges"
   },
   "options": [
     {
@@ -58,7 +58,12 @@
       "https://www.rbcroyalbank.com/business/accounts/business-trust-account.html",
       "https://www.rbcroyalbank.com/business/accounts/online-foreign-currency.html",
       "https://www.rbcroyalbank.com/business/accounts/premium-investment-account.html"
-    ]
+    ],
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use at the foot of product pages for 'Resources' links plus cross-sell boxes. Use columns-text for plain equal text columns, cards-product for product tile grids, accordion-faq for standalone FAQs.",
   "sourceUrl": "https://www.rbcroyalbank.com/"

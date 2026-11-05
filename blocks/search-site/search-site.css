@@ -23,6 +23,13 @@
   cursor: pointer;
 }
 
+/* optional field label authored as the first paragraph of the text cell */
+.search-site .search-site-label {
+  flex: 0 0 auto;
+  align-self: center;
+  margin-inline-end: 16px;
+}
+
 /* rounded: pill-shaped field with an overlapping round-ended button */
 .search-site.rounded .search-site-input {
   border-radius: 999px 0 0 999px;
@@ -38,4 +45,29 @@
 .search-site.boxed-light .search-site-box {
   max-width: none;
   padding: 16px;
+}
+
+/* boxed: label, field and button on one line inside a bordered panel; label stacks on small screens */
+.search-site.boxed .search-site-box {
+  flex-wrap: wrap;
+  gap: 16px 0;
+  border: 1px solid currentcolor;
+}
+
+.search-site.boxed .search-site-label {
+  flex-basis: 100%;
+}
+
+.search-site.boxed .search-site-button {
+  margin-inline-start: 16px;
+}
+
+@media (width >= 600px) {
+  .search-site.boxed .search-site-box {
+    flex-wrap: nowrap;
+  }
+
+  .search-site.boxed .search-site-label {
+    flex-basis: auto;
+  }
 }

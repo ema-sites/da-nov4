@@ -10,7 +10,7 @@ const DEFAULT_ACTION = '/search';
  */
 function readConfig(block) {
   const config = {
-    placeholder: '', button: '', action: '', options: [],
+    label: '', placeholder: '', button: '', action: '', options: [],
   };
   const list = block.querySelector('ul, ol');
   if (list) {
@@ -26,8 +26,14 @@ function readConfig(block) {
       config.button = link.textContent.trim();
       return;
     }
-    const text = cell.textContent.trim();
+    let text = cell.textContent.trim();
     if (!text) return;
+    // a text cell with several paragraphs: first is the field label, the rest the placeholder
+    const parts = [...cell.children].map((el) => el.textContent.trim()).filter(Boolean);
+    if (parts.length > 1 && !config.label && !config.placeholder) {
+      [config.label] = parts;
+      text = parts.slice(1).join(' ');
+    }
     if (!config.placeholder) config.placeholder = text;
     else if (!config.button) config.button = text;
   });
@@ -72,7 +78,16 @@ function buildForm(config) {
   input.name = 'q';
   input.className = 'search-site-input';
   input.placeholder = placeholder;
-  input.setAttribute('aria-label', placeholder);
+  let label;
+  if (config.label) {
+    input.id = `search-site-input-${document.querySelectorAll('.search-site-input[id]').length + 1}`;
+    label = document.createElement('label');
+    label.className = 'search-site-label';
+    label.htmlFor = input.id;
+    label.textContent = config.label;
+  } else {
+    input.setAttribute('aria-label', placeholder);
+  }
   const { search: query } = window.location;
   const current = new URLSearchParams(query).get('q');
   if (current) input.value = current;
@@ -82,6 +97,7 @@ function buildForm(config) {
   button.className = 'search-site-button';
   button.textContent = config.button || DEFAULT_BUTTON;
 
+  if (label) form.append(label);
   form.append(input, button);
   return form;
 }

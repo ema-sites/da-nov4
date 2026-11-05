@@ -63,6 +63,20 @@
   order: -1;
 }
 
+/* image option: small logos/badges keep their own size, uncropped and centred */
+.cards-product.image .cards-product-card-logo {
+  display: flex;
+  justify-content: center;
+  padding: 16px 16px 0;
+}
+
+.cards-product.image .cards-product-card-logo img {
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 /* header-strip: coloured label bar across the top of each card */
 .cards-product .cards-product-card-strip {
   order: -2;

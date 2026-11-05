@@ -12,6 +12,42 @@ function optimizeImages(root) {
 
 const hasOption = (block, list) => list.some((o) => block.classList.contains(o));
 
+const LOGO_MAX_PX = 400;
+
+/*
+ * image option: a small image (award badge, logo) is shown whole at its own size
+ * instead of being cropped to the card photo ratio. Uses the authored width/height
+ * when present, otherwise the loaded intrinsic size.
+ */
+function isLogoSize(w, h) {
+  return w > 0 && w <= LOGO_MAX_PX && (!h || h <= LOGO_MAX_PX);
+}
+
+/* Call before optimizeImages: returns a callback to run once images are final. */
+function markLogoImages(ul) {
+  const cells = [...ul.querySelectorAll('.cards-product-card-image')];
+  const authored = cells.map((cell) => {
+    const img = cell.querySelector('img');
+    return {
+      w: parseInt(img?.getAttribute('width'), 10),
+      h: parseInt(img?.getAttribute('height'), 10),
+    };
+  });
+  return () => cells.forEach((cell, idx) => {
+    const mark = () => cell.classList.add('cards-product-card-logo');
+    const { w, h } = authored[idx];
+    if (w) {
+      if (isLogoSize(w, h)) mark();
+      return;
+    }
+    const img = cell.querySelector('img');
+    if (!img) return;
+    const check = () => { if (isLogoSize(img.naturalWidth, img.naturalHeight)) mark(); };
+    if (img.complete && img.naturalWidth) check();
+    else img.addEventListener('load', check, { once: true });
+  });
+}
+
 /* A short heading-less cell before the main body is the coloured card strip/label. */
 function isStripCell(cell, bodyCount) {
   if (bodyCount < 2) return false;
@@ -58,6 +94,9 @@ export default function decorate(block) {
   }
   if (ul.children.length === 1) block.classList.add('cards-product-single');
 
+  // read authored dimensions before optimisation replaces the <img>
+  const applyLogos = block.classList.contains('image') ? markLogoImages(ul) : null;
   optimizeImages(ul);
+  applyLogos?.();
   block.replaceChildren(ul);
 }

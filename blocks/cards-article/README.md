@@ -6,7 +6,7 @@ Custom **cards** block. Purpose: grid or list of article teaser cards with categ
 
 Model: `standalone`
 
-Single block table. Content: One row per article. Cells: image (picture only, optional) | body (optional short category tag paragraph before the heading, heading, optional excerpt, read-more link). Cells may come in either order; empty or missing image cells are tolerated.
+Single block table. Content: One row per article. Cells: image (picture only, optional) | body (optional short category tag paragraph before the heading, heading, optional excerpt, read-more link). Cells may come in either order; empty or missing image cells are tolerated. With image-top, a teaser whose body has a single link becomes fully clickable.
 
 ## Supported variations
 

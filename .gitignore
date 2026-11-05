@@ -11,3 +11,8 @@ helix-importer-ui
 # Ensure these files are tracked
 !CLAUDE.md
 !AGENTS.md
+
+# Import working files (not site code)
+tools/importer/bd-snapshots/
+tools/importer/reports/
+tools/importer/*.bundle.js

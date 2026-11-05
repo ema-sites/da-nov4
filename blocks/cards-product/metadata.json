@@ -11,7 +11,7 @@
     "purpose": "grid of product, service or offer teaser cards (title, short text, link or button, optional photo/illustration) linking to detail pages; also photo-overlay category tiles, cards with a coloured header strip, featured and single apply panels"
   },
   "contentPattern": {
-    "structure": "One row per card. Cells (all optional): image (picture only) | optional short label cell for the header strip (e.g. 'Loan', with optional icon) | body (optional eyebrow, heading, text, list, link or button). Cells may be in any order; picture-only cells become the card image, everything else body. Cards with exactly one link become fully clickable"
+    "structure": "One row per card. Cells (all optional): image (picture only) | optional short label cell for the header strip (e.g. 'Loan', with optional icon) | body (optional eyebrow, heading, text, list, link or button). Cells may be in any order; picture-only cells become the card image, everything else body. Cards with exactly one link become fully clickable. With image, a small image (logo or award badge, 400px or less) is shown whole and centred instead of cropped"
   },
   "options": [
     {
@@ -213,7 +213,12 @@
       "https://www.rbcroyalbank.com/business/international-trade/articles-videos.html",
       "https://www.rbcroyalbank.com/business/international-trade/bank-guarantees.html",
       "https://www.rbcroyalbank.com/business/international-trade/export-guarantee.html"
-    ]
+    ],
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Default card grid for product/category teasers. Structural options: image/image-* (photo above text), horizontal/horizontal-2 (photo beside text), photo-overlay/photo-overlay-2/photo-overlay-audience(-2) (text over full-bleed photo), header-strip/header-strip-blue-grey (first short cell becomes a coloured label bar), featured (first card wide), tiers (stacked rate rows), apply (single CTA panel with image beside text). Colour options (tinted, alt, blue, orange, red-light, cyan-red, grey, light, shadow, etc.) are styling hooks for the design pass. Use cards-plan for priced plan comparisons and cards-article for editorial teasers."
 }

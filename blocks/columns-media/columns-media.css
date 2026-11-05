@@ -52,7 +52,27 @@
   overflow: hidden;
 }
 
+/* banner: images inside the text (store badges, app logo) keep their own size and sit inline */
+.columns-media.banner .columns-media-text img {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.columns-media.banner .columns-media-text p:has(> a picture, > a img) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
 @media (width >= 900px) {
+  /* banner: device mockup sits on the bottom edge of the banner */
+  .columns-media.banner .columns-media-media {
+    align-self: flex-end;
+  }
+
   .columns-media .columns-media-row {
     flex-direction: row;
     align-items: center;

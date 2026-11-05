@@ -42,8 +42,17 @@ function decorateCard(cell) {
     && last.textContent.trim() === last.querySelector('a').textContent.trim()) {
     last.classList.add('columns-resources-cta');
   }
-  const pic = cell.querySelector('picture');
-  if (pic) pic.closest('p, div')?.classList.add('columns-resources-card-image');
+  // the card image is a picture outside any link list (list pictures are icons)
+  const pic = [...cell.querySelectorAll('picture')].find((p) => !p.closest('li'));
+  if (!pic) return;
+  let wrap = pic.closest('p, div');
+  if (!wrap || wrap === cell) {
+    // picture authored straight into the cell: wrap it so the cell itself stays a card
+    wrap = document.createElement('div');
+    pic.replaceWith(wrap);
+    wrap.append(pic);
+  }
+  wrap.classList.add('columns-resources-card-image');
 }
 
 export default function decorate(block) {

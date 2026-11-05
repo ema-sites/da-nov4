@@ -188,6 +188,22 @@
   padding-bottom: 180px;
 }
 
+/* thumbnail-tabs: the tab label overlays the bottom of its thumbnail */
+.carousel-hero.thumbnail-tabs .carousel-hero-tab {
+  position: relative;
+}
+
+.carousel-hero.thumbnail-tabs .carousel-hero-tab-image img {
+  height: auto;
+  aspect-ratio: 4 / 3;
+}
+
+.carousel-hero.thumbnail-tabs .carousel-hero-tab-image + .carousel-hero-tab-label {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 8px;
+}
+
 .carousel-hero.carousel-hero-single .carousel-hero-nav {
   display: none;
 }

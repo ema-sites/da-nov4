@@ -11,7 +11,7 @@
     "purpose": "Two-column media and text pairing: an image, device mockup, illustration or video beside a heading, intro, feature list and CTA"
   },
   "contentPattern": {
-    "structure": "one or more rows, each with two cells: a media cell (picture, or picture plus a video link, or a video link alone) and a text cell (optional eyebrow, heading, paragraph, list, links/buttons); either cell may come first"
+    "structure": "one or more rows, each with two cells: a media cell (picture, or picture plus a video link, or a video link alone) and a text cell (optional eyebrow, heading, paragraph, list, links/buttons); either cell may come first. With banner, images inside the text cell (store badges, app logo) keep their own size and sit inline"
   },
   "options": [
     {
@@ -80,7 +80,12 @@
       "https://www.rbcroyalbank.com/business/accounts/ultimate-business-account.html",
       "https://www.rbcroyalbank.com/business/international-trade/global-trade-online-service.html",
       "https://www.rbcroyalbank.com/business/paying-and-receiving/foreign-exchange-services.html"
-    ]
+    ],
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use for side-by-side media + copy sections. Add overlap-card when the text card overlaps the photo, banner/banner-2/banner-3 for a rounded filled banner. Use columns-promo for bordered CTA boxes and hero-banner for page-top heroes.",
   "sourceUrl": "https://www.rbcroyalbank.com/"

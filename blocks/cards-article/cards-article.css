@@ -48,6 +48,18 @@
   order: -1;
 }
 
+/* image-top: a title-only body stays at the top of the card */
+.cards-article.image-top .cards-article-card-body > :only-child {
+  margin-top: 0;
+}
+
+/* image-top single-destination teasers: stretch the link over the whole card */
+.cards-article.image-top .cards-article-card-linked .cards-article-card-body a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
 /* list-rows: one article per row, image beside text */
 .cards-article.list-rows > ul {
   grid-template-columns: 1fr;

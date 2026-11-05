@@ -47,7 +47,12 @@
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/index.html",
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/compare-chequing-accounts.html"
-    ]
+    ],
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use for 2-5 mixed-size promo tiles where one tile dominates. For equal-size cards use a cards block; for a single image/text pair use a columns block. Options: mirrored puts the feature tile on the right, alt makes all tiles equal, light/orange-light are colour hooks."
 }

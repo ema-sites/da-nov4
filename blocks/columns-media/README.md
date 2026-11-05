@@ -6,7 +6,7 @@ Custom **columns** block. Purpose: Two-column media and text pairing: an image, 
 
 Model: `standalone`
 
-Single block table. Content: one or more rows, each with two cells: a media cell (picture, or picture plus a video link, or a video link alone) and a text cell (optional eyebrow, heading, paragraph, list, links/buttons); either cell may come first.
+Single block table. Content: one or more rows, each with two cells: a media cell (picture, or picture plus a video link, or a video link alone) and a text cell (optional eyebrow, heading, paragraph, list, links/buttons); either cell may come first. With banner, images inside the text cell (store badges, app logo) keep their own size and sit inline.
 
 ## Supported variations
 

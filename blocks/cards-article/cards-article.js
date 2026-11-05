@@ -19,6 +19,7 @@ function markTag(body) {
 }
 
 export default function decorate(block) {
+  const imageTop = block.classList.contains('image-top');
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {
     const cells = [...row.children].filter((c) => c.textContent.trim() || c.querySelector('picture, img'));
@@ -37,6 +38,10 @@ export default function decorate(block) {
     const body = li.querySelector('.cards-article-card-body');
     if (body) markTag(body);
     if (!li.querySelector('.cards-article-card-image')) li.classList.add('cards-article-card-no-image');
+    // image-top: a teaser with a single destination becomes fully clickable
+    if (imageTop && li.querySelectorAll('.cards-article-card-body a[href]').length === 1) {
+      li.classList.add('cards-article-card-linked');
+    }
     ul.append(li);
   });
 

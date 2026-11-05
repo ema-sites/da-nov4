@@ -72,7 +72,12 @@
       "https://www.rbcroyalbank.com/",
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
       "https://www.rbcroyalbank.com/bank-accounts/savings-accounts/"
-    ]
+    ],
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use for any question/answer or step list that expands in place. Use accordion-legal for the page-bottom legal disclaimer toggle."
 }

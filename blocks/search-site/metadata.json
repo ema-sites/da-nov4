@@ -11,7 +11,7 @@
     "purpose": "Site keyword search field with a submit button that sends the query to the site search results page"
   },
   "contentPattern": {
-    "structure": "one row; first cell holds the input placeholder text (e.g. I am looking for...); second cell holds a link whose text is the button label and whose href is the search results page (query sent as ?q=). Either cell may be omitted (defaults: Search, /search). A bulleted list of links instead renders a jump-to dropdown"
+    "structure": "one row; first cell holds the input placeholder text (e.g. I am looking for...); second cell holds a link whose text is the button label and whose href is the search results page (query sent as ?q=). Either cell may be omitted (defaults: Search, /search). A bulleted list of links instead renders a jump-to dropdown. If the placeholder cell holds several paragraphs, the first becomes a visible field label and the rest the placeholder (e.g. Still need help? / Type your question here)"
   },
   "options": [
     {
@@ -41,7 +41,12 @@
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/compare-chequing-accounts.html",
       "https://www.rbcroyalbank.com/bank-accounts/rbc-vantage.html",
       "https://www.rbcroyalbank.com/"
-    ]
+    ],
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use for a standalone search bar in page content, not the header search. Options: rounded (pill field), boxed / boxed-light (full-width bar in a panel). For an index-driven live results listing use the library search block."
 }

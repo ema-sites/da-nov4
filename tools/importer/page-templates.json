@@ -17,7 +17,207 @@
       ],
       "coverageGaps": [],
       "description": "Section homepage that opens with a full-width hero carousel with thumbnail tabs, followed by feature card grids, promo banners, article cards, quick links and a locator search",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [
+            "#hero-carousel-region",
+            ".banner-container .hero-carousel-container"
+          ]
+        },
+        {
+          "name": "promo-mosaic",
+          "instances": [
+            "#bento-section .bento-box",
+            ".bento-box"
+          ]
+        },
+        {
+          "name": "columns-resources",
+          "instances": [
+            "#welcome-to-rbc ~ .grid-wpr"
+          ]
+        },
+        {
+          "name": "cards-product",
+          "instances": [
+            ".awards-and-recognition-section .award-tiles"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            ".bank-with-rbc-mobile"
+          ]
+        },
+        {
+          "name": "cards-article",
+          "instances": [
+            ".discover-and-learn-section .grid-wpr.eh-wpr"
+          ]
+        },
+        {
+          "name": "columns-text",
+          "instances": [
+            ".help-section ul.col-wpr"
+          ]
+        },
+        {
+          "name": "accordion-faq",
+          "instances": [
+            "#help-accordion"
+          ]
+        },
+        {
+          "name": "search-site",
+          "instances": [
+            "#intellResponse_form"
+          ]
+        },
+        {
+          "name": "branch-locator",
+          "instances": [
+            ".branch-locator-section .section-inner"
+          ]
+        },
+        {
+          "name": "accordion-legal",
+          "instances": [
+            "section.disclaimer .section-inner"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "rc1",
+          "name": "Hero offers carousel",
+          "selector": [
+            "main > div.banner-container",
+            "#dvl-wpr > main > div.banner-container"
+          ],
+          "style": "light-grey",
+          "blocks": [
+            "carousel-hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc2",
+          "name": "Choose RBC with confidence",
+          "selector": [
+            "#bento-section"
+          ],
+          "style": "dark-blue-gradient, centered",
+          "blocks": [
+            "promo-mosaic"
+          ],
+          "defaultContent": [
+            "#bento-section > .section-inner > h2",
+            "#bento-section a.btn"
+          ]
+        },
+        {
+          "id": "rc3",
+          "name": "Welcome to RBC Personal Banking",
+          "selector": [
+            "main > section:has(#welcome-to-rbc)",
+            "#dvl-wpr > main > section:nth-of-type(2)"
+          ],
+          "style": "light-grey, centered",
+          "blocks": [
+            "columns-resources"
+          ],
+          "defaultContent": [
+            "#welcome-to-rbc",
+            "#welcome-to-rbc + p"
+          ]
+        },
+        {
+          "id": "rc4",
+          "name": "RBC Awards & Recognition",
+          "selector": [
+            "main > section.awards-and-recognition-section"
+          ],
+          "style": "light-blue-grey, centered",
+          "blocks": [
+            "cards-product"
+          ],
+          "defaultContent": [
+            ".awards-and-recognition-section .section-inner > h2",
+            ".awards-and-recognition-section .section-inner > p"
+          ]
+        },
+        {
+          "id": "rc5",
+          "name": "RBC Mobile app banner",
+          "selector": [
+            "main > section:has(.bank-with-rbc-mobile)",
+            "#dvl-wpr > main > section.pad-tb-dbl"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-media"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc6",
+          "name": "My Money Matters",
+          "selector": [
+            "main > section.discover-and-learn-section"
+          ],
+          "style": "light-grey, centered",
+          "blocks": [
+            "cards-article"
+          ],
+          "defaultContent": [
+            ".discover-and-learn-section .section-inner > h2",
+            ".discover-and-learn-section .section-inner > p",
+            ".discover-and-learn-section .section-inner > div.text-center"
+          ]
+        },
+        {
+          "id": "rc7",
+          "name": "How can we help you today?",
+          "selector": [
+            "main > section.help-section"
+          ],
+          "style": "centered",
+          "blocks": [
+            "columns-text",
+            "accordion-faq",
+            "search-site"
+          ],
+          "defaultContent": [
+            ".help-section .section-inner > h2"
+          ]
+        },
+        {
+          "id": "rc8",
+          "name": "Find a Branch or ATM",
+          "selector": [
+            "main > section.branch-locator-section"
+          ],
+          "style": null,
+          "blocks": [
+            "branch-locator"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc9",
+          "name": "Legal disclaimers",
+          "selector": [
+            "#dvl-wpr > section.disclaimer",
+            "section.disclaimer"
+          ],
+          "style": null,
+          "blocks": [
+            "accordion-legal"
+          ],
+          "defaultContent": []
+        }
+      ]
     },
     {
       "name": "landing-page-simple",
@@ -476,5 +676,8 @@
       "description": "Popup page without site chrome holding a short worked example as plain text and headings",
       "blocks": []
     }
-  ]
+  ],
+  "metadata": {
+    "projectType": "da"
+  }
 }

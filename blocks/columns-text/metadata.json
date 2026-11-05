@@ -76,7 +76,12 @@
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/day-to-day-banking.html",
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/find-chequing-account.html",
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/find-chequing-account.html?transactions="
-    ]
+    ],
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Default choice for plain equal-width text columns. Use columns-side-heading when the first column is a section title, columns-media for large media + copy, columns-promo for framed CTA boxes, cards-product for product tiles.",
   "sourceUrl": "https://www.rbcroyalbank.com/"

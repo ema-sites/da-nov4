@@ -6,7 +6,7 @@ Custom **cards** block. Purpose: grid of product, service or offer teaser cards 
 
 Model: `standalone`
 
-Single block table. Content: One row per card. Cells (all optional): image (picture only) | optional short label cell for the header strip (e.g. 'Loan', with optional icon) | body (optional eyebrow, heading, text, list, link or button). Cells may be in any order; picture-only cells become the card image, everything else body. Cards with exactly one link become fully clickable.
+Single block table. Content: One row per card. Cells (all optional): image (picture only) | optional short label cell for the header strip (e.g. 'Loan', with optional icon) | body (optional eyebrow, heading, text, list, link or button). Cells may be in any order; picture-only cells become the card image, everything else body. Cards with exactly one link become fully clickable. With image, a small image (logo or award badge, 400px or less) is shown whole and centred instead of cropped.
 
 ## Supported variations
 

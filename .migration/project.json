@@ -5,7 +5,8 @@
       "previewOrg": "ema-sites",
       "previewSite": "da-nov4",
       "contentHostUrl": "https://content.da.live/ema-sites/da-nov4/",
-      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json",
+      "botProtected": true
     }
   }
 }

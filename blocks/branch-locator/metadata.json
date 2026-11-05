@@ -46,7 +46,12 @@
       "https://www.rbcroyalbank.com/business/advice/IBOR-transition-disclosure.html",
       "https://www.rbcroyalbank.com/business/index.html",
       "https://www.rbcroyalbank.com/"
-    ]
+    ],
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use for the branch/ATM locator search panel. Leave out the form row for a text card over a photo (shadow option)."
 }

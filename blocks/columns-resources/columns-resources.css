@@ -79,6 +79,36 @@
   text-align: start;
 }
 
+/* feature-panels: equal panels with start-aligned text, icon link lists and an edge-to-edge closing photo */
+.columns-resources.feature-panels .columns-resources-card {
+  text-align: start;
+}
+
+.columns-resources.feature-panels ul {
+  list-style: none;
+  padding: 0;
+}
+
+.columns-resources.feature-panels li:has(> picture),
+.columns-resources.feature-panels li > a:has(picture) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.columns-resources.feature-panels li picture {
+  flex: none;
+}
+
+.columns-resources.feature-panels .columns-resources-card > .columns-resources-card-image:last-child {
+  margin: auto -24px -24px;
+  padding-top: 16px;
+}
+
+.columns-resources.feature-panels .columns-resources-card > .columns-resources-card-image:last-child img {
+  width: 100%;
+}
+
 @media (width >= 900px) {
   .columns-resources .columns-resources-row {
     flex-direction: row;

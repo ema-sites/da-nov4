@@ -11,7 +11,7 @@
     "purpose": "grid or list of article teaser cards with category tag, title, optional excerpt, read-more link and photo"
   },
   "contentPattern": {
-    "structure": "One row per article. Cells: image (picture only, optional) | body (optional short category tag paragraph before the heading, heading, optional excerpt, read-more link). Cells may come in either order; empty or missing image cells are tolerated"
+    "structure": "One row per article. Cells: image (picture only, optional) | body (optional short category tag paragraph before the heading, heading, optional excerpt, read-more link). Cells may come in either order; empty or missing image cells are tolerated. With image-top, a teaser whose body has a single link becomes fully clickable"
   },
   "options": [
     {
@@ -47,7 +47,12 @@
       "https://www.rbcroyalbank.com/products/personalloans/rcl_for_students.html",
       "https://www.rbcroyalbank.com/products/personalloans/student_line_of_credit.html",
       "https://www.rbcroyalbank.com/business/loans/advice/index.html"
-    ]
+    ],
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use for editorial/advice article teasers. Options: image-top (photo above text), image (same, photo-led cards), list-rows (one article per row with photo left), featured (first article large, others stacked). For product or account tiles use cards-product or cards-plan. A filterable article grid pairs this block with content-filter."
 }
