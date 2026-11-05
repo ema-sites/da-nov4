@@ -303,6 +303,12 @@ main .section.dark-blue-gradient a:any-link:not(.button) {
   color: var(--background-color);
 }
 
+/* a full-bleed hero section sits flush under the header */
+main > .section.carousel-hero-container,
+main > .section.carousel-hero-container:first-of-type {
+  padding: 0;
+}
+
 main .section.centered > .default-content-wrapper {
   text-align: center;
 }

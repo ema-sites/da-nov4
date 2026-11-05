@@ -1,7 +1,7 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
 const TAB_OPTIONS = ['thumbnail-tabs', 'thumbnail-tabs-2'];
-const AUTOPLAY_MS = 7000;
+const AUTOPLAY_MS = 5000;
 
 function optimizePictures(root, width = '2000') {
   root.querySelectorAll('picture > img').forEach((img) => {
@@ -57,6 +57,14 @@ function buildSlide(row, idx, withTabs) {
     slide.classList.add('carousel-hero-slide-plain');
   }
 
+  // paragraphs holding nothing but one undecorated link are standalone text links
+  slide.querySelectorAll('.carousel-hero-slide-content p:not(.button-wrapper)').forEach((p) => {
+    const links = p.querySelectorAll('a');
+    if (links.length === 1 && p.textContent.trim() === links[0].textContent.trim()) {
+      p.classList.add('carousel-hero-link');
+    }
+  });
+
   const heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
   if (heading && heading.id) slide.setAttribute('aria-labelledby', heading.id);
 
@@ -69,12 +77,16 @@ function buildTab(tabCell, heading, slide, idx) {
   button.className = 'carousel-hero-tab';
   button.setAttribute('role', 'tab');
   button.setAttribute('aria-controls', slide.id);
-  const pic = tabCell?.querySelector('picture')
+  const tabPic = tabCell?.querySelector('picture');
+  const pic = tabPic
     || slide.querySelector('.carousel-hero-slide-image picture, .carousel-hero-slide-background picture');
+  // an authored tab picture is a small thumbnail; a borrowed slide picture fills the tab
+  if (tabPic) button.classList.add('carousel-hero-tab-thumbnail');
+  if (slide.classList.contains('carousel-hero-slide-plain')) button.classList.add('carousel-hero-tab-plain');
   if (pic) {
     const thumb = document.createElement('span');
     thumb.className = 'carousel-hero-tab-image';
-    thumb.append(tabCell ? pic : pic.cloneNode(true));
+    thumb.append(tabPic ? pic : pic.cloneNode(true));
     button.append(thumb);
   }
   const label = document.createElement('span');
@@ -139,9 +151,10 @@ export default function decorate(block) {
   pause.className = 'carousel-hero-pause';
   pause.setAttribute('aria-label', 'Pause');
 
-  if (withTabs) nav.append(indicators, pause);
-  else nav.append(prev, indicators, next, pause);
+  // tabs collapse to dots with arrows on narrow screens, so arrows exist in both modes
+  nav.append(prev, indicators, next, pause);
 
+  block.style.setProperty('--carousel-hero-duration', `${AUTOPLAY_MS}ms`);
   block.setAttribute('role', 'region');
   block.setAttribute('aria-roledescription', 'Carousel');
   block.replaceChildren(track, nav);
@@ -158,9 +171,14 @@ export default function decorate(block) {
 
   const show = (target) => {
     current = (target + slides.length) % slides.length;
+    const prevIdx = (current - 1 + slides.length) % slides.length;
+    const nextIdx = (current + 1) % slides.length;
     slides.forEach((slide, idx) => {
       const active = idx === current;
       slide.classList.toggle('carousel-hero-slide-active', active);
+      // neighbours peek in beside the active slide on wide screens
+      slide.classList.toggle('carousel-hero-slide-prev', !active && idx === prevIdx);
+      slide.classList.toggle('carousel-hero-slide-next', !active && idx === nextIdx && idx !== prevIdx);
       slide.setAttribute('aria-hidden', !active);
       slide.querySelectorAll('a, button').forEach((el) => {
         if (active) el.removeAttribute('tabindex');
@@ -186,6 +204,7 @@ export default function decorate(block) {
   const setPaused = (value) => {
     paused = value;
     pause.classList.toggle('carousel-hero-paused', paused);
+    block.classList.toggle('carousel-hero-is-paused', paused);
     pause.setAttribute('aria-label', paused ? 'Play' : 'Pause');
     schedule();
   };
