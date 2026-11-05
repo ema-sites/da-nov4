@@ -3,7 +3,9 @@
 
 /**
  * Parser: carousel-hero (thumbnail-tabs)
- * Source: #hero-carousel-region (rbcroyalbank.com homepage)
+ * Sources: #hero-carousel-region (rbcroyalbank.com homepage, variant thumbnail-tabs);
+ * #body-carousel .hero-carousel-container on offer pages (same slide markup; variant from
+ * the catalog, tab cells only when .hero-previews exist).
  *
  * Block rows (one per slide), 4 cells each:
  *   [background picture] | content | [foreground picture] | tab label (+ thumbnail)
@@ -130,6 +132,22 @@ function buildContent(document, slideRoot) {
   const content = [];
   const textRoot = slideRoot.querySelector('.copy, .banner-text') || slideRoot;
 
+  // slides without a .copy/.banner-text wrapper (offer-page carousels): eyebrow,
+  // heading, text and CTAs straight from the slide's .section-inner, in source order
+  if (textRoot === slideRoot && slideRoot.querySelector(':scope > .section-inner')) {
+    const inner = slideRoot.querySelector(':scope > .section-inner');
+    inner.querySelectorAll('h1, h2, h3, h4, p, a.btn, a.standalone-link').forEach((el) => {
+      if (el.tagName === 'A') {
+        if (el.closest('p, h1, h2, h3, h4') || !cleanText(el.textContent)) return;
+        content.push(ctaParagraph(document, el));
+        return;
+      }
+      if (el.parentElement.closest('p, h1, h2, h3, h4') || !cleanText(el.textContent)) return;
+      content.push(inlineClone(document, el, /^H/.test(el.tagName) ? el.tagName.toLowerCase() : 'p'));
+    });
+    return content;
+  }
+
   // eyebrow pill
   const pill = textRoot.querySelector('.pill');
   if (pill && cleanText(pill.textContent)) {
@@ -173,6 +191,13 @@ function buildContent(document, slideRoot) {
   });
 
   return content;
+}
+
+/** Catalog variant from data-catalog-variant (set by the import script), else the homepage default. */
+function catalogVariants(element, fallback) {
+  if (!element.hasAttribute || !element.hasAttribute('data-catalog-variant')) return fallback;
+  const v = element.getAttribute('data-catalog-variant');
+  return v ? String(v).split(/[\s,]+/).filter(Boolean) : [];
 }
 
 export default function parse(element, { document }) {
@@ -225,10 +250,10 @@ export default function parse(element, { document }) {
     cells.push([bgCell, content, fgCell, tabCell]);
   });
 
-  const block = WebImporter.Blocks.createBlock(document, {
-    name: 'carousel-hero',
-    variants: ['thumbnail-tabs'],
-    cells,
-  });
+  if (!cells.length) return; // no slides: leave as default content
+  const variants = catalogVariants(element, ['thumbnail-tabs']);
+  const block = WebImporter.Blocks.createBlock(document, variants.length
+    ? { name: 'carousel-hero', variants, cells }
+    : { name: 'carousel-hero', cells });
   element.replaceWith(block);
 }
