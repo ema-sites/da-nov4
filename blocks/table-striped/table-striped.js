@@ -1,3 +1,24 @@
+// yes/no marks imported as characters; rendered as the source check/close icons
+const MARKS = {
+  '✓': ['check', 'Yes'],
+  '✔': ['check', 'Yes'],
+  '✗': ['close', 'No'],
+  '✘': ['close', 'No'],
+};
+
+function decorateMark(el) {
+  if (el.querySelector('img, picture, a')) return;
+  const mark = MARKS[el.textContent.trim()];
+  if (!mark) return;
+  const [type, label] = mark;
+  const icon = document.createElement('span');
+  icon.className = `table-striped-mark table-striped-mark-${type}`;
+  icon.setAttribute('role', 'img');
+  icon.setAttribute('aria-label', label);
+  el.replaceChildren(icon);
+  el.classList.add('table-striped-mark-cell');
+}
+
 /**
  * Striped data table. First row is the header row; in body rows the first cell is the
  * row label. Rows with fewer cells are padded so columns line up.
@@ -35,6 +56,7 @@ export default function decorate(block) {
         c = columns;
       }
       if (cell) el.append(...cell.childNodes);
+      if (!isRowLabel) decorateMark(el);
       tr.append(el);
     }
     if (i === 0) thead.append(tr);

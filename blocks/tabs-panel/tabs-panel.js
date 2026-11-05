@@ -10,6 +10,112 @@ function optimizeImages(root) {
   });
 }
 
+const onlyChild = (el, selector) => el.children.length === 1
+  && el.firstElementChild.matches(selector)
+  && el.textContent.trim() === el.firstElementChild.textContent.trim();
+
+// a paragraph holding only a bold label (no link), directly followed by an h4
+const isEyebrow = (el) => el.tagName === 'P' && onlyChild(el, 'strong')
+  && !el.querySelector('a') && el.nextElementSibling?.tagName === 'H4';
+const isLinkPara = (el) => el.tagName === 'P' && !el.classList.contains('button-wrapper')
+  && onlyChild(el, 'a') && !el.querySelector('a.button');
+const isButtonPara = (el) => el.tagName === 'P'
+  && (el.classList.contains('button-wrapper') || !!el.querySelector(':scope > a.button, :scope > strong > a'));
+
+function wrap(className, nodes) {
+  const div = document.createElement('div');
+  div.className = className;
+  div.append(...nodes);
+  return div;
+}
+
+// wrap runs of 2+ adjacent lists so they can sit side by side
+function wrapListRuns(nodes, className) {
+  const out = [];
+  let run = [];
+  const flush = () => {
+    if (run.length > 1) out.push(wrap(className, run));
+    else out.push(...run);
+    run = [];
+  };
+  nodes.forEach((node) => {
+    if (node.tagName === 'UL' || node.tagName === 'OL') run.push(node);
+    else {
+      flush();
+      out.push(node);
+    }
+  });
+  flush();
+  return out;
+}
+
+function buildCard(nodes) {
+  const pictureIndex = nodes.findIndex((n) => n.tagName === 'P' && onlyChild(n, 'picture'));
+  const headEnd = pictureIndex >= 0 ? pictureIndex : nodes.findIndex((n, i) => i > 1 && n.tagName !== 'P');
+  const head = nodes.slice(0, headEnd < 0 ? nodes.length : headEnd);
+  let rest = nodes.slice(head.length);
+  const card = document.createElement('div');
+  card.className = 'tabs-panel-card';
+
+  const top = wrap('tabs-panel-card-top', [wrap('tabs-panel-card-head', head)]);
+  head[0].classList.add('tabs-panel-card-eyebrow');
+  const fee = head[2]?.tagName === 'P' ? head[2] : null;
+  if (fee) fee.classList.add('tabs-panel-card-fee');
+  if (pictureIndex >= 0) {
+    top.append(wrap('tabs-panel-card-media', [rest.shift()]));
+    // the fee line is repeated under the image for small screens
+    if (fee && rest[0]?.tagName === 'P' && rest[0].textContent.trim() === fee.textContent.trim()) {
+      const mobileFee = rest.shift();
+      mobileFee.classList.add('tabs-panel-card-fee', 'tabs-panel-card-fee-mobile');
+      top.append(mobileFee);
+    }
+  }
+
+  const links = rest.filter((n) => isLinkPara(n) || isButtonPara(n));
+  rest = rest.filter((n) => !links.includes(n));
+  const body = wrap('tabs-panel-card-body', wrapListRuns(rest, 'tabs-panel-card-lists'));
+  if (links.length) body.append(wrap('tabs-panel-card-links', links));
+  card.append(top, body);
+  return card;
+}
+
+/**
+ * Product cards inside a panel: an eyebrow paragraph (bold label) + h4 title starts a card;
+ * the card runs to its link line (a text link, optionally followed by a button).
+ * Content before the first card is the intro; content after the last card is the footer.
+ * Only applied when a panel holds two or more such cards.
+ * @param {Element} content
+ */
+function decorateCards(content) {
+  const nodes = [...content.children];
+  const starts = nodes.filter(isEyebrow);
+  if (starts.length < 2) return;
+
+  const intro = nodes.slice(0, nodes.indexOf(starts[0]));
+  const cards = [];
+  let footer = [];
+  starts.forEach((start, i) => {
+    const end = i + 1 < starts.length ? nodes.indexOf(starts[i + 1]) : nodes.length;
+    const slice = nodes.slice(nodes.indexOf(start), end);
+    // the card ends after its first text link and any buttons right after it
+    const linkAt = slice.findIndex((n, j) => j > 1 && isLinkPara(n));
+    let cut = slice.length;
+    if (linkAt >= 0) {
+      cut = linkAt + 1;
+      while (cut < slice.length && isButtonPara(slice[cut])) cut += 1;
+    }
+    cards.push(buildCard(slice.slice(0, cut)));
+    if (i === starts.length - 1) footer = slice.slice(cut);
+  });
+
+  const parts = [];
+  if (intro.length) parts.push(wrap('tabs-panel-intro', wrapListRuns(intro, 'tabs-panel-lists')));
+  parts.push(wrap('tabs-panel-cards', cards));
+  if (footer.length) parts.push(wrap('tabs-panel-footer', footer));
+  content.classList.add('tabs-panel-has-cards');
+  content.replaceChildren(...parts);
+}
+
 /**
  * Tabs: one row per tab. First cell = tab label; remaining cells = panel content.
  * Two or more content cells are laid out as panel columns. Rows without a label
@@ -84,6 +190,7 @@ export default function decorate(block) {
       });
     } else if (filled.length === 1) {
       content.append(...filled[0].childNodes);
+      decorateCards(content);
     }
     panel.append(content);
 

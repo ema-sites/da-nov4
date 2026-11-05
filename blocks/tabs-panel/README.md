@@ -6,7 +6,7 @@ Custom **tabs** block. Purpose: Tabbed content switcher: a list of tab labels (v
 
 Model: `standalone`
 
-Single block table. Content: one row per tab; first cell is the tab label, the remaining cell(s) are the panel content (heading, text, lists, links, images, buttons). Two or more content cells render as side-by-side panel columns. A row with an empty first cell is appended to the previous panel.
+Single block table. Content: one row per tab; first cell is the tab label, the remaining cell(s) are the panel content (heading, text, lists, links, images, buttons). Two or more content cells render as side-by-side panel columns. A row with an empty first cell is appended to the previous panel. Product cards: inside a panel, a bold-only paragraph followed by an h4 starts a card (eyebrow, title, fee line, image, lists, then a text link and optional button); two or more such cards render as a card grid, with any content before them as the intro and after them as the footer.
 
 ## Supported variations
 
