@@ -11,7 +11,9 @@
  *                               Branches, ATM).
  *  - any other row           -> card content (heading, subtitle, links such as
  *                               "Advanced Search Options"), kept in authored order.
- * Submitting navigates to the locator URL with ?q=<query>[&type=<choice>].
+ * The form POSTs to the locator URL with the same fields as the rbcroyalbank.com forms:
+ *  - search only (homepage): q, lang=English, searchBranch=1, searchATM=1
+ *  - with a choice group:    location_type (BRANCH | ABM), postal
  */
 
 let formCounter = 0;
@@ -45,6 +47,21 @@ function parseChoices(cell) {
   return { legend, choices };
 }
 
+// rbcroyalbank.com locator values for the choice radios (label -> location_type)
+function choiceValue(choice) {
+  if (/branch/i.test(choice)) return 'BRANCH';
+  if (/\b(atm|abm)s?\b/i.test(choice)) return 'ABM';
+  return choice.toUpperCase();
+}
+
+function hiddenInput(name, value) {
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = name;
+  input.value = value;
+  return input;
+}
+
 function buildForm(cells) {
   formCounter += 1;
   const id = `branch-locator-${formCounter}`;
@@ -56,10 +73,14 @@ function buildForm(cells) {
   const form = document.createElement('form');
   form.className = 'branch-locator-form';
   form.setAttribute('role', 'search');
+  form.action = actionLink.href;
+  form.method = 'post';
 
+  let hasChoices = false;
   choiceCells.forEach((cell, i) => {
     const { legend, choices } = parseChoices(cell);
     if (!choices.length) return;
+    hasChoices = true;
     const fieldset = document.createElement('fieldset');
     fieldset.className = 'branch-locator-choices';
     if (legend) {
@@ -71,14 +92,24 @@ function buildForm(cells) {
       const label = document.createElement('label');
       const input = document.createElement('input');
       input.type = 'radio';
-      input.name = i === 0 ? 'type' : `type${i}`;
-      input.value = choice;
-      if (j === 0) input.checked = true;
-      label.append(input, document.createTextNode(` ${choice}`));
-      fieldset.append(label);
+      input.name = i === 0 ? 'location_type' : `location_type${i}`;
+      input.value = choiceValue(choice);
+      input.id = `${id}-choice-${i}-${j}`;
+      label.htmlFor = input.id;
+      label.textContent = choice;
+      fieldset.append(input, label);
     });
     form.append(fieldset);
   });
+
+  // search-only form (homepage) carries the locator defaults as hidden fields
+  if (!hasChoices) {
+    form.append(
+      hiddenInput('lang', 'English'),
+      hiddenInput('searchBranch', '1'),
+      hiddenInput('searchATM', '1'),
+    );
+  }
 
   const field = document.createElement('div');
   field.className = 'branch-locator-field';
@@ -86,8 +117,8 @@ function buildForm(cells) {
   label.htmlFor = `${id}-q`;
   label.textContent = labelCell ? labelCell.textContent.trim() : '';
   const input = document.createElement('input');
-  input.type = 'search';
-  input.name = 'q';
+  input.type = 'text';
+  input.name = hasChoices ? 'postal' : 'q';
   input.id = `${id}-q`;
   if (!label.textContent) input.setAttribute('aria-label', actionLink.textContent.trim());
   const button = document.createElement('button');
@@ -99,17 +130,7 @@ function buildForm(cells) {
   controls.append(input, button);
   field.append(controls);
   form.append(field);
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const url = new URL(actionLink.href, window.location.href);
-    const data = new FormData(form);
-    data.forEach((value, key) => {
-      if (String(value).trim()) url.searchParams.set(key, String(value).trim());
-    });
-    window.location.href = url.toString();
-  });
-  return form;
+  return { form, hasChoices };
 }
 
 export default function decorate(block) {
@@ -127,7 +148,9 @@ export default function decorate(block) {
       return;
     }
     if (!hasForm && cells.length >= 2 && isLinkOnly(cells[cells.length - 1])) {
-      card.append(buildForm(cells));
+      const { form, hasChoices } = buildForm(cells);
+      if (hasChoices) block.classList.add('branch-locator-has-choices');
+      card.append(form);
       hasForm = true;
       return;
     }

@@ -1,16 +1,22 @@
-/* branch-locator: structural styles only */
+/* branch-locator: values from rbcroyalbank.com .branch-locator-section (see migration-work) */
+
+/* full-bleed banner like the source .fw-bnr section */
+main > .section > .branch-locator-wrapper {
+  max-width: 100%;
+  padding: 0;
+}
+
 .branch-locator {
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
-}
-
-.branch-locator.branch-locator-has-background > * {
-  grid-area: 1 / 1;
+  color: var(--text-color);
 }
 
 .branch-locator .branch-locator-background {
-  min-height: 240px;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 }
 
 .branch-locator .branch-locator-background picture,
@@ -19,29 +25,51 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: left top;
+}
+
+/* no background image: give the card room like the map banner */
+.branch-locator:not(.branch-locator-has-background) {
+  min-height: 240px;
 }
 
 .branch-locator .branch-locator-card {
   position: relative;
   align-self: center;
   box-sizing: border-box;
-  width: min(100% - 32px, 768px);
-  margin: 24px auto;
-  padding: 24px;
-  background-color: var(--background-color, #fff);
+  width: min(100% - 30px, 800px);
+  min-height: 210px;
+  margin: 30px auto;
+  padding: 30px;
+  border: 1px solid #c4c8cc;
+  background-color: var(--background-color);
+}
+
+.branch-locator .branch-locator-card h2 {
+  margin: 0 0 15px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 25px;
+}
+
+.branch-locator .branch-locator-text > :last-child {
+  margin-bottom: 15px;
 }
 
 .branch-locator .branch-locator-form {
   display: flex;
   flex-wrap: wrap;
   gap: 16px 32px;
-  margin: 16px 0;
+  margin: 0;
 }
 
 .branch-locator .branch-locator-choices {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 24px;
+  align-items: center;
+  gap: 8px 0;
   margin: 0;
   padding: 0;
   border: 0;
@@ -50,35 +78,126 @@
 .branch-locator .branch-locator-choices legend {
   width: 100%;
   margin-bottom: 8px;
+  padding: 0;
+  font-weight: 500;
+}
+
+.branch-locator .branch-locator-choices input {
+  margin: 0;
+}
+
+.branch-locator .branch-locator-choices label {
+  margin: 0 24px 0 8px;
 }
 
 .branch-locator .branch-locator-field {
   flex: 1 1 280px;
+  min-width: 0;
 }
 
-.branch-locator .branch-locator-field label {
+.branch-locator .branch-locator-field > label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
 }
 
 .branch-locator .branch-locator-controls {
   display: flex;
-  gap: 0;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .branch-locator .branch-locator-controls input {
-  flex: 1 1 auto;
+  box-sizing: border-box;
+  width: 100%;
   min-width: 0;
+  height: 50px;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #6f6f6f;
+  border-radius: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 16px;
+}
+
+.branch-locator .branch-locator-controls input:focus {
+  border-color: var(--brand-blue);
+  outline: none;
+  box-shadow: inset 0 0 0 1px var(--brand-blue);
 }
 
 .branch-locator .branch-locator-controls button {
-  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  height: 50px;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--brand-blue);
+  border-radius: 1px;
+  background-color: var(--brand-blue);
+  box-shadow: inset 0 0 0 1px var(--brand-blue-dark);
+  color: var(--background-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  white-space: nowrap;
   cursor: pointer;
 }
 
+.branch-locator .branch-locator-controls button:hover {
+  background-color: var(--brand-blue-dark);
+  box-shadow: inset 0 0 0 1px var(--brand-navy);
+}
+
+.branch-locator .branch-locator-controls button:focus-visible {
+  outline: 1px solid var(--brand-yellow);
+  outline-offset: -5px;
+}
+
+/* source switches to the inline search row at 768px */
+@media (width >= 768px) {
+  .branch-locator .branch-locator-card {
+    margin-block: clamp(18px, 2.667vw - 2px, 30px);
+    padding: clamp(18px, 2.667vw - 2px, 30px);
+  }
+
+  .branch-locator .branch-locator-card h2 {
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  .branch-locator .branch-locator-field > label {
+    margin-bottom: 10px;
+  }
+
+  .branch-locator .branch-locator-controls {
+    flex-direction: row;
+    gap: 0;
+  }
+
+  .branch-locator .branch-locator-controls input {
+    flex: 1 1 auto;
+    width: auto;
+  }
+
+  .branch-locator .branch-locator-controls button {
+    flex: 0 0 auto;
+    width: auto;
+  }
+}
+
 @media (width >= 900px) {
-  /* default and compact: card sits to the right of the map */
-  .branch-locator:not(.alt, .alt-2, .shadow) .branch-locator-card {
+  /* card with a choice group (and compact): sits to the right of the map */
+  .branch-locator.branch-locator-has-choices:not(:where(.alt, .alt-2, .shadow)) .branch-locator-card,
+  .branch-locator.compact .branch-locator-card {
     justify-self: end;
     width: min(45%, 570px);
     margin: 48px 136px 48px auto;
@@ -88,16 +207,12 @@
     margin-block: 24px;
   }
 
-  /* alt / alt-2: centred search card */
-  .branch-locator:is(.alt, .alt-2) .branch-locator-card {
-    margin: 32px auto;
-  }
-
   /* shadow: text teaser card overlapping a photo */
   .branch-locator.shadow .branch-locator-card {
     justify-self: start;
     width: min(45%, 570px);
     margin: 48px auto 48px 136px;
+    border: 0;
     box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
   }
 }

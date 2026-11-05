@@ -11,7 +11,7 @@
     "purpose": "Find a Branch or ATM search card over a map image; the shadow option is a text-only teaser card overlapping a photo"
   },
   "contentPattern": {
-    "structure": "Optional picture-only row: background map/photo. Text rows: heading, subtitle and extra links (e.g. Advanced Search Options) shown in the card in authored order. Form row: last cell is a single link (href = locator URL, text = button label), the cell before it is the search field label, and an optional earlier cell holds a choice group (legend line plus list or comma-separated choices such as Branches, ATM) rendered as radio buttons. Submitting goes to the locator URL with ?q= and &type="
+    "structure": "Optional picture-only row: background map/photo. Text rows: heading, subtitle and extra links (e.g. Advanced Search Options) shown in the card in authored order. Form row: last cell is a single link (href = locator URL, text = button label), the cell before it is the search field label, and an optional earlier cell holds a choice group (legend line plus list or comma-separated choices such as Branches, ATM) rendered as radio buttons. The form POSTs to the locator URL: search-only sends q, lang, searchBranch, searchATM; with a choice group it sends location_type (BRANCH/ABM) and postal"
   },
   "options": [
     {
