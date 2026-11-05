@@ -67,6 +67,8 @@ function buildSlide(row, idx, withTabs) {
 
   const heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
   if (heading && heading.id) slide.setAttribute('aria-labelledby', heading.id);
+  // emphasis inside the heading is a highlighted offer amount: the offer slide layout
+  if (heading?.querySelector('em')) slide.classList.add('carousel-hero-slide-offer');
 
   return { slide, tab, heading };
 }
@@ -77,16 +79,17 @@ function buildTab(tabCell, heading, slide, idx) {
   button.className = 'carousel-hero-tab';
   button.setAttribute('role', 'tab');
   button.setAttribute('aria-controls', slide.id);
-  const tabPic = tabCell?.querySelector('picture');
-  const pic = tabPic
-    || slide.querySelector('.carousel-hero-slide-image picture, .carousel-hero-slide-background picture');
-  // an authored tab picture is a small thumbnail; a borrowed slide picture fills the tab
-  if (tabPic) button.classList.add('carousel-hero-tab-thumbnail');
+  // slides with a foreground picture show it as a small thumbnail; others fill the tab
+  if (slide.querySelector(':scope > .carousel-hero-slide-image')) {
+    button.classList.add('carousel-hero-tab-thumbnail');
+  }
   if (slide.classList.contains('carousel-hero-slide-plain')) button.classList.add('carousel-hero-tab-plain');
+  if (slide.classList.contains('carousel-hero-slide-offer')) button.classList.add('carousel-hero-tab-offer');
+  const pic = tabCell?.querySelector('picture');
   if (pic) {
     const thumb = document.createElement('span');
     thumb.className = 'carousel-hero-tab-image';
-    thumb.append(tabPic ? pic : pic.cloneNode(true));
+    thumb.append(pic);
     button.append(thumb);
   }
   const label = document.createElement('span');
@@ -209,9 +212,10 @@ export default function decorate(block) {
     schedule();
   };
 
+  // choosing a slide directly stops autoplay, as on the source
   controls.forEach((control, idx) => control.addEventListener('click', () => {
     show(idx);
-    schedule();
+    setPaused(true);
   }));
   prev.addEventListener('click', () => { show(current - 1); schedule(); });
   next.addEventListener('click', () => { show(current + 1); schedule(); });

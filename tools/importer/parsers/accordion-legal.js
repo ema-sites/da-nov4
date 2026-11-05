@@ -17,6 +17,25 @@ function cleanText(text) {
   return (text || '').replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * The toggle has two identical spans (closed/open state). The importer's
+ * inline-element review merges adjacent spans into one before parsers run,
+ * so the label can arrive as "LabelLabel": collapse an exact repeat.
+ */
+function dedupeLabel(text) {
+  const t = cleanText(text);
+  for (let n = 1; n <= 3; n += 1) {
+    // "Label" + optional whitespace + "Label"
+    const half = (t.length - (n - 1)) / 2;
+    if (half >= 1 && Number.isInteger(half)) {
+      const a = t.slice(0, half);
+      const b = t.slice(t.length - half);
+      if (a === b && !cleanText(t.slice(half, t.length - half))) return a.trim();
+    }
+  }
+  return t;
+}
+
 /** Convert mixed inline/block children into a list of block elements. */
 function toBlocks(document, cell) {
   const out = [];
@@ -70,7 +89,7 @@ export default function parse(element, { document }) {
   let label = '';
   if (toggle) {
     const span = toggle.querySelector('span');
-    label = cleanText(span ? span.textContent : toggle.textContent);
+    label = dedupeLabel(span ? span.textContent : toggle.textContent);
   }
   cells.push([label || 'Legal disclaimers']);
 

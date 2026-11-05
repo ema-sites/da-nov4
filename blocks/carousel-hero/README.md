@@ -6,7 +6,7 @@ Custom **carousel** block. Purpose: Full-width rotating hero slides with autopla
 
 Model: `standalone`
 
-Single block table. Content: One row per slide. Cells: optional picture-only background cell, then the content cell (eyebrow text, heading, text, CTA links/buttons), then an optional picture-only foreground image cell. With thumbnail-tabs / thumbnail-tabs-2 an optional last cell gives the tab label (and an optional thumbnail picture); without it the tab uses the slide heading and image. Empty rows/cells are ignored; extra text cells merge into the content. With thumbnail-tabs the tab label overlays the bottom of its thumbnail.
+Single block table. Content: One row per slide. Cells: optional picture-only background cell, then the content cell (eyebrow text, heading, text, CTA links/buttons), then an optional picture-only foreground image cell. With thumbnail-tabs / thumbnail-tabs-2 a last cell gives the tab thumbnail picture and label (the label falls back to the slide heading). Slides with a foreground picture show the thumbnail small at the top of a gradient tab; other slides fill the tab with it. Choosing a tab pauses autoplay. CTAs: **bold link** = blue primary, ***bold italic link*** = white button, *italic link* = outline button, a plain link right after a CTA = chevron text link; plain text after the CTAs is small print. An *italic* run inside the heading is a yellow highlighted amount and switches the slide to the light-blue offer layout. Empty rows/cells are ignored; extra text cells merge into the content.
 
 ## Supported variations
 

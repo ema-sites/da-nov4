@@ -68,6 +68,11 @@ main > .section > .carousel-hero-wrapper {
   background-image: linear-gradient(270deg, var(--brand-blue-dark) 0%, #0091da 71.3%);
 }
 
+/* the offer slide (highlighted amount in the heading) fades from light blue to navy */
+.carousel-hero .carousel-hero-slide.carousel-hero-slide-offer {
+  background-image: linear-gradient(266deg, rgb(195 226 250) 35.68%, var(--brand-navy) 100.24%);
+}
+
 .carousel-hero .carousel-hero-slide-background {
   position: absolute;
   inset: 0;
@@ -127,6 +132,7 @@ main > .section > .carousel-hero-wrapper {
 .carousel-hero .carousel-hero-slide-content {
   position: relative;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 .carousel-hero .carousel-hero-slide-content :is(h1, h2, h3, h4, h5, h6) {
@@ -142,6 +148,13 @@ main > .section > .carousel-hero-wrapper {
   letter-spacing: -2px;
 }
 
+/* a highlighted amount in the heading */
+.carousel-hero .carousel-hero-slide-content :is(h1, h2, h3, h4, h5, h6) em {
+  color: var(--brand-yellow);
+  font-style: normal;
+  font-weight: 700;
+}
+
 .carousel-hero .carousel-hero-slide-content > p + :is(h1, h2, h3, h4, h5, h6) {
   margin-top: 16px;
 }
@@ -153,14 +166,6 @@ main > .section > .carousel-hero-wrapper {
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
-}
-
-/* the paragraph right after the heading is the lead */
-.carousel-hero .carousel-hero-slide-content > :is(h1, h2, h3, h4, h5, h6) + p {
-  max-width: 570px;
-  font-family: var(--heading-font-family);
-  font-size: 18px;
-  line-height: 27px;
 }
 
 /* "Apply now by …" line with its stopwatch icon */
@@ -177,11 +182,10 @@ main > .section > .carousel-hero-wrapper {
   display: block;
 }
 
-/* eyebrow above the heading renders as a yellow pill */
+/* eyebrow above the heading renders as a yellow pill on a 24px first line */
 .carousel-hero .carousel-hero-slide-content > p:first-child:has(+ :is(h1, h2, h3, h4, h5, h6)) {
-  display: inline-block;
-  vertical-align: top;
-  margin: 0;
+  width: fit-content;
+  margin: 2px 0 0;
   border-radius: 4px;
   padding: 3px 10px;
   background-color: #ffba00;
@@ -191,6 +195,37 @@ main > .section > .carousel-hero-wrapper {
   font-weight: 500;
   line-height: 16px;
   text-transform: uppercase;
+}
+
+/* the paragraph right after the heading is the lead */
+.carousel-hero .carousel-hero-slide-content > :is(h1, h2, h3, h4, h5, h6) + p:not(.button-wrapper) {
+  max-width: 570px;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  line-height: 27px;
+}
+
+/* under a page-title (h1) heading the lead is set in the body face */
+.carousel-hero .carousel-hero-slide-content > h1 + p:not(.button-wrapper) {
+  max-width: 510px;
+  font-family: var(--body-font-family);
+  line-height: 28px;
+}
+
+/* the offer slide follows its heading with small print, not a lead */
+.carousel-hero .carousel-hero-slide-offer .carousel-hero-slide-content > :is(h1, h2, h3, h4, h5, h6) + p:not(.button-wrapper) {
+  max-width: none;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 24px;
+}
+
+/* small print after the CTAs */
+.carousel-hero .carousel-hero-slide-content > :is(p.button-wrapper, p.carousel-hero-link) ~ p:not(.button-wrapper) {
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
 }
 
 .carousel-hero .carousel-hero-slide-content sup a:any-link {
@@ -208,17 +243,49 @@ main > .section > .carousel-hero-wrapper {
 }
 
 .carousel-hero .carousel-hero-slide-content p.carousel-hero-link a:any-link {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+/* a plain link right after a CTA is a chevron text link */
+.carousel-hero .carousel-hero-slide-content p.button-wrapper + p.carousel-hero-link {
+  margin: 8px 0 16px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.carousel-hero .carousel-hero-slide-content p.button-wrapper + p.carousel-hero-link a:any-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 15px 0 0;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.carousel-hero .carousel-hero-slide-content p.button-wrapper + p.carousel-hero-link a:any-link::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  box-sizing: border-box;
+  width: 7px;
+  height: 7px;
+  border-top: 1.5px solid currentcolor;
+  border-right: 1.5px solid currentcolor;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.carousel-hero .carousel-hero-slide-content p.button-wrapper + p.carousel-hero-link a:hover {
   text-decoration: underline;
 }
 
 /* CTAs */
-.carousel-hero .carousel-hero-slide-content p.button-wrapper,
-.carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child {
+.carousel-hero .carousel-hero-slide-content p.button-wrapper {
   margin: 8px 0 16px;
 }
 
-main .carousel-hero a.button:any-link,
-main .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child a:any-link {
+main .carousel-hero a.button:any-link {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -236,16 +303,47 @@ main .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child
   text-transform: capitalize;
 }
 
-/* a lone link closing the slide copy is the white secondary CTA */
-main .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child a:any-link {
+/* accent (strong + em): white fill, blue text */
+main .carousel-hero a.button.accent:any-link {
   background-color: #fff;
   box-shadow: inset 0 0 0 1px var(--brand-blue);
   color: var(--brand-blue);
 }
 
-main .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child a:hover {
+main .carousel-hero a.button.accent:hover {
+  background-color: #fff;
   box-shadow: inset 0 0 0 1px var(--brand-blue-dark);
   color: var(--brand-blue-dark);
+}
+
+/* beside an outline CTA the white button has no inner ring */
+main .carousel-hero p.button-wrapper:has(+ p.button-wrapper) a.button.accent:any-link {
+  box-shadow: none;
+}
+
+/* beside a chevron link the white button is bordered blue and matches the link height */
+main .carousel-hero p.button-wrapper:has(+ p.carousel-hero-link) a.button.accent:any-link {
+  border-color: var(--brand-blue);
+  box-shadow: none;
+  line-height: 24px;
+}
+
+/* secondary (em): transparent with a white outline */
+main .carousel-hero a.button.secondary:any-link {
+  min-width: 190px;
+  background-color: transparent;
+  box-shadow: none;
+  color: #fff;
+}
+
+main .carousel-hero a.button.secondary:hover {
+  background-color: rgb(255 255 255 / 10%);
+  color: #fff;
+}
+
+/* the offer slide's primary CTA has no outer border */
+main .carousel-hero .carousel-hero-slide-offer a.button.primary:any-link {
+  border: 0;
 }
 
 /* controls: a translucent pill at the bottom of the slide */
@@ -458,16 +556,44 @@ main .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child
     display: block;
   }
 
+  /* slides with a foreground picture use a 1170px column inset 4px from the photo slides */
+  .carousel-hero .carousel-hero-slide:has(> .carousel-hero-slide-image) {
+    align-items: start;
+    padding-inline: 19px;
+  }
+
+  .carousel-hero .carousel-hero-slide.carousel-hero-slide-plain:has(> .carousel-hero-slide-image) {
+    padding-top: 73px;
+  }
+
+  /* photo slides with a card: copy centred in the 530px banner */
   .carousel-hero .carousel-hero-slide:not(.carousel-hero-slide-plain):has(> .carousel-hero-slide-image) {
+    align-items: center;
+    padding-bottom: 70px;
     background-image: none;
+  }
+
+  /* offer slide: copy and picture 80px from the top */
+  .carousel-hero .carousel-hero-slide.carousel-hero-slide-offer:has(> .carousel-hero-slide-image) {
+    padding-top: 80px;
   }
 
   /* copy and picture share the single grid cell, pinned to opposite sides */
   .carousel-hero .carousel-hero-slide-image {
     grid-area: 1 / 1;
-    justify-self: end;
+    place-self: start end;
     width: 470px;
     margin: 0;
+  }
+
+  .carousel-hero .carousel-hero-slide.carousel-hero-slide-plain > .carousel-hero-slide-image {
+    width: 520px;
+    margin-top: -80px;
+  }
+
+  .carousel-hero .carousel-hero-slide.carousel-hero-slide-offer > .carousel-hero-slide-image {
+    width: 470px;
+    margin-top: 0;
   }
 
   /* on photo slides the foreground picture is for small screens only */
@@ -490,24 +616,91 @@ main .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child
     max-width: 550px;
   }
 
+  .carousel-hero .carousel-hero-slide:has(> .carousel-hero-slide-image) > .carousel-hero-slide-content {
+    max-width: 646px;
+    padding-inline: 15px;
+  }
+
+  .carousel-hero .carousel-hero-slide:not(.carousel-hero-slide-plain):has(> .carousel-hero-slide-image) > .carousel-hero-slide-content {
+    max-width: 782px;
+  }
+
+  .carousel-hero .carousel-hero-slide.carousel-hero-slide-offer:has(> .carousel-hero-slide-image) > .carousel-hero-slide-content {
+    max-width: 550px;
+    margin-top: 4px;
+    padding-inline: 0;
+  }
+
   .carousel-hero .carousel-hero-slide-content :is(h1, h2, h3, h4, h5, h6) {
     max-width: 700px;
     font-size: 40px;
     line-height: 50px;
   }
 
-  /* CTAs sit side by side, 16px apart */
-  .carousel-hero .carousel-hero-slide-content p.button-wrapper,
-  .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child {
-    display: inline-block;
-    vertical-align: top;
-    margin: 16px 16px 32px 0;
+  .carousel-hero .carousel-hero-slide:not(.carousel-hero-slide-plain) .carousel-hero-slide-content :is(h1, h2, h3, h4, h5, h6) {
+    max-width: none;
   }
 
-  main .carousel-hero a.button:any-link,
-  main .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child a:any-link {
+  /* a heading that goes straight to its CTA is set smaller and narrower */
+  .carousel-hero .carousel-hero-slide .carousel-hero-slide-content > :is(h1, h2, h3, h4, h5, h6):has(+ p.button-wrapper) {
+    max-width: 570px;
+    margin-bottom: 30px;
+    font-size: 36px;
+    line-height: 45px;
+  }
+
+  .carousel-hero .carousel-hero-slide-offer .carousel-hero-slide-content > :is(h1, h2, h3, h4, h5, h6) {
+    margin-bottom: 7.5px;
+    font-size: 36px;
+    line-height: 45px;
+  }
+
+  /* a page-title (h1) heading sits lower under the eyebrow */
+  .carousel-hero .carousel-hero-slide-content > p:first-child + h1 {
+    margin: 32px 0 15px;
+  }
+
+  .carousel-hero .carousel-hero-slide-content > p:has(> picture) {
+    margin-bottom: 32px;
+  }
+
+  .carousel-hero .carousel-hero-slide-content > :is(h1, h2, h3, h4, h5, h6) + p:not(.button-wrapper) {
+    margin-bottom: 32px;
+  }
+
+  .carousel-hero .carousel-hero-slide-content > :is(h1, h2, h3, h4, h5, h6) + p:not(.button-wrapper):has(+ p > picture) {
+    margin-bottom: 16px;
+  }
+
+  .carousel-hero .carousel-hero-slide-offer .carousel-hero-slide-content > :is(h1, h2, h3, h4, h5, h6) + p:not(.button-wrapper) {
+    margin: 24px 0;
+  }
+
+  /* CTAs sit side by side, 16px apart */
+  .carousel-hero .carousel-hero-slide-content p.button-wrapper,
+  .carousel-hero .carousel-hero-slide-content p.button-wrapper + p.carousel-hero-link {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 16px 32px 0;
+  }
+
+  .carousel-hero .carousel-hero-slide-offer .carousel-hero-slide-content p.button-wrapper {
+    margin-bottom: 15px;
+  }
+
+  /* paired buttons sit 20px apart */
+  .carousel-hero .carousel-hero-slide-content p.button-wrapper:has(+ p.button-wrapper) {
+    margin-right: 20px;
+  }
+
+  main .carousel-hero a.button:any-link {
     display: inline-flex;
     width: auto;
+  }
+
+  .carousel-hero .carousel-hero-slide-content p.button-wrapper + p.carousel-hero-link a:any-link {
+    height: 66px;
+    padding-left: 16px;
   }
 }
 
@@ -620,6 +813,10 @@ main .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child
     background: linear-gradient(0deg, var(--brand-blue-dark) 0%, #0091da 71.3%);
   }
 
+  .carousel-hero.carousel-hero-tabs .carousel-hero-nav .carousel-hero-tab-thumbnail.carousel-hero-tab-offer {
+    background: linear-gradient(rgb(237 247 252) 38.67%, rgb(0 30 67) 100%);
+  }
+
   .carousel-hero.carousel-hero-tabs .carousel-hero-tab-thumbnail .carousel-hero-tab-image {
     inset: 13px 0 auto;
     display: flex;
@@ -641,6 +838,15 @@ main .carousel-hero .carousel-hero-slide-content p.carousel-hero-link:last-child
     height: auto;
     max-height: 86px;
     object-fit: contain;
+  }
+
+  .carousel-hero.carousel-hero-tabs .carousel-hero-tab-thumbnail:not(.carousel-hero-tab-plain) .carousel-hero-tab-image img {
+    max-width: 115px;
+    border-radius: 4px;
+  }
+
+  .carousel-hero.carousel-hero-tabs .carousel-hero-tab-thumbnail.carousel-hero-tab-offer .carousel-hero-tab-image {
+    top: 16px;
   }
 
   .carousel-hero.carousel-hero-tabs .carousel-hero-tab-label {

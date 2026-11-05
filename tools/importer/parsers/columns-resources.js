@@ -8,6 +8,10 @@
  * One row; one cell per callout panel. Each panel keeps headings, lead text,
  * link lists (consecutive links grouped into a <ul>), a trailing CTA link and
  * a closing image (blocks/columns-resources/columns-resources.js).
+ * Icon-list items (ul.icon-list > li > h3 > a.icon-list-*) become
+ * <li><img icon><h3><a/></h3></li>: the 40x40 ::before icon as a real image
+ * (block tags such lists columns-resources-icon-list) and the h3 kept.
+ * SVG icon URLs get a "#icon" fragment so html2md keeps them as images.
  */
 
 function cleanText(text) {
@@ -21,6 +25,36 @@ function makeLink(document, a) {
   return link;
 }
 
+// Product-link icons are CSS ::before backgrounds on a.icon-list-* (see source CSS).
+// Fallback map for DOMs without computed styles (e.g. cached HTML / jsdom).
+const ICON_BASE = 'https://www.rbcroyalbank.com';
+const ICON_MAP = {
+  l_account: '/_assets-custom/homepage/images/cash-new-40.svg',
+  l_mortgage: '/dvl/v0.1/assets/images/icons/icon-mortgages.svg',
+  l_loan: '/dvl/v0.1/assets/images/icons/icon-loans.svg',
+  l_loan2: '/dvl/v0.1/assets/images/icons/icon-loans.svg',
+  l_investing: '/dvl/v0.1/assets/images/icons/icon-investments.svg',
+  l_credit: '/dvl/v0.1/assets/images/icons/icon-credit-cards.svg',
+  'l_credit-card': '/dvl/v0.1/assets/images/icons/icon-credit-cards.svg',
+};
+
+function iconUrl(document, li, a) {
+  // 1. live page: computed ::before background-image
+  try {
+    const win = document.defaultView;
+    if (win && win.getComputedStyle) {
+      const bi = win.getComputedStyle(a, '::before').backgroundImage || '';
+      const m = bi.match(/url\(["']?([^"')]+)["']?\)/);
+      if (m && m[1]) return new URL(m[1], document.baseURI || ICON_BASE).href;
+    }
+  } catch (e) { /* no computed styles */ }
+  // 2. known icon classes (a.icon-list-<key>, li#<key>)
+  const cls = [...a.classList].find((c) => c.startsWith('icon-list-'));
+  const key = cls ? cls.slice('icon-list-'.length) : '';
+  const path = ICON_MAP[key] || ICON_MAP[li.id];
+  return path ? `${ICON_BASE}${path}` : '';
+}
+
 function buildPanel(document, panel) {
   const out = [];
   const copy = panel.querySelector('.callout-copy') || panel;
@@ -30,11 +64,28 @@ function buildPanel(document, panel) {
     if (list && list.children.length) out.push(list);
     list = null;
   };
-  const addListLink = (a) => {
+  const addListLink = (a, srcLi) => {
     if (!cleanText(a.textContent)) return;
     if (!list) list = document.createElement('ul');
     const li = document.createElement('li');
-    li.append(makeLink(document, a));
+    // icon list item (ul.icon-list > li > h3 > a.icon-list-*): icon <img> + heading link
+    const src = srcLi && srcLi.closest('ul.icon-list') ? iconUrl(document, srcLi, a) : '';
+    if (src) {
+      const img = document.createElement('img');
+      // html2md turns any <img src="*.svg"> into a :name: icon shorthand (needs /icons/*.svg);
+      // a fragment keeps it a real image without changing the fetched resource.
+      img.src = /\.svg$/i.test(src) ? `${src}#icon` : src;
+      img.alt = '';
+      li.append(img);
+    }
+    const heading = srcLi && srcLi.querySelector(':scope > h1, :scope > h2, :scope > h3, :scope > h4, :scope > h5, :scope > h6');
+    if (heading && heading.contains(a)) {
+      const h = document.createElement(heading.tagName.toLowerCase());
+      h.append(makeLink(document, a));
+      li.append(h);
+    } else {
+      li.append(makeLink(document, a));
+    }
     list.append(li);
   };
 
@@ -57,7 +108,7 @@ function buildPanel(document, panel) {
         flushList();
         el.querySelectorAll(':scope > li').forEach((li) => {
           const a = li.querySelector('a');
-          if (a) addListLink(a);
+          if (a) addListLink(a, li);
         });
         flushList();
       } else if (tag === 'a') {
