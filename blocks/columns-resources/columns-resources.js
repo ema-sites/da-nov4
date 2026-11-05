@@ -34,14 +34,27 @@ function buildAccordion(cell) {
   });
 }
 
+function isLinkParagraph(el) {
+  if (!el || el.tagName !== 'P') return false;
+  const links = el.querySelectorAll('a');
+  return links.length === 1 && !el.querySelector('picture, img')
+    && el.textContent.trim() === links[0].textContent.trim();
+}
+
 function decorateCard(cell) {
   cell.classList.add('columns-resources-card');
-  // a trailing paragraph made only of a link is the card's CTA footer
+  // a trailing paragraph made only of a link is the card's CTA footer;
+  // other link-only paragraphs are standalone links
   const last = cell.lastElementChild;
-  if (last && last.tagName === 'P' && last.querySelector('a')
-    && last.textContent.trim() === last.querySelector('a').textContent.trim()) {
-    last.classList.add('columns-resources-cta');
-  }
+  [...cell.querySelectorAll(':scope > p')].filter(isLinkParagraph).forEach((p) => {
+    p.classList.add(p === last ? 'columns-resources-cta' : 'columns-resources-link');
+  });
+  // a list whose every item carries a picture is an icon list, otherwise a link list
+  cell.querySelectorAll(':scope > ul').forEach((ul) => {
+    const items = [...ul.children];
+    const icons = items.length && items.every((li) => li.querySelector('picture, img'));
+    ul.classList.add(icons ? 'columns-resources-icon-list' : 'columns-resources-link-list');
+  });
   // the card image is a picture outside any link list (list pictures are icons)
   const pic = [...cell.querySelectorAll('picture')].find((p) => !p.closest('li'));
   if (!pic) return;
