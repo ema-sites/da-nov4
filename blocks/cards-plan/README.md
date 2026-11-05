@@ -6,7 +6,7 @@ Custom **cards** block. Purpose: account, plan or loan pricing cards: header wit
 
 Model: `standalone`
 
-Single block table. Content: One row per plan card. Cells (all optional, any count): image (picture only) | header (heading plus optional short tagline) | body (feature list, price/fee text, badges, CTA button and link). When the whole card is in one cell, a leading heading and its short tagline are split into the header automatically. Trailing link-only paragraphs become the card actions, pinned to the bottom.
+Single block table. Content: One row per plan card. Cells (all optional, any count): image (picture only) | header (heading plus optional short tagline) | body (feature list, price/fee text, badges, CTA button and link). When the whole card is in one cell, a leading heading and its short tagline are split into the header automatically. Trailing link-only paragraphs become the card actions, pinned to the bottom. A paragraph starting with an amount (e.g. `$3.00 USD /mo`) is the price, with its trailing `/mo` unit set smaller; a short paragraph right after it is the price note.
 
 ## Supported variations
 

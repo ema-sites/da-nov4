@@ -89,6 +89,183 @@
   height: 100%;
 }
 
+/* compare-grey-blue-light: RBC account comparison cards (source .interested-box .box):
+   rounded grey-bordered card, coloured centred header (first card blue, others light blue),
+   check-mark feature list, large centred price, full-width button and chevron link */
+.cards-plan.compare-grey-blue-light > ul {
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.cards-plan.compare-grey-blue-light > ul > li {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  margin: 0 -7.5px;
+  border: 1px solid #b3b3b3;
+  border-radius: 8px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-header {
+  padding: 30px;
+  background-color: #e3f4ff;
+  text-align: center;
+}
+
+.cards-plan.compare-grey-blue-light > ul > li:first-child .cards-plan-card-header {
+  background-color: var(--brand-blue);
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-header h3 {
+  margin: 0 0 15px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-header p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-header > :last-child {
+  margin-bottom: 0;
+}
+
+.cards-plan.compare-grey-blue-light > ul > li:first-child .cards-plan-card-header :is(h1, h2, h3, h4, h5, h6, p) {
+  color: var(--background-color);
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-body {
+  margin-top: 30px;
+  padding: 0 32px 24px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-features {
+  flex: 1 0 auto;
+  margin: 0 0 15px;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-features > li {
+  position: relative;
+  margin: 0 0 10px;
+  padding-left: 29px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-features > li:where(:last-child) {
+  margin-bottom: 0;
+}
+
+/* source check-black.svg, 13x16 */
+.cards-plan.compare-grey-blue-light .cards-plan-card-features > li::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 0;
+  width: 13px;
+  height: 16px;
+  background-color: #313133;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 16" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M.45 8.55l4 4M12.55 4.45l-8.1 8.1"/></svg>') no-repeat center / 13px 16px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-body > p:not(.cards-plan-card-action) {
+  text-align: center;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 7.5px 0 15px;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 44px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-price-unit {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-price-note {
+  margin: 0 0 7.5px;
+  color: #6f6f6f;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-body > .cards-plan-card-action {
+  margin: 0;
+  text-align: center;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-action.button-wrapper {
+  margin: 24px 0;
+}
+
+main .cards-plan.compare-grey-blue-light a.button:any-link {
+  display: block;
+  width: 100%;
+  padding: 15px;
+}
+
+.cards-plan.compare-grey-blue-light .cards-plan-card-action a:any-link:not(.button) {
+  display: inline-block;
+  font-weight: 400;
+}
+
+/* source ui-chevron-right-blue.svg, 6x10, 8px before the label */
+.cards-plan.compare-grey-blue-light .cards-plan-card-action a:any-link:not(.button)::before {
+  content: '';
+  display: inline-block;
+  position: relative;
+  top: -1px;
+  width: 6px;
+  height: 10px;
+  margin: 0 8px 0 16px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+@media (width >= 768px) {
+  .cards-plan.compare-grey-blue-light > ul {
+    grid-template-columns: none;
+    grid-template-rows: auto 1fr;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: 0 18px;
+    max-width: 866px;
+    margin-inline: auto;
+  }
+
+  /* three or more plans: wider row (source .foreign-ca-content max-width 1071px) */
+  .cards-plan.compare-grey-blue-light > ul:has(> li:nth-child(3)) {
+    max-width: 1041px;
+  }
+
+  .cards-plan.compare-grey-blue-light > ul > li {
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    margin: 0;
+  }
+}
+
+@media (width >= 900px) {
+  .cards-plan.compare-grey-blue-light > ul {
+    column-gap: 30px;
+  }
+}
+
 /* slider: horizontally scrolling track with prev/next controls */
 .cards-plan.cards-plan-slider .cards-plan-track {
   overflow-x: auto;

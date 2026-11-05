@@ -51,6 +51,38 @@ function markActions(body) {
   });
 }
 
+/* A paragraph that starts with an amount ("$3.00 USD /mo", "HK$0 /mo") is the plan price;
+   its trailing unit ("/mo") is wrapped so it can be set smaller, and a short
+   paragraph right after it ("No minimum balance") is the price note. */
+const PRICE_RE = /^\s*[A-Z]{0,3}[$€£¥]\s?\d/;
+const UNIT_RE = /\s*(\/\s?[\p{L}.]+)\s*$/u;
+
+function markPrice(body) {
+  if (!body) return;
+  const price = [...body.children].find((el) => el.tagName === 'P'
+    && !el.classList.contains('cards-plan-card-action')
+    && !el.querySelector('a, picture, img')
+    && PRICE_RE.test(el.textContent));
+  if (!price) return;
+  price.classList.add('cards-plan-card-price');
+  const last = price.lastChild;
+  if (last?.nodeType === Node.TEXT_NODE) {
+    const m = last.textContent.match(UNIT_RE);
+    if (m && m.index > 0) {
+      const unit = document.createElement('span');
+      unit.className = 'cards-plan-card-price-unit';
+      [, unit.textContent] = m;
+      last.textContent = last.textContent.slice(0, m.index);
+      price.append(unit);
+    }
+  }
+  const note = price.nextElementSibling;
+  if (note?.tagName === 'P' && !note.classList.contains('cards-plan-card-action')
+    && !note.querySelector('a') && note.textContent.trim().length <= 80) {
+    note.classList.add('cards-plan-card-price-note');
+  }
+}
+
 function buildSlider(block, ul) {
   const track = document.createElement('div');
   track.className = 'cards-plan-track';
@@ -96,7 +128,9 @@ export default function decorate(block) {
       li.append(div);
     });
     splitHeader(li);
-    markActions([...li.querySelectorAll('.cards-plan-card-body')].pop());
+    const body = [...li.querySelectorAll('.cards-plan-card-body')].pop();
+    markActions(body);
+    markPrice(body);
     ul.append(li);
   });
 

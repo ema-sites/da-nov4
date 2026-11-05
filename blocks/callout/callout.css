@@ -60,6 +60,37 @@
   margin: 0;
 }
 
+/* grey: RBC bordered notice box (source .callout > .callout-content); padding and the
+   heading scale fluidly between 640px and 1200px viewports, as on the source */
+.callout.grey {
+  gap: 0;
+  border: 1px solid #c4c8cc;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.callout.grey .callout-item {
+  padding: clamp(15px, calc(15px + 5 * (100vw - 640px) / 560), 20px);
+}
+
+.callout.grey .callout-body :where(h2) {
+  margin: 0 0 15px;
+  font-size: clamp(24px, calc(24px + 12 * (100vw - 640px) / 560), 36px);
+  font-weight: 500;
+  line-height: clamp(30px, calc(30px + 14 * (100vw - 640px) / 560), 44px);
+  text-align: center;
+}
+
+.callout.grey .callout-body :where(p) {
+  margin: 0 0 15px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.callout.grey .callout-body > :last-child {
+  margin-bottom: 0;
+}
+
 @media (width >= 600px) {
   .callout:not(.badge, .link-bar) .callout-item:has(.callout-icon + .callout-body) {
     flex-direction: row;
