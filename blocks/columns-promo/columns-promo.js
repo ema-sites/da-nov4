@@ -15,6 +15,79 @@ function isImageCell(cell) {
   return clone.textContent.trim().length === 0;
 }
 
+const text = (el) => el.textContent.replace(/\s+/g, ' ').trim();
+
+// <p><picture/></p> with no text: an icon authored on its own line before a link
+const isIconOnly = (el) => el.tagName === 'P' && !!el.querySelector('picture, img') && !text(el);
+
+// <p><strong>I am an RBC Client:</strong></p>: a label heading a group of links
+const isLabel = (el) => el.tagName === 'P'
+  && el.children.length === 1
+  && el.firstElementChild.tagName === 'STRONG'
+  && !el.querySelector('a, picture, img')
+  && text(el) === text(el.firstElementChild);
+
+// <p>[icon] <a>…</a></p>: a single plain (non-button) link, optionally with an icon
+const isLinkOnly = (el) => {
+  if (el.tagName !== 'P') return false;
+  const links = el.querySelectorAll('a');
+  if (links.length !== 1 || links[0].classList.contains('button')) return false;
+  if (links[0].parentElement !== el) return false;
+  return text(el) === text(links[0]);
+};
+
+/**
+ * Turns flat authored paragraphs into icon + link rows and labelled groups,
+ * e.g. "I am an RBC Client:" followed by its links, laid out side by side.
+ */
+function decorateActions(cell) {
+  [...cell.children].forEach((el) => {
+    if (!isIconOnly(el)) return;
+    const next = el.nextElementSibling;
+    if (!next || next.tagName !== 'P' || isLabel(next) || isIconOnly(next) || !text(next)) return;
+    next.prepend(...el.childNodes);
+    el.remove();
+  });
+
+  [...cell.children].forEach((el) => {
+    if (isLinkOnly(el)) el.classList.add('columns-promo-action');
+    if (el.tagName === 'P' && el.querySelector('picture, img') && text(el)) {
+      el.classList.add('columns-promo-icon-item');
+    }
+  });
+
+  let groups = null;
+  let el = cell.firstElementChild;
+  while (el) {
+    let next = el.nextElementSibling;
+    if (isLabel(el)) {
+      const members = [];
+      let cur = next;
+      while (cur) {
+        const lead = cur.tagName === 'P' && !isLabel(cur) && !cur.querySelector('a, picture, img')
+          && cur.nextElementSibling?.classList.contains('columns-promo-action');
+        if (!cur.classList.contains('columns-promo-action') && !lead) break;
+        members.push(cur);
+        cur = cur.nextElementSibling;
+      }
+      if (members.some((m) => m.classList.contains('columns-promo-action'))) {
+        el.classList.add('columns-promo-label');
+        const group = document.createElement('div');
+        group.className = 'columns-promo-group';
+        if (!groups || groups.nextElementSibling !== el) {
+          groups = document.createElement('div');
+          groups.className = 'columns-promo-groups';
+          el.before(groups);
+        }
+        group.append(el, ...members);
+        groups.append(group);
+        next = cur;
+      }
+    }
+    el = next;
+  }
+}
+
 export default function decorate(block) {
   const rows = [...block.children].filter((row) => row.children.length);
   if (!rows.length) return;
@@ -26,7 +99,12 @@ export default function decorate(block) {
         cell.remove();
         return;
       }
-      cell.classList.add(isImageCell(cell) ? 'columns-promo-image' : 'columns-promo-content');
+      if (isImageCell(cell)) {
+        cell.classList.add('columns-promo-image');
+      } else {
+        cell.classList.add('columns-promo-content');
+        decorateActions(cell);
+      }
     });
 
     // side-box: the last content cell is a separate box beside the main promo

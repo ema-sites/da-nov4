@@ -1,7 +1,8 @@
+/* columns-promo: bordered promo box, image beside copy (values from source .banner.html-bnr) */
 .columns-promo .columns-promo-row {
   display: flex;
   flex-direction: column;
-  border: 1px solid currentcolor;
+  border: 1px solid #c4c8cc;
   overflow: hidden;
 }
 
@@ -9,26 +10,102 @@
   margin-top: 24px;
 }
 
-.columns-promo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.columns-promo .columns-promo-icon-item picture {
+  display: flex;
+  flex-shrink: 0;
+}
+
+/* source icons render at 16-24px tall; size-less SVGs would otherwise fill the cell */
+.columns-promo .columns-promo-icon-item img {
+  width: auto;
+  min-width: 16px;
+  max-width: 28px;
+  max-height: 24px;
+}
+
+.columns-promo .columns-promo-icon-item a:has(picture) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .columns-promo .columns-promo-image {
   order: 0;
 }
 
+.columns-promo .columns-promo-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* photo fills its column like the source background image */
+.columns-promo:not(.side-box) .columns-promo-image {
+  position: relative;
+  min-height: 300px;
+}
+
+.columns-promo:not(.side-box) .columns-promo-image picture,
+.columns-promo:not(.side-box) .columns-promo-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+}
+
 .columns-promo .columns-promo-content {
   order: 1;
-  padding: 24px;
+  padding: 15px;
+}
+
+.columns-promo .columns-promo-content :is(h2, h3) {
+  margin: 0 0 15px;
+  font-size: clamp(20px, calc(10.888px + 1.426vw), 28px);
+  line-height: clamp(25px, calc(12.47px + 1.9608vw), 36px);
+}
+
+.columns-promo .columns-promo-content a:any-link:not(.button) {
+  font-weight: 400;
+}
+
+/* plain links underlined; footnote links stay undecorated */
+.columns-promo .columns-promo-content a:any-link:not(.button, sup a, :has(> sup)) {
+  text-decoration: underline;
+}
+
+/* labelled link groups ("I am an RBC Client:" + icon links) */
+.columns-promo .columns-promo-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: clamp(15px, calc(2.6738vw - 2.0856px), 30px);
+}
+
+.columns-promo .columns-promo-groups:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.columns-promo .columns-promo-group > :last-child {
+  margin-bottom: 0;
+}
+
+.columns-promo .columns-promo-icon-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 15px;
 }
 
 /* side-box: main promo and a separate, independent box */
 .columns-promo.side-box .columns-promo-row {
   border: 0;
   gap: 24px;
+}
+
+.columns-promo.side-box .columns-promo-content {
+  padding: 24px;
 }
 
 .columns-promo.side-box .columns-promo-main,
@@ -53,19 +130,44 @@
   justify-content: center;
 }
 
+@media (width >= 640px) {
+  .columns-promo:not(.side-box) .columns-promo-row {
+    flex-direction: row;
+    min-height: 300px;
+  }
+
+  .columns-promo:not(.side-box) .columns-promo-image {
+    flex: 0 0 auto;
+    width: clamp(212px, calc(33.5116vw - 2.139px), 400px);
+  }
+
+  .columns-promo:not(.side-box) .columns-promo-content {
+    flex: 1 1 0;
+    align-self: center;
+    min-width: 0;
+    padding: clamp(15px, calc(8.0214vw - 36.2567px), 60px);
+  }
+}
+
+@media (width >= 769px) {
+  .columns-promo .columns-promo-groups {
+    flex-direction: row;
+    gap: 60px;
+  }
+}
+
 @media (width >= 900px) {
-  .columns-promo .columns-promo-row {
+  .columns-promo.side-box .columns-promo-row {
     flex-direction: row;
     align-items: stretch;
   }
 
-  .columns-promo .columns-promo-row > div {
+  .columns-promo.side-box .columns-promo-row > div {
     flex: 1;
-    order: unset;
     min-width: 0;
   }
 
-  .columns-promo .columns-promo-content {
+  .columns-promo.side-box .columns-promo-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
