@@ -73,6 +73,13 @@ export default function transform(hookName, element, payload) {
 
   if (hookName === 'afterTransform') {
     WebImporter.DOMUtils.remove(element, AFTER_SELECTORS);
+    // Mark RBC buttons the EDS way: filled primary -> <strong>, outline -> <em>.
+    element.querySelectorAll('a.btn').forEach((a) => {
+      if (a.closest('strong, em')) return;
+      const wrap = element.ownerDocument.createElement(a.classList.contains('primary') ? 'strong' : 'em');
+      a.replaceWith(wrap);
+      wrap.append(a);
+    });
     // The importer turns background-image into an <img>, but a layered value
     // (url(...), linear-gradient(... 50% ...)) becomes one malformed src.
     // Keep only the first url() layer; drop gradient-only backgrounds.

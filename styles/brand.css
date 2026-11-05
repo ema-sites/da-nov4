@@ -1,0 +1,58 @@
+/* Design tokens measured from www.rbcroyalbank.com (see migration-work/brand.json) */
+:root {
+  /* colors */
+  --background-color: #fff;
+  --light-color: #fafafa;
+  --light-blue-grey-color: #f3f7f8;
+  --dark-color: #585858;
+  --text-color: #252525;
+  --link-color: #006ac3;
+  --link-hover-color: #23527c;
+  --brand-blue: #006ac3;
+  --brand-blue-dark: #0051a5;
+  --brand-navy: #003168;
+  --brand-yellow: #fedf01;
+  --border-color: #e0e0e0;
+  --dark-blue-gradient: linear-gradient(#003168 50%, #0061ce 141.48%);
+
+  /* fonts */
+  --body-font-family: roboto, roboto-fallback, arial, helvetica, sans-serif;
+  --heading-font-family: rbcdisplay, rbcdisplay-fallback, arial, helvetica, sans-serif;
+  --body-font-weight: 300;
+  --heading-font-weight: 500;
+
+  /* body sizes */
+  --body-font-size-m: 16px;
+  --body-font-size-s: 14px;
+  --body-font-size-xs: 12px;
+  --body-line-height: 24px;
+
+  /* heading sizes (mobile) */
+  --heading-font-size-xxl: 36px;
+  --heading-font-size-xl: 28px;
+  --heading-font-size-l: 24px;
+  --heading-font-size-m: 20px;
+  --heading-font-size-s: 18px;
+  --heading-font-size-xs: 16px;
+
+  /* spacing */
+  --content-max-width: 1200px;
+  --content-gutter: 15px;
+  --section-padding: 45px;
+  --section-padding-colored: 60px;
+
+  /* nav height */
+  --nav-height: 160px;
+}
+
+@media (width >= 900px) {
+  :root {
+    /* heading sizes (desktop) */
+    --heading-font-size-xxl: 40px;
+    --heading-font-size-xl: 36px;
+    --heading-font-size-l: 28px;
+    --heading-font-size-m: 20px;
+    --heading-font-size-s: 18px;
+    --heading-font-size-xs: 16px;
+  }
+}
