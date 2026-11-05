@@ -1,11 +1,11 @@
 .columns-text .columns-text-row {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--columns-text-gap, 16px);
 }
 
 .columns-text .columns-text-row + .columns-text-row {
-  margin-top: 24px;
+  margin-top: var(--columns-text-row-gap, 24px);
 }
 
 .columns-text img {
@@ -52,11 +52,62 @@
   box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
 }
 
+/* icon quick links (icon + single link per column) */
+.columns-text.columns-text-links {
+  --columns-text-gap: 30px;
+  --columns-text-row-gap: 30px;
+
+  margin: 0 0 15px;
+  padding-top: 30px;
+}
+
+.columns-text .columns-text-link-col > p {
+  margin: 0;
+}
+
+.columns-text a.columns-text-icon-link:any-link {
+  display: flex;
+  align-items: center;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.columns-text a.columns-text-icon-link:hover {
+  color: var(--link-hover-color);
+}
+
+.columns-text a.columns-text-icon-link:hover span {
+  text-decoration: underline;
+}
+
+.columns-text a.columns-text-icon-link picture {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  margin: 0 15px 0 0;
+}
+
+.columns-text a.columns-text-icon-link img {
+  width: 40px;
+  height: 40px;
+}
+
 @media (width >= 900px) {
+  .columns-text.columns-text-links {
+    --columns-text-gap-desktop: 25px 30px;
+    --columns-text-row-gap: 25px;
+
+    margin: 0 0 25px;
+    padding-top: 15px;
+  }
+
   .columns-text .columns-text-row {
     display: grid;
     grid-template-columns: repeat(var(--columns-text-count, 2), minmax(0, 1fr));
-    gap: 32px;
+    gap: var(--columns-text-gap-desktop, 32px);
     align-items: start;
   }
 

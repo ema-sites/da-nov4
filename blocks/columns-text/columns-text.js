@@ -14,6 +14,27 @@ function textWithoutMedia(cell) {
   return clone.textContent.trim();
 }
 
+/**
+ * An icon followed only by a single link (quick links row) renders as one
+ * clickable icon + label link, with the icon moved inside the anchor.
+ */
+function decorateIconLink(cell, icon) {
+  const rest = [...cell.children].filter((el) => el !== icon);
+  if (rest.length !== 1) return;
+  const links = rest[0].querySelectorAll('a');
+  if (links.length !== 1 || rest[0].textContent.trim() !== links[0].textContent.trim()) return;
+  const link = links[0];
+  const picture = icon.querySelector('picture') || icon;
+  const label = document.createElement('span');
+  label.append(...link.childNodes);
+  link.replaceChildren(picture, label);
+  link.classList.remove('button');
+  link.classList.add('columns-text-icon-link');
+  rest[0].classList.remove('button-wrapper', 'button-container');
+  if (icon !== picture) icon.remove();
+  cell.classList.add('columns-text-link-col');
+}
+
 function decorateCell(cell) {
   const hasPicture = !!cell.querySelector('picture, img');
   if (hasPicture && !textWithoutMedia(cell)) {
@@ -27,6 +48,7 @@ function decorateCell(cell) {
     && !first.textContent.trim()))) {
     first.classList.add('columns-text-icon');
     cell.classList.add('columns-text-has-icon');
+    decorateIconLink(cell, first);
   }
 }
 
@@ -49,6 +71,11 @@ export default function decorate(block) {
   const cols = Math.max(...rows.map((row) => row.children.length));
   block.classList.add(`columns-text-${cols}-cols`);
   block.style.setProperty('--columns-text-count', cols);
+
+  const filled = block.querySelectorAll('.columns-text-col, .columns-text-img-col');
+  if (filled.length && [...filled].every((cell) => cell.classList.contains('columns-text-link-col'))) {
+    block.classList.add('columns-text-links');
+  }
 
   optimizeImages(block);
 }
