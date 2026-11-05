@@ -1,0 +1,87 @@
+{
+  "variantName": "columns-media",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "image + text + heading + list + button",
+    "purpose": "Two-column media and text pairing: an image, device mockup, illustration or video beside a heading, intro, feature list and CTA"
+  },
+  "contentPattern": {
+    "structure": "one or more rows, each with two cells: a media cell (picture, or picture plus a video link, or a video link alone) and a text cell (optional eyebrow, heading, paragraph, list, links/buttons); either cell may come first"
+  },
+  "options": [
+    {
+      "class": "banner",
+      "label": "Banner"
+    },
+    {
+      "class": "overlap-card",
+      "label": "Overlap Card"
+    },
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "orange",
+      "label": "Orange"
+    },
+    {
+      "class": "banner-2",
+      "label": "Banner 2"
+    },
+    {
+      "class": "dark-light",
+      "label": "Dark Light"
+    },
+    {
+      "class": "light",
+      "label": "Light"
+    },
+    {
+      "class": "banner-3",
+      "label": "Banner 3"
+    }
+  ],
+  "memberVariantIds": [
+    "v_329b6fab1544",
+    "v_935f158018b8-2",
+    "v_91b27a3a3010",
+    "v_4ea62e2e9f4e",
+    "v_98718964bce8",
+    "v_01f527c587a3",
+    "v_f306651cd193",
+    "v_4287ae8e71ff",
+    "v_67337e1d5c57-2",
+    "v_a1e6f490cf1c",
+    "v_d4bee8cccddc",
+    "v_d674b32c3c85-4",
+    "v_efe5838e1f93",
+    "v_0b3e72f347bc",
+    "v_22c1559e02e8",
+    "v_6faa39a9484c",
+    "v_72f0bd24430f-2",
+    "v_72f0bd24430f-3",
+    "v_923b6a48d5ce",
+    "v_a47d06fa1b8c",
+    "v_b2f2edd78156",
+    "v_bbd8ac22b6a8",
+    "v_d674b32c3c85-5"
+  ],
+  "usage": {
+    "pagesFound": 73,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/",
+      "https://www.rbcroyalbank.com/business/accounts/flex-choice-business-account.html",
+      "https://www.rbcroyalbank.com/business/accounts/ultimate-business-account.html",
+      "https://www.rbcroyalbank.com/business/international-trade/global-trade-online-service.html",
+      "https://www.rbcroyalbank.com/business/paying-and-receiving/foreign-exchange-services.html"
+    ]
+  },
+  "reuseGuidance": "Use for side-by-side media + copy sections. Add overlap-card when the text card overlaps the photo, banner/banner-2/banner-3 for a rounded filled banner. Use columns-promo for bordered CTA boxes and hero-banner for page-top heroes.",
+  "sourceUrl": "https://www.rbcroyalbank.com/"
+}

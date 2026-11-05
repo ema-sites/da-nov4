@@ -1,0 +1,42 @@
+{
+  "variantName": "carousel-hero",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "dense",
+    "hasGrid": false,
+    "imagePattern": "noimg",
+    "structure": "text + heading + link + button",
+    "purpose": "Full-width rotating hero slides with autoplay, prev/next arrows, dots and a pause button; thumbnail-tabs options replace the dots with a row of thumbnail tabs under the slides"
+  },
+  "contentPattern": {
+    "structure": "One row per slide. Cells: optional picture-only background cell, then the content cell (eyebrow text, heading, text, CTA links/buttons), then an optional picture-only foreground image cell. With thumbnail-tabs / thumbnail-tabs-2 an optional last cell gives the tab label (and an optional thumbnail picture); without it the tab uses the slide heading and image. Empty rows/cells are ignored; extra text cells merge into the content"
+  },
+  "options": [
+    {
+      "class": "thumbnail-tabs",
+      "label": "Thumbnail Tabs"
+    },
+    {
+      "class": "thumbnail-tabs-2",
+      "label": "Thumbnail Tabs 2"
+    }
+  ],
+  "memberVariantIds": [
+    "v_92cffa7d857c",
+    "v_92cffa7d857c-1",
+    "v_f283f83a7dbe",
+    "v_f283f83a7dbe-1"
+  ],
+  "usage": {
+    "pagesFound": 4,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/students/offers/index.html",
+      "https://www.rbcroyalbank.com/fr/comptes-bancaires/etudiants/offres/index.html",
+      "https://www.rbcroyalbank.com/",
+      "https://www.rbcroyalbank.com/personal.html"
+    ]
+  },
+  "reuseGuidance": "Use for top-of-page rotating hero banners. Use hero-banner for a single static hero and carousel-cards for scrolling card rows"
+}

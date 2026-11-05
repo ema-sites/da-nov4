@@ -1,0 +1,103 @@
+.columns-resources .columns-resources-row {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.columns-resources .columns-resources-row + .columns-resources-row {
+  margin-top: 32px;
+}
+
+.columns-resources img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.columns-resources .columns-resources-lead ul {
+  list-style: none;
+  padding: 0;
+}
+
+.columns-resources .columns-resources-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid currentcolor;
+  padding: 24px;
+  text-align: center;
+}
+
+.columns-resources .columns-resources-card-image {
+  display: flex;
+  justify-content: center;
+}
+
+.columns-resources .columns-resources-cta {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid currentcolor;
+}
+
+/* accordion option */
+.columns-resources .columns-resources-item {
+  border-bottom: 1px solid currentcolor;
+}
+
+.columns-resources .columns-resources-item summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.columns-resources .columns-resources-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.columns-resources .columns-resources-item summary::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentcolor;
+  border-bottom: 2px solid currentcolor;
+  transform: rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.columns-resources .columns-resources-item[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+.columns-resources .columns-resources-item-body {
+  padding-bottom: 16px;
+}
+
+/* body-text: lead column is long-form copy, left aligned cards */
+.columns-resources.body-text .columns-resources-card {
+  text-align: start;
+}
+
+@media (width >= 900px) {
+  .columns-resources .columns-resources-row {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 32px;
+  }
+
+  .columns-resources .columns-resources-row > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .columns-resources.accordion .columns-resources-lead,
+  .columns-resources.body-text .columns-resources-lead {
+    flex: 2;
+  }
+
+  .columns-resources.accordion .columns-resources-card,
+  .columns-resources.body-text .columns-resources-card {
+    align-self: flex-start;
+  }
+}

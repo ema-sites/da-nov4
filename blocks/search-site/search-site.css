@@ -1,0 +1,41 @@
+/* search-site: structural layout only; colours and type come from the design pass */
+.search-site .search-site-box {
+  display: flex;
+  align-items: stretch;
+  max-width: 664px;
+  margin: 0 auto;
+}
+
+.search-site .search-site-input {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0.5em 1em;
+  font: inherit;
+}
+
+.search-site .search-site-button {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0.5em 1.25em;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* rounded: pill-shaped field with an overlapping round-ended button */
+.search-site.rounded .search-site-input {
+  border-radius: 999px 0 0 999px;
+}
+
+.search-site.rounded .search-site-button {
+  border-radius: 999px;
+  margin-left: -1.5em;
+}
+
+/* boxed / boxed-light: full-width bar inside a panel */
+.search-site.boxed .search-site-box,
+.search-site.boxed-light .search-site-box {
+  max-width: none;
+  padding: 16px;
+}

@@ -1,0 +1,34 @@
+{
+  "variantName": "columns-checklist",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "list + link",
+    "purpose": "Checkmarked benefit or eligibility list laid out in two (or more) columns"
+  },
+  "contentPattern": {
+    "structure": "One or more rows; each cell is a column holding a bulleted list (each item: bold label, optional description, optional link or info button). A cell without a list has each paragraph treated as one item. A single-cell list flows into two columns on desktop. Empty cells are dropped"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "v_8ff357f71aef",
+    "v_07bc7676b897",
+    "v_141c90618d0d",
+    "v_54fefbf86a8c-5"
+  ],
+  "usage": {
+    "pagesFound": 29,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/british-pound-savings-account.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts-offers.html",
+      "https://www.rbcroyalbank.com/bank-accounts/savings-accounts/day-to-day-savings.html",
+      "https://www.rbcroyalbank.com/bank-accounts/savings-accounts/enhanced-savings.html",
+      "https://www.rbcroyalbank.com/usbanking/"
+    ]
+  },
+  "reuseGuidance": "Use for short feature/benefit/eligibility checklists. Use columns-text for side-by-side prose and table-striped for tabular comparisons"
+}

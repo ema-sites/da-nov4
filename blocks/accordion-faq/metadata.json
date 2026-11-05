@@ -1,0 +1,78 @@
+{
+  "variantName": "accordion-faq",
+  "baseBlock": "accordion",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "button",
+    "purpose": "FAQ questions that expand to answers, optionally grouped by topic or paired with an image"
+  },
+  "contentPattern": {
+    "structure": "Rows of two cells: question | answer (one collapsible item per row). Optional single-cell rows: a picture (shown beside or behind the list for image-beside / background-image options), intro text before the first question, and, with the grouped option, a heading row that starts a new topic group (groups longer than 3 items get a Show More toggle)"
+  },
+  "options": [
+    {
+      "class": "dark",
+      "label": "Dark"
+    },
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "grouped",
+      "label": "Grouped"
+    },
+    {
+      "class": "background-image",
+      "label": "Background Image"
+    },
+    {
+      "class": "background-image-2",
+      "label": "Background Image 2"
+    },
+    {
+      "class": "image-beside",
+      "label": "Image Beside"
+    },
+    {
+      "class": "image-beside-2",
+      "label": "Image Beside 2"
+    },
+    {
+      "class": "background-image-3",
+      "label": "Background Image 3"
+    },
+    {
+      "class": "grey",
+      "label": "Grey"
+    }
+  ],
+  "memberVariantIds": [
+    "v_c8045a736cb4",
+    "v_4a78fdedef5e",
+    "v_2616ad10184b",
+    "v_da7f7386f9b3",
+    "v_0eb541b9bbfd",
+    "v_183ff20a45aa",
+    "v_7e87df24d9bd",
+    "v_819226f9fc37",
+    "v_9a01969eff7b",
+    "v_7dcbd9c5c516",
+    "v_f029e763bb01"
+  ],
+  "usage": {
+    "pagesFound": 181,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/avantages-des-services-bancaires-rbc/",
+      "https://www.rbcroyalbank.com/bank-accounts/british-pound-savings-account.html",
+      "https://www.rbcroyalbank.com/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
+      "https://www.rbcroyalbank.com/bank-accounts/savings-accounts/"
+    ]
+  },
+  "reuseGuidance": "Use for any question/answer or step list that expands in place. Use accordion-legal for the page-bottom legal disclaimer toggle."
+}

@@ -1,0 +1,68 @@
+.callout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.callout .callout-item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.callout .callout-icon {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.callout .callout-icon img {
+  max-width: 100%;
+  height: auto;
+}
+
+.callout .callout-body {
+  min-width: 0;
+}
+
+.callout .callout-body > :first-child {
+  margin-top: 0;
+}
+
+.callout .callout-body > :last-child {
+  margin-bottom: 0;
+}
+
+/* badge: small inline pill label */
+.callout.badge {
+  display: inline-flex;
+}
+
+.callout.badge .callout-item {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+/* link-bar: one-line strip, label/counter beside the message */
+.callout.link-bar .callout-item {
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.callout.link-bar .callout-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+}
+
+.callout.link-bar .callout-body > * {
+  margin: 0;
+}
+
+@media (width >= 600px) {
+  .callout:not(.badge, .link-bar) .callout-item:has(.callout-icon + .callout-body) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}

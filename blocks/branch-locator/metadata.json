@@ -1,0 +1,52 @@
+{
+  "variantName": "branch-locator",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "large",
+    "structure": "heading + text + field + button + link",
+    "purpose": "Find a Branch or ATM search card over a map image; the shadow option is a text-only teaser card overlapping a photo"
+  },
+  "contentPattern": {
+    "structure": "Optional picture-only row: background map/photo. Text rows: heading, subtitle and extra links (e.g. Advanced Search Options) shown in the card in authored order. Form row: last cell is a single link (href = locator URL, text = button label), the cell before it is the search field label, and an optional earlier cell holds a choice group (legend line plus list or comma-separated choices such as Branches, ATM) rendered as radio buttons. Submitting goes to the locator URL with ?q= and &type="
+  },
+  "options": [
+    {
+      "class": "compact",
+      "label": "Compact"
+    },
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "alt-2",
+      "label": "Alt 2"
+    },
+    {
+      "class": "shadow",
+      "label": "Shadow"
+    }
+  ],
+  "memberVariantIds": [
+    "v_5e562b146ddc-1",
+    "v_fa13e074d831",
+    "v_aa9f530696eb",
+    "v_9cbafc83266d",
+    "v_b8ef564d7ffa-1"
+  ],
+  "usage": {
+    "pagesFound": 37,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/british-pound-savings-account.html",
+      "https://www.rbcroyalbank.com/bank-accounts/euro-savings-account.html",
+      "https://www.rbcroyalbank.com/business/advice/IBOR-transition-disclosure.html",
+      "https://www.rbcroyalbank.com/business/index.html",
+      "https://www.rbcroyalbank.com/"
+    ]
+  },
+  "reuseGuidance": "Use for the branch/ATM locator search panel. Leave out the form row for a text card over a photo (shadow option)."
+}

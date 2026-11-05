@@ -1,0 +1,186 @@
+.columns-contact .columns-contact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.columns-contact .columns-contact-row + .columns-contact-row {
+  margin-top: 32px;
+}
+
+.columns-contact .columns-contact-row > div {
+  min-width: 0;
+}
+
+.columns-contact .columns-contact-row > div > :first-child {
+  margin-top: 0;
+}
+
+.columns-contact .columns-contact-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.columns-contact .columns-contact-icon {
+  margin-bottom: 8px;
+}
+
+.columns-contact .columns-contact-icon img,
+.columns-contact .columns-contact-icon-link img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.columns-contact .columns-contact-icon-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.columns-contact .columns-contact-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* equal peer columns */
+.columns-contact.three-up .columns-contact-item,
+.columns-contact.three-up-2 .columns-contact-item,
+.columns-contact.three-up-3 .columns-contact-item {
+  text-align: center;
+}
+
+.columns-contact.three-up .columns-contact-icon-link,
+.columns-contact.three-up-2 .columns-contact-icon-link,
+.columns-contact.three-up-3 .columns-contact-icon-link {
+  justify-content: center;
+}
+
+/* boxed: each column (or the whole row) sits in a panel */
+.columns-contact.boxed .columns-contact-row,
+.columns-contact.boxed-question .columns-contact-row {
+  padding: 32px;
+}
+
+.columns-contact.boxed-question {
+  text-align: center;
+}
+
+.columns-contact .columns-contact-choices {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 32px;
+}
+
+.columns-contact .columns-contact-choices a {
+  position: relative;
+  display: inline-block;
+  padding-left: 44px;
+  line-height: 32px;
+}
+
+.columns-contact .columns-contact-choices a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+}
+
+/* text slider */
+.columns-contact .columns-contact-slider {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.columns-contact .columns-contact-slides {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.columns-contact .columns-contact-slider > button {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.columns-contact .columns-contact-slider > button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentcolor;
+  border-bottom: 0;
+  border-left: 0;
+  transform: translate(-25%, -50%) rotate(-135deg);
+}
+
+.columns-contact .columns-contact-slider > .columns-contact-next::after {
+  transform: translate(-75%, -50%) rotate(45deg);
+}
+
+.columns-contact .columns-contact-dots {
+  grid-column: 1 / -1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.columns-contact .columns-contact-dots button {
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.columns-contact .columns-contact-dots button[aria-current='true'] {
+  background: currentcolor;
+}
+
+@media (width >= 900px) {
+  .columns-contact .columns-contact-row {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 48px;
+  }
+
+  .columns-contact .columns-contact-row > div {
+    flex: 1 1 0;
+  }
+
+  .columns-contact .columns-contact-row > .columns-contact-intro {
+    flex: 1.2 1 0;
+  }
+
+  .columns-contact.slider .columns-contact-row,
+  .columns-contact.slider-2 .columns-contact-row {
+    align-items: center;
+  }
+}

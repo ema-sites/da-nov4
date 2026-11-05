@@ -1,0 +1,65 @@
+{
+  "variantName": "columns-resources",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "dense",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "heading + list + text + link",
+    "purpose": "Resource link list (or body copy / expandable feature list) beside one or more bordered cross-sell cards"
+  },
+  "contentPattern": {
+    "structure": "one row: first cell is the lead column (heading plus link list, body copy, or with accordion sub-headings each followed by their content); each further cell is a bordered card (optional image, heading, text, trailing link paragraph as the CTA). With feature-panels every cell is an equal panel"
+  },
+  "options": [
+    {
+      "class": "image",
+      "label": "Image"
+    },
+    {
+      "class": "feature-panels",
+      "label": "Feature Panels"
+    },
+    {
+      "class": "body-text",
+      "label": "Body Text"
+    },
+    {
+      "class": "blue",
+      "label": "Blue"
+    },
+    {
+      "class": "accordion",
+      "label": "Accordion"
+    },
+    {
+      "class": "shadow-image",
+      "label": "Shadow Image"
+    }
+  ],
+  "memberVariantIds": [
+    "v_6984b0d99a32",
+    "v_c145ade6b8e4",
+    "v_2673d18a6df0-3",
+    "v_991f984b990b",
+    "v_10f806a87978-3",
+    "v_7d6c1f55df56",
+    "v_935f158018b8-5",
+    "v_a47d06fa1b8c-1",
+    "v_d674b32c3c85-2"
+  ],
+  "usage": {
+    "pagesFound": 25,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/business/accounts/agriinvest.html",
+      "https://www.rbcroyalbank.com/business/accounts/business-essentials-savings-account.html",
+      "https://www.rbcroyalbank.com/business/accounts/business-trust-account.html",
+      "https://www.rbcroyalbank.com/business/accounts/online-foreign-currency.html",
+      "https://www.rbcroyalbank.com/business/accounts/premium-investment-account.html"
+    ]
+  },
+  "reuseGuidance": "Use at the foot of product pages for 'Resources' links plus cross-sell boxes. Use columns-text for plain equal text columns, cards-product for product tile grids, accordion-faq for standalone FAQs.",
+  "sourceUrl": "https://www.rbcroyalbank.com/"
+}

@@ -1,0 +1,53 @@
+{
+  "variantName": "callout",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": false,
+    "imagePattern": "noimg",
+    "structure": "image + heading + link + text",
+    "purpose": "highlighted notice or promo box (security guarantee, important notice) with optional icon, heading, text and link; also a small offer badge or a one-line link strip"
+  },
+  "contentPattern": {
+    "structure": "One row per callout item (usually one). Cells: optional icon/image cell (picture only) | content cell (heading, text, link). Cells may be merged into one; picture-only cells become the icon, everything else the body. Extra rows render as stacked items"
+  },
+  "options": [
+    {
+      "class": "badge",
+      "label": "Badge"
+    },
+    {
+      "class": "link-bar",
+      "label": "Link Bar"
+    },
+    {
+      "class": "grey",
+      "label": "Grey"
+    },
+    {
+      "class": "shadow",
+      "label": "Shadow"
+    }
+  ],
+  "memberVariantIds": [
+    "v_91b5a0c61415",
+    "v_713012ce4b6f",
+    "v_8c8359a36fd1",
+    "v_d674b32c3c85-1",
+    "v_90a5e56f7f98"
+  ],
+  "usage": {
+    "pagesFound": 60,
+    "sourceUrl": "https://www.rbcroyalbank.com/",
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/compare-chequing-accounts.html",
+      "https://www.rbcroyalbank.com/business/advice/IBOR-transition-disclosure.html",
+      "https://www.rbcroyalbank.com/business/index.html",
+      "https://www.rbcroyalbank.com/fr/comptes-bancaires/comptes-de-cheques/comparer-les-comptes-cheques.html"
+    ]
+  },
+  "reuseGuidance": "Use for standalone notices, guarantees, disclaimers and highlight boxes that are not part of a card grid. Option badge renders a short inline pill (e.g. 'Limited-time offer'); link-bar renders a single-line strip (counter/label beside a message); grey and shadow are styling hooks for the design pass. Use cards-* for repeating grids and hero-banner for page-top promos."
+}

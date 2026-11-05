@@ -1,0 +1,41 @@
+{
+  "variantName": "table-striped",
+  "baseBlock": "table",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "table",
+    "purpose": "Striped fee/feature data table with a header row and row labels in the first column, optionally behind an expander"
+  },
+  "contentPattern": {
+    "structure": "first row: column headers (one cell per column); each further row: a row label cell followed by value cells. A row with a single cell spans all columns. With the collapsible option, an optional first single-cell row is the expander label"
+  },
+  "options": [
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "collapsible",
+      "label": "Collapsible"
+    }
+  ],
+  "memberVariantIds": [
+    "v_029e7768a339",
+    "v_06f8341c449a",
+    "v_32dae33543c0-1"
+  ],
+  "usage": {
+    "pagesFound": 41,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/british-pound-savings-account.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/compare-chequing-accounts.html",
+      "https://www.rbcroyalbank.com/credit-cards/tools/compare-credit-cards/",
+      "https://www.rbcroyalbank.com/products/isa/"
+    ]
+  },
+  "reuseGuidance": "Use for tabular fee, rate or feature data. Options: alt (stripe even rows instead of odd), collapsible (table hidden behind a show/hide expander). For side-by-side product comparison cards use cards-plan; for plain FAQ expanders use accordion-faq."
+}

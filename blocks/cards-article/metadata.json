@@ -1,0 +1,53 @@
+{
+  "variantName": "cards-article",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "heading + link + image",
+    "purpose": "grid or list of article teaser cards with category tag, title, optional excerpt, read-more link and photo"
+  },
+  "contentPattern": {
+    "structure": "One row per article. Cells: image (picture only, optional) | body (optional short category tag paragraph before the heading, heading, optional excerpt, read-more link). Cells may come in either order; empty or missing image cells are tolerated"
+  },
+  "options": [
+    {
+      "class": "image-top",
+      "label": "Image Top"
+    },
+    {
+      "class": "list-rows",
+      "label": "List Rows"
+    },
+    {
+      "class": "image",
+      "label": "Image"
+    },
+    {
+      "class": "featured",
+      "label": "Featured"
+    }
+  ],
+  "memberVariantIds": [
+    "v_4da94cc54a5e",
+    "v_b01c59f02836",
+    "v_dd7cae349533",
+    "v_30149ce4642c",
+    "v_398bf38ea1cb"
+  ],
+  "usage": {
+    "pagesFound": 8,
+    "sourceUrl": "https://www.rbcroyalbank.com/",
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/youth-student-banking/leo-young-savers-account.html",
+      "https://www.rbcroyalbank.com/fr/comptes-bancaires/comptes-jeunes-etudiants/compte-epargne-jeunesse-leo.html",
+      "https://www.rbcroyalbank.com/products/personalloans/rcl_for_students.html",
+      "https://www.rbcroyalbank.com/products/personalloans/student_line_of_credit.html",
+      "https://www.rbcroyalbank.com/business/loans/advice/index.html"
+    ]
+  },
+  "reuseGuidance": "Use for editorial/advice article teasers. Options: image-top (photo above text), image (same, photo-led cards), list-rows (one article per row with photo left), featured (first article large, others stacked). For product or account tiles use cards-product or cards-plan. A filterable article grid pairs this block with content-filter."
+}

@@ -1,0 +1,70 @@
+/* promo-mosaic: structural layout only; colours and type come from the design pass */
+.promo-mosaic .promo-mosaic-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.promo-mosaic .promo-mosaic-tile {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.promo-mosaic .promo-mosaic-tile-body {
+  padding: 24px;
+}
+
+.promo-mosaic .promo-mosaic-tile-media {
+  margin-top: auto;
+}
+
+.promo-mosaic .promo-mosaic-tile-media picture,
+.promo-mosaic .promo-mosaic-tile-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (width >= 900px) {
+  .promo-mosaic .promo-mosaic-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-flow: row dense;
+  }
+
+  .promo-mosaic .promo-mosaic-feature {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+  }
+
+  .promo-mosaic .promo-mosaic-tile:not(.promo-mosaic-feature) {
+    grid-column: 2;
+  }
+
+  .promo-mosaic.promo-mosaic-single .promo-mosaic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* mirrored: feature tile on the right */
+  .promo-mosaic.mirrored .promo-mosaic-feature {
+    grid-column: 2;
+  }
+
+  .promo-mosaic.mirrored .promo-mosaic-tile:not(.promo-mosaic-feature) {
+    grid-column: 1;
+  }
+
+  /* alt: two equal columns, tiles flow naturally */
+  .promo-mosaic.alt .promo-mosaic-feature,
+  .promo-mosaic.alt .promo-mosaic-tile:not(.promo-mosaic-feature) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+/* colour hooks (filled in by the design pass) */
+.promo-mosaic.light .promo-mosaic-tile,
+.promo-mosaic.orange-light .promo-mosaic-tile {
+  background-color: transparent;
+}

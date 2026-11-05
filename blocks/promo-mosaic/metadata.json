@@ -1,0 +1,53 @@
+{
+  "variantName": "promo-mosaic",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "dense",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "heading + text + button + link",
+    "purpose": "Bento-style mosaic of mixed-size promotional tiles: one tall feature tile beside a stack of smaller supporting tiles"
+  },
+  "contentPattern": {
+    "structure": "one row per tile; each row has an optional image-only cell (tile media/illustration) and a content cell (heading, short text, CTA button and/or link). The first row is the tall feature tile"
+  },
+  "options": [
+    {
+      "class": "orange-light",
+      "label": "Orange Light"
+    },
+    {
+      "class": "light",
+      "label": "Light"
+    },
+    {
+      "class": "mirrored",
+      "label": "Mirrored"
+    },
+    {
+      "class": "alt",
+      "label": "Alt"
+    }
+  ],
+  "memberVariantIds": [
+    "v_54fefbf86a8c-1",
+    "v_bedd5244ffd2",
+    "v_5311e8d96468",
+    "v_c145ade6b8e4-1",
+    "v_29cd16a9b125-3",
+    "v_58c7b1369a5d"
+  ],
+  "usage": {
+    "pagesFound": 18,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/rbc-vantage.html",
+      "https://www.rbcroyalbank.com/bank-accounts/youth-student-banking/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/index.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/compare-chequing-accounts.html"
+    ]
+  },
+  "reuseGuidance": "Use for 2-5 mixed-size promo tiles where one tile dominates. For equal-size cards use a cards block; for a single image/text pair use a columns block. Options: mirrored puts the feature tile on the right, alt makes all tiles equal, light/orange-light are colour hooks."
+}

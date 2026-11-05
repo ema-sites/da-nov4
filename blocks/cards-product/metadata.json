@@ -1,0 +1,219 @@
+{
+  "variantName": "cards-product",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "heading + text + link",
+    "purpose": "grid of product, service or offer teaser cards (title, short text, link or button, optional photo/illustration) linking to detail pages; also photo-overlay category tiles, cards with a coloured header strip, featured and single apply panels"
+  },
+  "contentPattern": {
+    "structure": "One row per card. Cells (all optional): image (picture only) | optional short label cell for the header strip (e.g. 'Loan', with optional icon) | body (optional eyebrow, heading, text, list, link or button). Cells may be in any order; picture-only cells become the card image, everything else body. Cards with exactly one link become fully clickable"
+  },
+  "options": [
+    {
+      "class": "image",
+      "label": "Image"
+    },
+    {
+      "class": "tinted",
+      "label": "Tinted"
+    },
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "tinted-2",
+      "label": "Tinted 2"
+    },
+    {
+      "class": "image-2",
+      "label": "Image 2"
+    },
+    {
+      "class": "horizontal",
+      "label": "Horizontal"
+    },
+    {
+      "class": "blue-orange",
+      "label": "Blue Orange"
+    },
+    {
+      "class": "photo-overlay",
+      "label": "Photo Overlay"
+    },
+    {
+      "class": "light-image",
+      "label": "Light Image"
+    },
+    {
+      "class": "image-3",
+      "label": "Image 3"
+    },
+    {
+      "class": "apply",
+      "label": "Apply"
+    },
+    {
+      "class": "light-image-2",
+      "label": "Light Image 2"
+    },
+    {
+      "class": "tiers",
+      "label": "Tiers"
+    },
+    {
+      "class": "blue-light",
+      "label": "Blue Light"
+    },
+    {
+      "class": "featured",
+      "label": "Featured"
+    },
+    {
+      "class": "image-orange",
+      "label": "Image Orange"
+    },
+    {
+      "class": "light",
+      "label": "Light"
+    },
+    {
+      "class": "header-strip",
+      "label": "Header Strip"
+    },
+    {
+      "class": "cyan-red",
+      "label": "Cyan Red"
+    },
+    {
+      "class": "photo-overlay-2",
+      "label": "Photo Overlay 2"
+    },
+    {
+      "class": "image-light",
+      "label": "Image Light"
+    },
+    {
+      "class": "alt-2",
+      "label": "Alt 2"
+    },
+    {
+      "class": "shadow",
+      "label": "Shadow"
+    },
+    {
+      "class": "header-strip-blue-grey",
+      "label": "Header Strip Blue Grey"
+    },
+    {
+      "class": "photo-overlay-audience",
+      "label": "Photo Overlay Audience"
+    },
+    {
+      "class": "orange",
+      "label": "Orange"
+    },
+    {
+      "class": "grey",
+      "label": "Grey"
+    },
+    {
+      "class": "horizontal-2",
+      "label": "Horizontal 2"
+    },
+    {
+      "class": "image-light-2",
+      "label": "Image Light 2"
+    },
+    {
+      "class": "image-orange-2",
+      "label": "Image Orange 2"
+    },
+    {
+      "class": "blue",
+      "label": "Blue"
+    },
+    {
+      "class": "red-light",
+      "label": "Red Light"
+    },
+    {
+      "class": "image-blue",
+      "label": "Image Blue"
+    },
+    {
+      "class": "photo-overlay-audience-2",
+      "label": "Photo Overlay Audience 2"
+    },
+    {
+      "class": "orange-shadow",
+      "label": "Orange Shadow"
+    }
+  ],
+  "memberVariantIds": [
+    "v_54fefbf86a8c",
+    "v_e25961d4771a",
+    "v_5ed23b2e8f20",
+    "v_b2872644c22f",
+    "v_14bdbc49f2c7",
+    "v_1d194387cb8b",
+    "v_77e14e3fe613",
+    "v_d617ad10d532",
+    "v_67337e1d5c57",
+    "v_eee54abbad06",
+    "v_b3a5160d30ee",
+    "v_f9d22c8fca19",
+    "v_aac5e2d9b0d1",
+    "v_b1bfaf9f28fc",
+    "v_df012027a4f0",
+    "v_097adb25e15f",
+    "v_54fefbf86a8c-3",
+    "v_5b23651a3877",
+    "v_5cc5a6d1a117",
+    "v_8ff357f71aef-2",
+    "v_b01c59f02836-1",
+    "v_b346bec87802",
+    "v_c8e68a6f5fa0",
+    "v_ca0106ec72cc",
+    "v_d81c32015b36",
+    "v_efdd347d5695",
+    "v_22ba558d53e8",
+    "v_2673d18a6df0",
+    "v_3a7d424ce24d",
+    "v_54fefbf86a8c-2",
+    "v_54fefbf86a8c-4",
+    "v_55a7ae816dea",
+    "v_5fc2a189cdb1",
+    "v_67337e1d5c57-1",
+    "v_67781088e877",
+    "v_72f0bd24430f",
+    "v_8b2a016704a0",
+    "v_8ff357f71aef-4",
+    "v_9514676c977a",
+    "v_99358304e8d7",
+    "v_ab5a33260098",
+    "v_abadf88d81a4",
+    "v_b3d17fd6dcc3",
+    "v_c7a11fff51f4",
+    "v_d6402644feb4",
+    "v_ed31f18c2b70",
+    "v_fb7eaa2cf87d"
+  ],
+  "usage": {
+    "pagesFound": 253,
+    "sourceUrl": "https://www.rbcroyalbank.com/",
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/business/accounts/international-business-banking.html",
+      "https://www.rbcroyalbank.com/business/advice/farm-expansion.html",
+      "https://www.rbcroyalbank.com/business/international-trade/articles-videos.html",
+      "https://www.rbcroyalbank.com/business/international-trade/bank-guarantees.html",
+      "https://www.rbcroyalbank.com/business/international-trade/export-guarantee.html"
+    ]
+  },
+  "reuseGuidance": "Default card grid for product/category teasers. Structural options: image/image-* (photo above text), horizontal/horizontal-2 (photo beside text), photo-overlay/photo-overlay-2/photo-overlay-audience(-2) (text over full-bleed photo), header-strip/header-strip-blue-grey (first short cell becomes a coloured label bar), featured (first card wide), tiers (stacked rate rows), apply (single CTA panel with image beside text). Colour options (tinted, alt, blue, orange, red-light, cyan-red, grey, light, shadow, etc.) are styling hooks for the design pass. Use cards-plan for priced plan comparisons and cards-article for editorial teasers."
+}

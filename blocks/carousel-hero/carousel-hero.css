@@ -1,0 +1,204 @@
+.carousel-hero {
+  position: relative;
+}
+
+.carousel-hero .carousel-hero-slides {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+
+/* all slides share one grid cell; only the active one is visible */
+.carousel-hero .carousel-hero-slide {
+  grid-area: 1 / 1;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+  min-height: 400px;
+  padding: 48px 24px 96px;
+  box-sizing: border-box;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.4s, visibility 0.4s;
+}
+
+.carousel-hero .carousel-hero-slide.carousel-hero-slide-active,
+.carousel-hero.carousel-hero-single .carousel-hero-slide {
+  visibility: visible;
+  opacity: 1;
+}
+
+.carousel-hero .carousel-hero-slide-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.carousel-hero .carousel-hero-slide-background picture,
+.carousel-hero .carousel-hero-slide-background img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-hero .carousel-hero-slide-background img {
+  object-fit: cover;
+}
+
+.carousel-hero .carousel-hero-slide-content {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 320px;
+  max-width: 720px;
+}
+
+.carousel-hero .carousel-hero-slide-image {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 280px;
+}
+
+.carousel-hero .carousel-hero-slide-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.carousel-hero .carousel-hero-nav {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 100%;
+}
+
+.carousel-hero .carousel-hero-nav button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.carousel-hero .carousel-hero-prev,
+.carousel-hero .carousel-hero-next,
+.carousel-hero .carousel-hero-pause {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+
+.carousel-hero .carousel-hero-prev::after,
+.carousel-hero .carousel-hero-next::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentcolor;
+  border-bottom: 0;
+  border-left: 0;
+  transform: translate(-25%, -50%) rotate(-135deg);
+}
+
+.carousel-hero .carousel-hero-next::after {
+  transform: translate(-75%, -50%) rotate(45deg);
+}
+
+.carousel-hero .carousel-hero-pause::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 10px;
+  border-left: 2px solid currentcolor;
+  border-right: 2px solid currentcolor;
+  transform: translate(-50%, -50%);
+}
+
+.carousel-hero .carousel-hero-pause.carousel-hero-paused::after {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent transparent transparent currentcolor;
+  border-width: 6px 0 6px 10px;
+}
+
+.carousel-hero .carousel-hero-dots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.carousel-hero .carousel-hero-dot {
+  width: 12px;
+  height: 12px;
+  border: 1px solid currentcolor;
+  border-radius: 6px;
+  transition: width 0.2s;
+}
+
+.carousel-hero .carousel-hero-dot[aria-current='true'] {
+  width: 36px;
+  background: currentcolor;
+}
+
+.carousel-hero .carousel-hero-tablist {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.carousel-hero .carousel-hero-tab {
+  flex: 0 0 160px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  overflow: hidden;
+}
+
+.carousel-hero .carousel-hero-tab-image img {
+  display: block;
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+}
+
+.carousel-hero .carousel-hero-tab[aria-selected='true'] {
+  outline: 3px solid currentcolor;
+  outline-offset: -3px;
+}
+
+.carousel-hero.carousel-hero-tabs .carousel-hero-slide {
+  padding-bottom: 180px;
+}
+
+.carousel-hero.carousel-hero-single .carousel-hero-nav {
+  display: none;
+}
+
+@media (width >= 900px) {
+  .carousel-hero .carousel-hero-slide {
+    min-height: 560px;
+    padding: 64px 10% 120px;
+  }
+
+  .carousel-hero .carousel-hero-tab {
+    flex-basis: 200px;
+  }
+}

@@ -1,0 +1,138 @@
+.hero-banner-container .hero-banner-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.hero-banner .hero-banner-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-banner .hero-banner-media picture,
+.hero-banner .hero-banner-media img,
+.hero-banner .hero-banner-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-banner.hero-banner-has-video .hero-banner-poster {
+  display: none;
+}
+
+.hero-banner .hero-banner-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  box-sizing: border-box;
+}
+
+.hero-banner .hero-banner-content {
+  max-width: 600px;
+}
+
+.hero-banner .hero-banner-content > :first-child {
+  margin-top: 0;
+}
+
+.hero-banner .hero-banner-card picture,
+.hero-banner .hero-banner-card img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* split / split-overlap-card: text panel beside the photo */
+.hero-banner.split,
+.hero-banner.split-overlap-card {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.hero-banner.split .hero-banner-media,
+.hero-banner.split-overlap-card .hero-banner-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+}
+
+/* split-strip: headline strip across the bottom of the photo */
+.hero-banner.split-strip {
+  align-items: flex-end;
+  min-height: 420px;
+}
+
+.hero-banner.split-strip .hero-banner-inner {
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* contact-box / offer-card: card beside or under the text */
+.hero-banner.offer-card .hero-banner-card,
+.hero-banner.contact-box .hero-banner-card {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* video-2: centred heading over video */
+.hero-banner.video-2 .hero-banner-inner {
+  align-items: center;
+  text-align: center;
+}
+
+@media (width >= 900px) {
+  .hero-banner .hero-banner-inner {
+    padding: 40px 32px;
+  }
+
+  .hero-banner.split,
+  .hero-banner.split-overlap-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-banner.split .hero-banner-media,
+  .hero-banner.split-overlap-card .hero-banner-media {
+    grid-column: 2;
+    grid-row: 1;
+    aspect-ratio: auto;
+  }
+
+  .hero-banner.split .hero-banner-inner,
+  .hero-banner.split-overlap-card .hero-banner-inner {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .hero-banner.split-strip .hero-banner-inner {
+    flex-wrap: nowrap;
+  }
+
+  .hero-banner.contact-box .hero-banner-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hero-banner.contact-box .hero-banner-card {
+    flex: 0 0 320px;
+  }
+}

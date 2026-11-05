@@ -1,0 +1,91 @@
+.columns-feature-row .columns-feature-row-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.columns-feature-row .columns-feature-row-row > div {
+  min-width: 0;
+}
+
+.columns-feature-row .columns-feature-row-row > div > :first-child {
+  margin-top: 0;
+}
+
+.columns-feature-row .columns-feature-row-row > div > :last-child {
+  margin-bottom: 0;
+}
+
+.columns-feature-row .columns-feature-row-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.columns-feature-row .columns-feature-row-media-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.columns-feature-row .columns-feature-row-media {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.columns-feature-row .columns-feature-row-media img {
+  display: block;
+  max-width: 120px;
+  height: auto;
+}
+
+.columns-feature-row .columns-feature-row-media-text > :first-child {
+  margin-top: 0;
+}
+
+.columns-feature-row .columns-feature-row-media-text > :last-child {
+  margin-bottom: 0;
+}
+
+/* award / awards: label beside a strip of logo + caption items */
+.columns-feature-row.award .columns-feature-row-row,
+.columns-feature-row.awards .columns-feature-row-row {
+  align-items: flex-start;
+}
+
+@media (width >= 900px) {
+  .columns-feature-row .columns-feature-row-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .columns-feature-row .columns-feature-row-label {
+    flex: 0 0 35%;
+  }
+
+  .columns-feature-row .columns-feature-row-content {
+    flex: 1 1 0;
+  }
+
+  .columns-feature-row .columns-feature-row-image {
+    flex: 0 0 30%;
+  }
+
+  /* explainer: heading + text beside an illustration */
+  .columns-feature-row.explainer .columns-feature-row-label,
+  .columns-feature-row.explainer .columns-feature-row-content {
+    flex: 1 1 0;
+  }
+
+  .columns-feature-row.award .columns-feature-row-row,
+  .columns-feature-row.awards .columns-feature-row-row {
+    align-items: center;
+  }
+
+  .columns-feature-row.award .columns-feature-row-label,
+  .columns-feature-row.awards .columns-feature-row-label {
+    flex: 0 0 auto;
+  }
+}

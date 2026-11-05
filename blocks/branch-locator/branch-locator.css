@@ -1,0 +1,103 @@
+/* branch-locator: structural styles only */
+.branch-locator {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.branch-locator.branch-locator-has-background > * {
+  grid-area: 1 / 1;
+}
+
+.branch-locator .branch-locator-background {
+  min-height: 240px;
+}
+
+.branch-locator .branch-locator-background picture,
+.branch-locator .branch-locator-background img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.branch-locator .branch-locator-card {
+  position: relative;
+  align-self: center;
+  box-sizing: border-box;
+  width: min(100% - 32px, 768px);
+  margin: 24px auto;
+  padding: 24px;
+  background-color: var(--background-color, #fff);
+}
+
+.branch-locator .branch-locator-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  margin: 16px 0;
+}
+
+.branch-locator .branch-locator-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.branch-locator .branch-locator-choices legend {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.branch-locator .branch-locator-field {
+  flex: 1 1 280px;
+}
+
+.branch-locator .branch-locator-field label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.branch-locator .branch-locator-controls {
+  display: flex;
+  gap: 0;
+}
+
+.branch-locator .branch-locator-controls input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.branch-locator .branch-locator-controls button {
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+@media (width >= 900px) {
+  /* default and compact: card sits to the right of the map */
+  .branch-locator:not(.alt, .alt-2, .shadow) .branch-locator-card {
+    justify-self: end;
+    width: min(45%, 570px);
+    margin: 48px 136px 48px auto;
+  }
+
+  .branch-locator.compact .branch-locator-card {
+    margin-block: 24px;
+  }
+
+  /* alt / alt-2: centred search card */
+  .branch-locator:is(.alt, .alt-2) .branch-locator-card {
+    margin: 32px auto;
+  }
+
+  /* shadow: text teaser card overlapping a photo */
+  .branch-locator.shadow .branch-locator-card {
+    justify-self: start;
+    width: min(45%, 570px);
+    margin: 48px auto 48px 136px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+  }
+}

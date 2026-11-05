@@ -1,0 +1,73 @@
+{
+  "variantName": "hero-banner",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": false,
+    "imagePattern": "large",
+    "structure": "heading",
+    "purpose": "Page-top photo or video banner with a heading panel, optional text and CTA, and optional aside card (contact box, offer card, overlap card)"
+  },
+  "contentPattern": {
+    "structure": "Row 1 (media): background picture, and/or a link to an .mp4/.webm video (picture becomes the poster). Row 2 (content): heading, optional text and CTA links (a link alone in a paragraph becomes a button). Optional further rows: aside cards (contact box, offer card with image, overlap card). A picture alone in the first cell of the content row is also treated as the background"
+  },
+  "options": [
+    {
+      "class": "split-strip",
+      "label": "Split Strip"
+    },
+    {
+      "class": "split",
+      "label": "Split"
+    },
+    {
+      "class": "contact-box",
+      "label": "Contact Box"
+    },
+    {
+      "class": "offer-card",
+      "label": "Offer Card"
+    },
+    {
+      "class": "video",
+      "label": "Video"
+    },
+    {
+      "class": "orange",
+      "label": "Orange"
+    },
+    {
+      "class": "video-2",
+      "label": "Video 2"
+    },
+    {
+      "class": "split-overlap-card",
+      "label": "Split Overlap Card"
+    }
+  ],
+  "memberVariantIds": [
+    "v_bb91b0f8f8c5",
+    "v_bb10cce74e99",
+    "v_539b4231145f",
+    "v_f961b3764871",
+    "v_333fd1d3118e",
+    "v_d6e14918cd02",
+    "v_d792530d962d",
+    "v_f961b3764871-1",
+    "v_1c65d158c9a7",
+    "v_a99ea8b7a15c"
+  ],
+  "usage": {
+    "pagesFound": 125,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/index.html",
+      "https://www.rbcroyalbank.com/travelinsurance",
+      "https://www.rbcroyalbank.com/travelinsurance/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/compare-chequing-accounts.html"
+    ]
+  },
+  "reuseGuidance": "Use for the main banner at the top of a page. Use split for panel-beside-photo layouts, split-strip for a headline strip across the photo bottom, video/video-2 for background video. For promotional rows mid-page use columns-media or columns-promo."
+}

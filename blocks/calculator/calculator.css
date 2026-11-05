@@ -1,0 +1,122 @@
+.calculator {
+  display: grid;
+  gap: 24px;
+}
+
+.calculator .calculator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.calculator .calculator-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px 24px;
+}
+
+.calculator .calculator-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.calculator .calculator-required::before {
+  content: '* ';
+}
+
+.calculator .calculator-control {
+  display: flex;
+  align-items: stretch;
+}
+
+.calculator .calculator-control input,
+.calculator .calculator-control select {
+  flex: 1 1 auto;
+  min-width: 0;
+  font: inherit;
+}
+
+.calculator .calculator-prefix,
+.calculator .calculator-suffix {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 0 12px;
+}
+
+.calculator .calculator-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.calculator .calculator-choices label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calculator .calculator-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.calculator .calculator-result[hidden] {
+  display: none;
+}
+
+.calculator .calculator-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* intro: centered entry panel without inline fields */
+.calculator.intro,
+.calculator.calculator-no-fields {
+  text-align: center;
+}
+
+.calculator.intro .calculator-actions,
+.calculator.calculator-no-fields .calculator-actions {
+  justify-content: center;
+}
+
+@media (width >= 900px) {
+  /* banner: intro beside the form */
+  .calculator.banner,
+  .calculator.banner-2 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: center;
+  }
+
+  .calculator.banner .calculator-notes,
+  .calculator.banner-2 .calculator-notes {
+    grid-column: 1 / -1;
+  }
+
+  /* image / media: illustration column beside content */
+  .calculator.image,
+  .calculator.calculator-has-media {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .calculator.image .calculator-media,
+  .calculator.calculator-has-media .calculator-media {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
+
+  .calculator.image > :not(.calculator-media),
+  .calculator.calculator-has-media > :not(.calculator-media) {
+    grid-column: 1;
+  }
+}

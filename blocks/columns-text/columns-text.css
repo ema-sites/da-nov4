@@ -1,0 +1,72 @@
+.columns-text .columns-text-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.columns-text .columns-text-row + .columns-text-row {
+  margin-top: 24px;
+}
+
+.columns-text img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.columns-text .columns-text-img-col img {
+  width: 100%;
+}
+
+.columns-text .columns-text-col > :first-child {
+  margin-top: 0;
+}
+
+.columns-text .columns-text-icon {
+  margin: 0 0 16px;
+}
+
+.columns-text .columns-text-icon img {
+  width: 64px;
+}
+
+.columns-text .columns-text-empty {
+  display: none;
+}
+
+/* label/value rows (two text cells) */
+.columns-text.columns-text-2-cols .columns-text-row {
+  border-bottom: 1px solid currentcolor;
+}
+
+.columns-text.columns-text-2-cols.image .columns-text-row,
+.columns-text.columns-text-2-cols.image-2 .columns-text-row,
+.columns-text.columns-text-2-cols.image-orange .columns-text-row {
+  border-bottom: 0;
+}
+
+/* shadow: each column is a raised panel */
+.columns-text.shadow .columns-text-col {
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+}
+
+@media (width >= 900px) {
+  .columns-text .columns-text-row {
+    display: grid;
+    grid-template-columns: repeat(var(--columns-text-count, 2), minmax(0, 1fr));
+    gap: 32px;
+    align-items: start;
+  }
+
+  .columns-text.image .columns-text-row,
+  .columns-text.image-2 .columns-text-row,
+  .columns-text.image-orange .columns-text-row {
+    align-items: center;
+  }
+
+  .columns-text .columns-text-empty {
+    display: block;
+  }
+}

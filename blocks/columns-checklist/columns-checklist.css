@@ -1,0 +1,55 @@
+.columns-checklist .columns-checklist-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 48px;
+}
+
+.columns-checklist .columns-checklist-row + .columns-checklist-row {
+  margin-top: 16px;
+}
+
+.columns-checklist .columns-checklist-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.columns-checklist .columns-checklist-list > li {
+  position: relative;
+  padding-left: 28px;
+}
+
+/* checkmark drawn with borders; colour set in the design pass */
+.columns-checklist .columns-checklist-list > li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0.3em;
+  width: 6px;
+  height: 11px;
+  border: solid currentcolor;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.columns-checklist .columns-checklist-list > li > :first-child {
+  margin-top: 0;
+}
+
+.columns-checklist .columns-checklist-list > li > :last-child {
+  margin-bottom: 0;
+}
+
+/* a single-cell checklist flows into two columns on wider screens */
+@media (width >= 900px) {
+  .columns-checklist .columns-checklist-row {
+    grid-template-columns: repeat(var(--columns-checklist-cols, 2), minmax(0, 1fr));
+  }
+
+  .columns-checklist.columns-checklist-1-cols .columns-checklist-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 48px;
+  }
+}

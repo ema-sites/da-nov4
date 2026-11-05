@@ -1,0 +1,57 @@
+{
+  "variantName": "content-filter",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "image + heading + text + link",
+    "purpose": "Filter or audience toggle that switches which content is shown: toggle buttons, category pills, dropdown selector with Go, or a results/sort toolbar"
+  },
+  "contentPattern": {
+    "structure": "One row per filter control. Plain row: cell 1 = label (optional icon), cell 2 = optional filter key matching a section metadata `filter` value. Row with a link = a navigating chip. Row with a list in a cell = a dropdown (cell 1 = label, list items = options; linked items add a Go button, bold text sets its label). Toolbar: plain-text rows (e.g. result count) render as info"
+  },
+  "options": [
+    {
+      "class": "pills",
+      "label": "Pills"
+    },
+    {
+      "class": "dropdowns",
+      "label": "Dropdowns"
+    },
+    {
+      "class": "toolbar",
+      "label": "Toolbar"
+    },
+    {
+      "class": "pills-2",
+      "label": "Pills 2"
+    },
+    {
+      "class": "pills-alt",
+      "label": "Pills Alt"
+    }
+  ],
+  "memberVariantIds": [
+    "v_88695bea3f5b",
+    "v_72c4a5d2bc5c",
+    "v_12775ff19a12",
+    "v_21f57e9bd2e6",
+    "v_d9627b3a29a7",
+    "v_e012eee49c36"
+  ],
+  "usage": {
+    "pagesFound": 16,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/business/ways-to-bank-for-business/branch-and-atm.html",
+      "https://www.rbcroyalbank.com/business/ways-to-bank-for-business/index.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/index.html",
+      "https://www.rbcroyalbank.com/caribbean/"
+    ]
+  },
+  "reuseGuidance": "Use for any pill/toggle/dropdown that filters or routes content. Pair with sections that carry Section Metadata `filter`. Not for tabbed panels with inline content (use tabs-panel)."
+}

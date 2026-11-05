@@ -1,0 +1,52 @@
+{
+  "variantName": "product-selector",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "field",
+    "purpose": "Choose-one product finder: a question with radio options (optionally illustrated), an option picker that reveals a product detail panel, and a CTA that follows the selected option"
+  },
+  "contentPattern": {
+    "structure": "Optional first row: one cell with heading and intro text. Optional single-cell text row: the question (legend). Option rows: cell 1 = option label (optional image/icon, text, link to the result page), cell 2 = optional detail panel shown when selected (name, price, included features, CTA). Optional last row: one cell holding only a link, the CTA whose href follows the selected option"
+  },
+  "options": [
+    {
+      "class": "shadow-light",
+      "label": "Shadow Light"
+    },
+    {
+      "class": "blue-light",
+      "label": "Blue Light"
+    },
+    {
+      "class": "image-light",
+      "label": "Image Light"
+    },
+    {
+      "class": "image",
+      "label": "Image"
+    }
+  ],
+  "memberVariantIds": [
+    "v_1d73c29c7b5b",
+    "v_01f527c587a3-2",
+    "v_57e84dd50166",
+    "v_613da02346c0",
+    "v_f3e04c430c8a"
+  ],
+  "usage": {
+    "pagesFound": 10,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/find-chequing-account.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/find-chequing-account.html?transactions=",
+      "https://www.rbcroyalbank.com/business/advice/IBOR-transition-disclosure.html",
+      "https://www.rbcroyalbank.com/business/index.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts-offers.html"
+    ]
+  },
+  "reuseGuidance": "Use for account/card/GIC finder steps and option pickers with a detail panel. Interactive calculators belong to calculator; slider-only inputs (v_1d73c29c7b5b) are not modelled as option rows and need a design-pass or calculator treatment."
+}

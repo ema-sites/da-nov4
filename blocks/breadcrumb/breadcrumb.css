@@ -1,0 +1,27 @@
+/* breadcrumb: structural styles only */
+.breadcrumb .breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumb .breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* chevron separator after each item except the current page */
+.breadcrumb .breadcrumb-item:not(:last-child)::after,
+.breadcrumb.alt .breadcrumb-item:last-child::after {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin: 0 12px 0 8px;
+  border: solid currentcolor;
+  border-width: 1px 1px 0 0;
+  transform: rotate(45deg);
+}

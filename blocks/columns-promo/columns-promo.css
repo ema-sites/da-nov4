@@ -1,0 +1,91 @@
+.columns-promo .columns-promo-row {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid currentcolor;
+  overflow: hidden;
+}
+
+.columns-promo .columns-promo-row + .columns-promo-row {
+  margin-top: 24px;
+}
+
+.columns-promo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.columns-promo .columns-promo-image {
+  order: 0;
+}
+
+.columns-promo .columns-promo-content {
+  order: 1;
+  padding: 24px;
+}
+
+/* side-box: main promo and a separate, independent box */
+.columns-promo.side-box .columns-promo-row {
+  border: 0;
+  gap: 24px;
+}
+
+.columns-promo.side-box .columns-promo-main,
+.columns-promo.side-box .columns-promo-side {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid currentcolor;
+}
+
+.columns-promo.side-box .columns-promo-side {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+
+/* explainer / offer: content centred vertically, no frame clipping */
+.columns-promo.explainer .columns-promo-content,
+.columns-promo.offer .columns-promo-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (width >= 900px) {
+  .columns-promo .columns-promo-row {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .columns-promo .columns-promo-row > div {
+    flex: 1;
+    order: unset;
+    min-width: 0;
+  }
+
+  .columns-promo .columns-promo-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px;
+  }
+
+  .columns-promo.side-box .columns-promo-main {
+    flex: 3;
+    flex-direction: row;
+  }
+
+  .columns-promo.side-box .columns-promo-main > div {
+    flex: 1;
+  }
+
+  .columns-promo.side-box .columns-promo-side {
+    flex: 1;
+  }
+
+  .columns-promo.large .columns-promo-content {
+    flex: 2;
+  }
+}

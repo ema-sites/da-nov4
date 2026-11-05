@@ -1,0 +1,102 @@
+/* tabs-panel: structural layout only; colours and type come from the design pass */
+.tabs-panel .tabs-panel-list {
+  display: flex;
+  gap: 4px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.tabs-panel .tabs-panel-tab {
+  flex: 0 0 max-content;
+  margin: 0;
+  padding: 0.75em 1em;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  white-space: normal;
+  cursor: pointer;
+}
+
+.tabs-panel .tabs-panel-tab[aria-selected='true'] {
+  border-bottom-color: currentcolor;
+  cursor: default;
+}
+
+.tabs-panel .tabs-panel-tab p {
+  margin: 0;
+}
+
+.tabs-panel .tabs-panel-panel {
+  padding: 24px 0;
+  min-width: 0;
+}
+
+.tabs-panel .tabs-panel-panel[hidden] {
+  display: none;
+}
+
+.tabs-panel .tabs-panel-panel img {
+  max-width: 100%;
+  height: auto;
+}
+
+.tabs-panel .tabs-panel-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.tabs-panel.tabs-panel-single .tabs-panel-list {
+  display: none;
+}
+
+@media (width >= 900px) {
+  .tabs-panel .tabs-panel-columns {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+
+  /* vertical (default): tab list beside the panel */
+  .tabs-panel.tabs-panel-vertical {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) 2fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .tabs-panel.tabs-panel-vertical .tabs-panel-list {
+    flex-direction: column;
+    border-left: 2px solid currentcolor;
+  }
+
+  .tabs-panel.tabs-panel-vertical .tabs-panel-tab {
+    flex-basis: auto;
+    margin-left: -2px;
+    border-bottom: 0;
+    border-left: 3px solid transparent;
+  }
+
+  .tabs-panel.tabs-panel-vertical .tabs-panel-tab[aria-selected='true'] {
+    border-left-color: currentcolor;
+  }
+
+  .tabs-panel.tabs-panel-vertical .tabs-panel-panel {
+    padding: 24px;
+  }
+
+  .tabs-panel.tabs-panel-vertical.tabs-panel-single {
+    grid-template-columns: 1fr;
+  }
+
+  /* horizontal*: tabs centred above the panel */
+  .tabs-panel.tabs-panel-horizontal .tabs-panel-list {
+    justify-content: center;
+  }
+}
+
+/* colour hooks (filled in by the design pass) */
+.tabs-panel.grey .tabs-panel-panel {
+  background-color: transparent;
+}

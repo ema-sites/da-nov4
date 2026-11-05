@@ -1,0 +1,122 @@
+{
+  "variantName": "cards-plan",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "dense",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "heading + text + list + link + button",
+    "purpose": "account, plan or loan pricing cards: header with plan name and tagline, feature checklist, fees/price, primary apply/open button and secondary link; also compact fee tiles and product sliders"
+  },
+  "contentPattern": {
+    "structure": "One row per plan card. Cells (all optional, any count): image (picture only) | header (heading plus optional short tagline) | body (feature list, price/fee text, badges, CTA button and link). When the whole card is in one cell, a leading heading and its short tagline are split into the header automatically. Trailing link-only paragraphs become the card actions, pinned to the bottom"
+  },
+  "options": [
+    {
+      "class": "horizontal",
+      "label": "Horizontal"
+    },
+    {
+      "class": "compact",
+      "label": "Compact"
+    },
+    {
+      "class": "slider",
+      "label": "Slider"
+    },
+    {
+      "class": "image-orange-light",
+      "label": "Image Orange Light"
+    },
+    {
+      "class": "compact-2",
+      "label": "Compact 2"
+    },
+    {
+      "class": "compare",
+      "label": "Compare"
+    },
+    {
+      "class": "orange-light",
+      "label": "Orange Light"
+    },
+    {
+      "class": "compare-grey-blue-light",
+      "label": "Compare Grey Blue Light"
+    },
+    {
+      "class": "compare-grey-image",
+      "label": "Compare Grey Image"
+    },
+    {
+      "class": "slider-2",
+      "label": "Slider 2"
+    },
+    {
+      "class": "slider-3",
+      "label": "Slider 3"
+    },
+    {
+      "class": "image-orange",
+      "label": "Image Orange"
+    },
+    {
+      "class": "compact-rate",
+      "label": "Compact Rate"
+    },
+    {
+      "class": "light",
+      "label": "Light"
+    },
+    {
+      "class": "image-light",
+      "label": "Image Light"
+    },
+    {
+      "class": "image",
+      "label": "Image"
+    },
+    {
+      "class": "orange-light-2",
+      "label": "Orange Light 2"
+    }
+  ],
+  "memberVariantIds": [
+    "v_1efda14a3b98",
+    "v_935f158018b8-1",
+    "v_17702b7e05fc",
+    "v_66ef24a1611d",
+    "v_8ff357f71aef-1",
+    "v_610065fb39e1",
+    "v_0fd0201a4a8b",
+    "v_1efda14a3b98-1",
+    "v_2673d18a6df0-2",
+    "v_8ae89b3dc4a2",
+    "v_9931a4ce5931",
+    "v_2673d18a6df0-1",
+    "v_3e21f60e4767",
+    "v_4825b17e3bdd",
+    "v_4cdf3ff03b4a",
+    "v_5b850c0334c8",
+    "v_5e704650e3e7",
+    "v_6dd934409f73",
+    "v_71b39682fd01",
+    "v_8c8745df3cdf",
+    "v_978b846e1c2d",
+    "v_9931a4ce5931-1"
+  ],
+  "usage": {
+    "pagesFound": 44,
+    "sourceUrl": "https://www.rbcroyalbank.com/",
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/fr/comptes-bancaires/comptes-de-cheques/",
+      "https://www.rbcroyalbank.com/fr/comptes-bancaires/comptes-de-cheques/index.html",
+      "https://www.rbcroyalbank.com/business/accounts/guaranteed-return-gics.html",
+      "https://www.rbcroyalbank.com/business/accounts/interest-linked-gics.html",
+      "https://www.rbcroyalbank.com/business/accounts/marketsmart-gics.html"
+    ]
+  },
+  "reuseGuidance": "Use for comparing accounts, plans, GICs, bundles and loan products. Options: slider/slider-2/slider-3 (scrolling track with prev/next), horizontal (one wide card with side-by-side sections), compact/compact-2/compact-rate (small fee tiles), compare/compare-* (equal-height comparison cards); colour/image options (light, orange, orange-light, image-*) are styling hooks for the design pass. Use cards-product for generic product teasers without pricing."
+}

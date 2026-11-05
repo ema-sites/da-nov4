@@ -1,0 +1,124 @@
+{
+  "variantName": "tabs-panel",
+  "baseBlock": "tabs",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "list + link + text",
+    "purpose": "Tabbed content switcher: a list of tab labels (vertical steps by default, or a horizontal tab bar) that shows one content panel at a time"
+  },
+  "contentPattern": {
+    "structure": "one row per tab; first cell is the tab label, the remaining cell(s) are the panel content (heading, text, lists, links, images, buttons). Two or more content cells render as side-by-side panel columns. A row with an empty first cell is appended to the previous panel"
+  },
+  "options": [
+    {
+      "class": "horizontal",
+      "label": "Horizontal"
+    },
+    {
+      "class": "horizontal-2",
+      "label": "Horizontal 2"
+    },
+    {
+      "class": "horizontal-3",
+      "label": "Horizontal 3"
+    },
+    {
+      "class": "horizontal-5",
+      "label": "Horizontal 5"
+    },
+    {
+      "class": "horizontal-6",
+      "label": "Horizontal 6"
+    },
+    {
+      "class": "horizontal-7",
+      "label": "Horizontal 7"
+    },
+    {
+      "class": "horizontal-8",
+      "label": "Horizontal 8"
+    },
+    {
+      "class": "horizontal-4",
+      "label": "Horizontal 4"
+    },
+    {
+      "class": "grey",
+      "label": "Grey"
+    },
+    {
+      "class": "horizontal-9",
+      "label": "Horizontal 9"
+    },
+    {
+      "class": "horizontal-10",
+      "label": "Horizontal 10"
+    },
+    {
+      "class": "horizontal-11",
+      "label": "Horizontal 11"
+    },
+    {
+      "class": "horizontal-light-image-grey",
+      "label": "Horizontal Light Image Grey"
+    },
+    {
+      "class": "horizontal-12",
+      "label": "Horizontal 12"
+    },
+    {
+      "class": "horizontal-13",
+      "label": "Horizontal 13"
+    },
+    {
+      "class": "horizontal-14",
+      "label": "Horizontal 14"
+    },
+    {
+      "class": "horizontal-15",
+      "label": "Horizontal 15"
+    },
+    {
+      "class": "horizontal-16",
+      "label": "Horizontal 16"
+    }
+  ],
+  "memberVariantIds": [
+    "v_8340c4dfe9dc",
+    "v_74563c8243e8",
+    "v_01f527c587a3-1",
+    "v_f2ff6706d871",
+    "v_105063bb1501",
+    "v_15cc42664046",
+    "v_6bcbb61cc5a6",
+    "v_f2ff6706d871-1",
+    "v_07200bd9fa4a",
+    "v_07ff2be5c4b4",
+    "v_1e023842d521",
+    "v_2a7aa8f8d829",
+    "v_5bec86c45baa",
+    "v_691dd0f725b6",
+    "v_77e14e3fe613-1",
+    "v_787cb44d71c6",
+    "v_8b8178e8089d",
+    "v_8ff357f71aef-3",
+    "v_bbd8ac22b6a8-1",
+    "v_df8bccc52a87",
+    "v_f11b2a95639f"
+  ],
+  "usage": {
+    "pagesFound": 45,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/index.html",
+      "https://www.rbcroyalbank.com/business/accounts/application/intro-fr.html?pid1=21",
+      "https://www.rbcroyalbank.com/business/accounts/application/intro-fr.html?pid1=60",
+      "https://www.rbcroyalbank.com/email.html"
+    ]
+  },
+  "reuseGuidance": "Use when content is grouped into mutually exclusive panels on one page. Default: vertical tab list beside the panel (step tabs). Any horizontal* option (horizontal, horizontal-2 ... horizontal-16, horizontal-light-image-grey) puts tabs in a bar above the panel; numbered horizontal options are colour/spacing hooks for the design pass; grey is a colour hook. For links to other pages use section-nav; for expanders use accordion-faq."
+}

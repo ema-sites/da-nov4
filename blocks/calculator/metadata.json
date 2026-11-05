@@ -1,0 +1,100 @@
+{
+  "variantName": "calculator",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "field + button",
+    "purpose": "interactive financial calculator (loan payment, GIC return, rewards, rebate, RRSP) with an optional intro panel, labelled inputs, a submit/CTA button and an optional illustration"
+  },
+  "contentPattern": {
+    "structure": "Rows in any order. Intro rows: heading, text and links in one or more cells. Field rows: two or three cells - label (plain text, leading or trailing * marks required) | field spec (an input type word such as number, text, range, optionally with a prefix and suffix, e.g. '$ number' or 'number %' or 'number Year'; or a list of choices for a dropdown, with 'checkbox' or 'radio' to render choice tiles) | optional help text. Button row: one cell containing a single link - '#' (or #calculate) becomes the submit button, any other URL stays a CTA link. Picture-only rows become the illustration. Content after the fields becomes notes. When amount, rate and period/term fields exist, submit shows the amortized monthly payment and total interest; every submit dispatches a calculator:submit event"
+  },
+  "options": [
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "alt-2",
+      "label": "Alt 2"
+    },
+    {
+      "class": "grey",
+      "label": "Grey"
+    },
+    {
+      "class": "banner",
+      "label": "Banner"
+    },
+    {
+      "class": "shadow",
+      "label": "Shadow"
+    },
+    {
+      "class": "blue-grey-shadow",
+      "label": "Blue Grey Shadow"
+    },
+    {
+      "class": "blue",
+      "label": "Blue"
+    },
+    {
+      "class": "banner-2",
+      "label": "Banner 2"
+    },
+    {
+      "class": "grey-2",
+      "label": "Grey 2"
+    },
+    {
+      "class": "blue-grey",
+      "label": "Blue Grey"
+    },
+    {
+      "class": "intro",
+      "label": "Intro"
+    },
+    {
+      "class": "image",
+      "label": "Image"
+    },
+    {
+      "class": "light",
+      "label": "Light"
+    }
+  ],
+  "memberVariantIds": [
+    "v_91faae06b194",
+    "v_10de8272c0cb",
+    "v_27b05664e167",
+    "v_473fd1110361",
+    "v_72e479f16d60",
+    "v_852e40154d20",
+    "v_b0b5140a3919",
+    "v_d215d6cc0980",
+    "v_df4fe550195a",
+    "v_22d3a5eec633",
+    "v_473fd1110361-1",
+    "v_4d98ff00493c",
+    "v_81378b10baab",
+    "v_91af1c6cece1",
+    "v_cc90c946411c",
+    "v_e9f0f72109e6"
+  ],
+  "usage": {
+    "pagesFound": 29,
+    "sourceUrl": "https://www.rbcroyalbank.com/",
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/business/loans/canada-emergency-business-account.html",
+      "https://www.rbcroyalbank.com/business/loans/index.html",
+      "https://www.rbcroyalbank.com/business/loans/mid-long-term-loans.html",
+      "https://www.rbcroyalbank.com/business/loans/short-term-operating-loans.html",
+      "https://www.rbcroyalbank.com/cgi-bin/gic/rates/gic_return.cgi"
+    ]
+  },
+  "reuseGuidance": "Use for any calculator or calculator entry panel. Add options for layout: banner (intro beside form), intro (centered entry panel with Get Started CTA), image (illustration column). Colour/shadow options (alt, grey, blue, blue-grey, shadow, light) are styling hooks for the design pass. Complex calculators with charts or multi-step logic should be embedded via an iframe/embed block or a custom integration rather than authored fields."
+}

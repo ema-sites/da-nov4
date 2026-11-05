@@ -1,0 +1,42 @@
+{
+  "variantName": "section-nav",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "heading + button",
+    "purpose": "In-section navigation: a list of links to sibling pages, shown as a toggle menu, a sidebar menu or a row of tab-style links, with the current page marked"
+  },
+  "contentPattern": {
+    "structure": "optional first row with the section title (heading or text, used as the menu toggle label); then one row per link (optional icon/image cell plus a link cell), or a single cell holding a bulleted list of links"
+  },
+  "options": [
+    {
+      "class": "sidebar",
+      "label": "Sidebar"
+    },
+    {
+      "class": "horizontal-tabs",
+      "label": "Horizontal Tabs"
+    }
+  ],
+  "memberVariantIds": [
+    "v_e14327ab727a",
+    "v_6cfe7aa312a2",
+    "v_f4c87608eede"
+  ],
+  "usage": {
+    "pagesFound": 13,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts-offers.html",
+      "https://www.rbcroyalbank.com/business/accounts/ultimate-business-account.html",
+      "https://www.rbcroyalbank.com/business/beyond-banking/index.html",
+      "https://www.rbcroyalbank.com/business/nextdoor/index.html",
+      "https://www.rbcroyalbank.com/business/loans/advice/index.html"
+    ]
+  },
+  "reuseGuidance": "Use for page-to-page navigation within a section. Default: collapsible toggle menu. Options: sidebar (vertical icon menu, always open on desktop), horizontal-tabs (tab-style link row). For in-page anchors use anchor-nav; for content panels that switch on the same page use tabs-panel."
+}

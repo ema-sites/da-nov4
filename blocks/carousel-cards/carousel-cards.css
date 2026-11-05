@@ -1,0 +1,183 @@
+.carousel-cards {
+  display: grid;
+  gap: 24px;
+}
+
+.carousel-cards .carousel-cards-intro > :first-child {
+  margin-top: 0;
+}
+
+.carousel-cards .carousel-cards-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.carousel-cards .carousel-cards-viewport {
+  min-width: 0;
+}
+
+.carousel-cards .carousel-cards-track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.carousel-cards .carousel-cards-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-cards .carousel-cards-card {
+  flex: 0 0 85%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.carousel-cards .carousel-cards-card-image picture,
+.carousel-cards .carousel-cards-card-image img {
+  display: block;
+  width: 100%;
+}
+
+.carousel-cards .carousel-cards-card-image img {
+  height: auto;
+  object-fit: cover;
+}
+
+.carousel-cards .carousel-cards-card-body {
+  flex: 1;
+}
+
+.carousel-cards .carousel-cards-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.carousel-cards .carousel-cards-controls button {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.carousel-cards .carousel-cards-controls button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.carousel-cards .carousel-cards-controls button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentcolor;
+  border-bottom: 0;
+  border-left: 0;
+  transform: translate(-25%, -50%) rotate(-135deg);
+}
+
+.carousel-cards .carousel-cards-controls .carousel-cards-next::after {
+  transform: translate(-75%, -50%) rotate(45deg);
+}
+
+.carousel-cards .carousel-cards-progress {
+  height: 3px;
+  background: rgb(0 0 0 / 15%);
+}
+
+.carousel-cards .carousel-cards-progress-bar {
+  height: 100%;
+  background: currentcolor;
+  transition: margin-left 0.2s;
+}
+
+.carousel-cards .carousel-cards-dots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.carousel-cards .carousel-cards-dot {
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.carousel-cards .carousel-cards-dot[aria-current='true'] {
+  background: currentcolor;
+}
+
+.carousel-cards.carousel-cards-static .carousel-cards-controls,
+.carousel-cards.carousel-cards-static .carousel-cards-progress,
+.carousel-cards.carousel-cards-static .carousel-cards-dots {
+  visibility: hidden;
+}
+
+/* text slides: one full-width centred slide at a time, arrows at the sides */
+.carousel-cards.carousel-cards-text .carousel-cards-card {
+  flex-basis: 100%;
+  text-align: center;
+  padding: 0 56px;
+  box-sizing: border-box;
+}
+
+.carousel-cards.carousel-cards-text .carousel-cards-controls {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.carousel-cards.carousel-cards-text .carousel-cards-controls button {
+  pointer-events: auto;
+}
+
+@media (width >= 600px) {
+  .carousel-cards .carousel-cards-card {
+    flex-basis: calc((100% - 16px) / 2);
+  }
+}
+
+@media (width >= 900px) {
+  .carousel-cards .carousel-cards-card {
+    flex-basis: calc((100% - 32px) / 3);
+  }
+
+  .carousel-cards.carousel-cards-has-intro {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: start;
+  }
+
+  .carousel-cards.carousel-cards-has-intro .carousel-cards-card {
+    flex-basis: 85%;
+  }
+}

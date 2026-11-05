@@ -1,0 +1,81 @@
+.cards-article > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+  gap: 24px;
+}
+
+.cards-article > ul > li {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #dadada;
+  background-color: var(--background-color);
+}
+
+.cards-article .cards-article-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin: 16px;
+}
+
+.cards-article .cards-article-card-body > :last-child {
+  margin-top: auto;
+}
+
+.cards-article .cards-article-tag {
+  align-self: flex-start;
+  margin: 0 0 8px;
+}
+
+.cards-article .cards-article-card-image {
+  line-height: 0;
+}
+
+.cards-article > ul > li img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* image-top / image: image always above the text */
+.cards-article.image-top .cards-article-card-image,
+.cards-article.image .cards-article-card-image {
+  order: -1;
+}
+
+/* list-rows: one article per row, image beside text */
+.cards-article.list-rows > ul {
+  grid-template-columns: 1fr;
+}
+
+@media (width >= 600px) {
+  .cards-article.list-rows > ul > li {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .cards-article.list-rows .cards-article-card-image {
+    order: -1;
+    flex: 0 0 30%;
+  }
+
+  .cards-article.list-rows .cards-article-card-body {
+    margin-top: 0;
+  }
+}
+
+/* featured: first article spans a wide column, the rest stack beside it */
+@media (width >= 900px) {
+  .cards-article.featured > ul {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .cards-article.featured .cards-article-card-featured {
+    grid-row: span 3;
+  }
+}

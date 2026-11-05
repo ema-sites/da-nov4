@@ -1,0 +1,146 @@
+.cards-plan ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards-plan > ul,
+.cards-plan .cards-plan-track > ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.cards-plan > ul > li,
+.cards-plan .cards-plan-track > ul > li {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dadada;
+  background-color: var(--background-color);
+}
+
+.cards-plan .cards-plan-card-header,
+.cards-plan .cards-plan-card-body {
+  padding: 16px;
+}
+
+.cards-plan .cards-plan-card-header > :first-child,
+.cards-plan .cards-plan-card-body > :first-child {
+  margin-top: 0;
+}
+
+.cards-plan .cards-plan-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.cards-plan .cards-plan-card-features {
+  padding-left: 24px;
+  list-style: disc;
+}
+
+.cards-plan .cards-plan-card-action {
+  margin: 8px 0 0;
+}
+
+.cards-plan .cards-plan-card-action:not(.cards-plan-card-action + .cards-plan-card-action) {
+  margin-top: auto;
+}
+
+.cards-plan .cards-plan-card-image {
+  line-height: 0;
+}
+
+.cards-plan .cards-plan-card-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* compact / compact-rate: small tiles with title + fee beside link */
+.cards-plan.compact > ul,
+.cards-plan.compact-2 > ul,
+.cards-plan.compact-rate > ul {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+/* horizontal: single wide card, sections side by side */
+@media (width >= 900px) {
+  .cards-plan.horizontal > ul {
+    grid-template-columns: 1fr;
+  }
+
+  .cards-plan.horizontal > ul > li {
+    flex-direction: row;
+  }
+
+  .cards-plan.horizontal > ul > li > * {
+    flex: 1 1 0;
+  }
+}
+
+/* compare*: equal-height cards whose sections line up across the row */
+.cards-plan.compare > ul > li,
+.cards-plan.compare-grey-blue-light > ul > li,
+.cards-plan.compare-grey-image > ul > li {
+  height: 100%;
+}
+
+/* slider: horizontally scrolling track with prev/next controls */
+.cards-plan.cards-plan-slider .cards-plan-track {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-track::-webkit-scrollbar {
+  display: none;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-track > ul {
+  grid-auto-flow: column;
+  grid-template-columns: none;
+  grid-auto-columns: minmax(280px, calc((100% - 48px) / 3));
+}
+
+.cards-plan.cards-plan-slider .cards-plan-track > ul > li {
+  scroll-snap-align: start;
+}
+
+.cards-plan .cards-plan-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.cards-plan .cards-plan-nav button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.cards-plan .cards-plan-nav button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.cards-plan .cards-plan-prev::before {
+  content: '\2039';
+}
+
+.cards-plan .cards-plan-next::before {
+  content: '\203A';
+}
+
+@media (width < 600px) {
+  .cards-plan.cards-plan-slider .cards-plan-track > ul {
+    grid-auto-columns: 85%;
+  }
+}

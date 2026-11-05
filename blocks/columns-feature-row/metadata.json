@@ -1,0 +1,57 @@
+{
+  "variantName": "columns-feature-row",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "image + heading + link + text",
+    "purpose": "Tinted panel row pairing a feature label with its description; explainer pairs heading + text with an illustration, award/awards show a label beside logo + caption items"
+  },
+  "contentPattern": {
+    "structure": "One row per feature. First text cell: the label (or heading + text for explainer). Following cells: description (text, links, info button), a picture-only illustration/logo, or a media item (logo picture plus bold title and caption, laid out side by side). A single-cell row spans the full width. Empty cells are dropped"
+  },
+  "options": [
+    {
+      "class": "explainer",
+      "label": "Explainer"
+    },
+    {
+      "class": "award",
+      "label": "Award"
+    },
+    {
+      "class": "awards",
+      "label": "Awards"
+    },
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "light",
+      "label": "Light"
+    }
+  ],
+  "memberVariantIds": [
+    "v_607a31876e87",
+    "v_3ad7498c1425",
+    "v_49c91aac0e0b",
+    "v_6a02e4443d0c",
+    "v_ead3a64b2f98",
+    "v_76ed5c93f50e"
+  ],
+  "usage": {
+    "pagesFound": 40,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/advantage-banking.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/index.html",
+      "https://www.rbcroyalbank.com/business/international-trade/index.html"
+    ]
+  },
+  "reuseGuidance": "Use for label/description feature rows, single explainer panels with an illustration, and award strips. Use columns-promo for image + CTA promos and table-striped for multi-column data. Colour options (alt, light) are styled in the design pass"
+}

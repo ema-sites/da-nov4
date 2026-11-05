@@ -1,0 +1,115 @@
+{
+  "variantName": "columns-promo",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "heading + link + text",
+    "purpose": "Bordered promotional box pairing a photo or illustration with a heading, short copy and a CTA (link, button or phone number)"
+  },
+  "contentPattern": {
+    "structure": "one or more rows, each with an image cell (picture only) and a content cell (heading, paragraph, list, links/buttons); either may come first. With side-box, a third cell becomes a separate box (e.g. sign-in prompt) beside the promo"
+  },
+  "options": [
+    {
+      "class": "light",
+      "label": "Light"
+    },
+    {
+      "class": "light-2",
+      "label": "Light 2"
+    },
+    {
+      "class": "side-box",
+      "label": "Side Box"
+    },
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "alt-2",
+      "label": "Alt 2"
+    },
+    {
+      "class": "light-3",
+      "label": "Light 3"
+    },
+    {
+      "class": "orange",
+      "label": "Orange"
+    },
+    {
+      "class": "blue-light",
+      "label": "Blue Light"
+    },
+    {
+      "class": "orange-2",
+      "label": "Orange 2"
+    },
+    {
+      "class": "explainer",
+      "label": "Explainer"
+    },
+    {
+      "class": "dark",
+      "label": "Dark"
+    },
+    {
+      "class": "offer",
+      "label": "Offer"
+    },
+    {
+      "class": "large",
+      "label": "Large"
+    },
+    {
+      "class": "blue-shadow",
+      "label": "Blue Shadow"
+    }
+  ],
+  "memberVariantIds": [
+    "v_f4b08c01348f",
+    "v_9b0d03351a62",
+    "v_cf1a044c7518",
+    "v_29cd16a9b125",
+    "v_d674b32c3c85-3",
+    "v_f4b08c01348f-1",
+    "v_f4b08c01348f-2",
+    "v_28ccf7de9f35",
+    "v_626b7101ed74",
+    "v_907155eb7a6b",
+    "v_935f158018b8",
+    "v_cf1a044c7518-1",
+    "v_e6a77146e99d",
+    "v_14748d0fb9d7",
+    "v_1ba9fbf88a66",
+    "v_236216672127",
+    "v_2b5caaaf1775",
+    "v_72470c69817a",
+    "v_72f0bd24430f-4",
+    "v_7da71f44bde6",
+    "v_959df6d2bf41",
+    "v_9b0d03351a62-1",
+    "v_dde175d8e529",
+    "v_f4b08c01348f-3",
+    "v_f588219b704a",
+    "v_fb27abf77acd",
+    "v_fce62d468bef"
+  ],
+  "usage": {
+    "pagesFound": 104,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/nomi-find-and-save.html",
+      "https://www.rbcroyalbank.com/bank-accounts/savings-accounts/",
+      "https://www.rbcroyalbank.com/bank-accounts/savings-accounts/day-to-day-savings.html",
+      "https://www.rbcroyalbank.com/bank-accounts/savings-accounts/index.html",
+      "https://www.rbcroyalbank.com/bank-accounts/us-high-interest-savings-account.html"
+    ]
+  },
+  "reuseGuidance": "Use for framed CTA/promo banners mid-page. Use columns-media for unframed media + copy, cards-product for grids of product tiles, hero-banner for page-top heroes.",
+  "sourceUrl": "https://www.rbcroyalbank.com/"
+}

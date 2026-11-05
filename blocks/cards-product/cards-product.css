@@ -1,0 +1,169 @@
+.cards-product > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+  gap: 24px;
+}
+
+.cards-product > ul > li {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dadada;
+  background-color: var(--background-color);
+}
+
+.cards-product .cards-product-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: 16px;
+}
+
+.cards-product .cards-product-card-body > :first-child {
+  margin-top: 0;
+}
+
+.cards-product .cards-product-card-body > :last-child:has(a) {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+.cards-product .cards-product-card-image {
+  line-height: 0;
+}
+
+.cards-product .cards-product-card-image img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* single-destination cards: stretch the link over the whole card */
+.cards-product .cards-product-card-linked .cards-product-card-body a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+/* image* options: photo always above text */
+.cards-product.image .cards-product-card-image,
+.cards-product.image-2 .cards-product-card-image,
+.cards-product.image-3 .cards-product-card-image,
+.cards-product.image-light .cards-product-card-image,
+.cards-product.image-light-2 .cards-product-card-image,
+.cards-product.image-orange .cards-product-card-image,
+.cards-product.image-orange-2 .cards-product-card-image,
+.cards-product.image-blue .cards-product-card-image {
+  order: -1;
+}
+
+/* header-strip: coloured label bar across the top of each card */
+.cards-product .cards-product-card-strip {
+  order: -2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.cards-product .cards-product-card-strip > * {
+  margin: 0;
+}
+
+/* photo-overlay*: photo fills the card, text sits on top */
+.cards-product.photo-overlay > ul > li,
+.cards-product.photo-overlay-2 > ul > li,
+.cards-product.photo-overlay-audience > ul > li,
+.cards-product.photo-overlay-audience-2 > ul > li {
+  min-height: 350px;
+  border: 0;
+}
+
+.cards-product.photo-overlay .cards-product-card-image,
+.cards-product.photo-overlay-2 .cards-product-card-image,
+.cards-product.photo-overlay-audience .cards-product-card-image,
+.cards-product.photo-overlay-audience-2 .cards-product-card-image {
+  position: absolute;
+  inset: 0;
+}
+
+.cards-product.photo-overlay .cards-product-card-image img,
+.cards-product.photo-overlay-2 .cards-product-card-image img,
+.cards-product.photo-overlay-audience .cards-product-card-image img,
+.cards-product.photo-overlay-audience-2 .cards-product-card-image img {
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.cards-product.photo-overlay .cards-product-card-body,
+.cards-product.photo-overlay-2 .cards-product-card-body,
+.cards-product.photo-overlay-audience .cards-product-card-body,
+.cards-product.photo-overlay-audience-2 .cards-product-card-body {
+  position: relative;
+}
+
+/* tiers: one rate/tier row per item */
+.cards-product.tiers > ul {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.cards-product.tiers > ul > li {
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.cards-product.tiers .cards-product-card-body {
+  flex: 1 1 0;
+}
+
+@media (width >= 600px) {
+  /* horizontal / apply / single-card panels: image beside text */
+  .cards-product.horizontal > ul > li,
+  .cards-product.horizontal-2 > ul > li,
+  .cards-product.apply > ul > li,
+  .cards-product.cards-product-single:not(.photo-overlay, .photo-overlay-2) > ul > li {
+    flex-direction: row;
+  }
+
+  .cards-product.horizontal .cards-product-card-image,
+  .cards-product.horizontal-2 .cards-product-card-image,
+  .cards-product.apply .cards-product-card-image,
+  .cards-product.cards-product-single:not(.photo-overlay, .photo-overlay-2) .cards-product-card-image {
+    flex: 0 0 40%;
+  }
+
+  .cards-product.horizontal .cards-product-card-image img,
+  .cards-product.horizontal-2 .cards-product-card-image img,
+  .cards-product.apply .cards-product-card-image img {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .cards-product.cards-product-single > ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width >= 900px) {
+  .cards-product.horizontal > ul,
+  .cards-product.horizontal-2 > ul {
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  }
+
+  /* featured: first card wide, remaining cards stacked beside it */
+  .cards-product.featured > ul {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .cards-product.featured .cards-product-card-featured {
+    grid-row: span 2;
+  }
+}

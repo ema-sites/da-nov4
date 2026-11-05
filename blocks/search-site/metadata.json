@@ -1,0 +1,47 @@
+{
+  "variantName": "search-site",
+  "baseBlock": "search",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "field + button",
+    "purpose": "Site keyword search field with a submit button that sends the query to the site search results page"
+  },
+  "contentPattern": {
+    "structure": "one row; first cell holds the input placeholder text (e.g. I am looking for...); second cell holds a link whose text is the button label and whose href is the search results page (query sent as ?q=). Either cell may be omitted (defaults: Search, /search). A bulleted list of links instead renders a jump-to dropdown"
+  },
+  "options": [
+    {
+      "class": "rounded",
+      "label": "Rounded"
+    },
+    {
+      "class": "boxed",
+      "label": "Boxed"
+    },
+    {
+      "class": "boxed-light",
+      "label": "Boxed Light"
+    }
+  ],
+  "memberVariantIds": [
+    "v_3b76ee0e8e23",
+    "v_96b2ff10893e",
+    "v_3b76ee0e8e23-1",
+    "v_ef7efd4f223a"
+  ],
+  "usage": {
+    "pagesFound": 25,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/index.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/compare-chequing-accounts.html",
+      "https://www.rbcroyalbank.com/bank-accounts/rbc-vantage.html",
+      "https://www.rbcroyalbank.com/"
+    ]
+  },
+  "reuseGuidance": "Use for a standalone search bar in page content, not the header search. Options: rounded (pill field), boxed / boxed-light (full-width bar in a panel). For an index-driven live results listing use the library search block."
+}

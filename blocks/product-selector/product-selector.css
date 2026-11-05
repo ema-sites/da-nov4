@@ -1,0 +1,122 @@
+.product-selector {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+.product-selector .product-selector-intro > :first-child {
+  margin-top: 0;
+}
+
+.product-selector .product-selector-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.product-selector .product-selector-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.product-selector .product-selector-options legend {
+  margin-bottom: 16px;
+  padding: 0;
+}
+
+.product-selector .product-selector-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-selector .product-selector-option input {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+}
+
+.product-selector .product-selector-option label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.product-selector .product-selector-option label p {
+  margin: 0;
+}
+
+.product-selector .product-selector-option img {
+  max-width: 100%;
+  height: auto;
+}
+
+.product-selector .product-selector-form .button-container {
+  margin: 0;
+  text-align: right;
+}
+
+.product-selector .product-selector-cta.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.product-selector .product-selector-detail > :first-child {
+  margin-top: 0;
+}
+
+/* image / image-light: options laid out as illustrated columns */
+.product-selector.image .product-selector-options,
+.product-selector.image-light .product-selector-options {
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.product-selector.image .product-selector-option label,
+.product-selector.image-light .product-selector-option label {
+  flex-direction: column;
+}
+
+/* blue-light: option cards beside a detail panel */
+.product-selector.blue-light .product-selector-option input {
+  position: absolute;
+  opacity: 0;
+}
+
+.product-selector.blue-light .product-selector-option label {
+  flex: 1;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border: 1px solid currentcolor;
+}
+
+@media (width >= 900px) {
+  .product-selector:has(.product-selector-intro) {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .product-selector.blue-light:has(.product-selector-details) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .product-selector.blue-light:has(.product-selector-intro) .product-selector-intro {
+    grid-column: 1;
+  }
+
+  .product-selector.blue-light:has(.product-selector-intro) .product-selector-form {
+    grid-column: 1;
+  }
+
+  .product-selector.blue-light .product-selector-details {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+}

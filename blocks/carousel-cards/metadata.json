@@ -1,0 +1,78 @@
+{
+  "variantName": "carousel-cards",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "dense",
+    "hasGrid": false,
+    "imagePattern": "noimg",
+    "structure": "image + heading + text + link + video + field",
+    "purpose": "Horizontally scrolling row of promo, offer or article cards with prev/next arrows and a progress bar, optionally beside an intro panel; text-slides options turn it into one centred text slide at a time with dots"
+  },
+  "contentPattern": {
+    "structure": "Optional first row: one cell with an h2 intro (logo image, heading, text, link) shown beside the cards. Every following row is one card: an optional picture-only cell (card image) plus a body cell (heading, text, links/buttons). With text-slides / text-slides-2 each row is one full-width text slide (heading, text, link) and there is no intro row. Empty rows and cells are ignored"
+  },
+  "options": [
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "alt-2",
+      "label": "Alt 2"
+    },
+    {
+      "class": "blue-cyan",
+      "label": "Blue Cyan"
+    },
+    {
+      "class": "blue-purple",
+      "label": "Blue Purple"
+    },
+    {
+      "class": "alt-3",
+      "label": "Alt 3"
+    },
+    {
+      "class": "blue-light",
+      "label": "Blue Light"
+    },
+    {
+      "class": "blue",
+      "label": "Blue"
+    },
+    {
+      "class": "text-slides",
+      "label": "Text Slides"
+    },
+    {
+      "class": "text-slides-2",
+      "label": "Text Slides 2"
+    }
+  ],
+  "memberVariantIds": [
+    "v_907155eb7a6b-1",
+    "v_d9860ca55679",
+    "v_c20c174d0a3a",
+    "v_094fbac7d164",
+    "v_1113808d5cc5",
+    "v_c7c22d019d27",
+    "v_c7c22d019d27-1",
+    "v_361f9072587e",
+    "v_361f9072587e-1",
+    "v_cc75430e8632",
+    "v_f515881c95e1"
+  ],
+  "usage": {
+    "pagesFound": 29,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/index.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts-offers.html",
+      "https://www.rbcroyalbank.com/business/accounts/digital-choice-business-account.html",
+      "https://www.rbcroyalbank.com/fr/comptes-bancaires/comptes-de-cheques/forfait-bancaire-vip.html"
+    ]
+  },
+  "reuseGuidance": "Use for any scrolling set of 3+ cards or rotating text slides. Use carousel-hero for full-width hero slides. Colour options (alt, blue, blue-light, blue-cyan, blue-purple) are styled in the design pass"
+}

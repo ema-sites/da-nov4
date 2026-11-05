@@ -1,0 +1,83 @@
+{
+  "variantName": "columns-text",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "image",
+    "purpose": "Fixed side-by-side text columns: label/description rows, icon + heading + text benefit columns, link/question lists and image + text pairs"
+  },
+  "contentPattern": {
+    "structure": "one or more rows of N cells (usually 2-3). Each cell holds text (optional leading icon picture, heading, paragraph, list, links); a cell with only a picture is an image column. Two-cell rows render as label/value rows"
+  },
+  "options": [
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "image",
+      "label": "Image"
+    },
+    {
+      "class": "light",
+      "label": "Light"
+    },
+    {
+      "class": "grey",
+      "label": "Grey"
+    },
+    {
+      "class": "image-2",
+      "label": "Image 2"
+    },
+    {
+      "class": "image-orange",
+      "label": "Image Orange"
+    },
+    {
+      "class": "light-2",
+      "label": "Light 2"
+    },
+    {
+      "class": "shadow",
+      "label": "Shadow"
+    }
+  ],
+  "memberVariantIds": [
+    "v_f06d23ba326f",
+    "v_3e9ae5f100ec",
+    "v_f1e694d62041",
+    "v_d847bf76901f",
+    "v_b633f4ca91ba",
+    "v_935f158018b8-3",
+    "v_1779c225909b",
+    "v_2274917fc396",
+    "v_6bcb08cf3b1c",
+    "v_7ff20fb718cf",
+    "v_fa9d41109b96",
+    "v_268bf56ea6a0",
+    "v_297674d234e0",
+    "v_55a7ae816dea-1",
+    "v_935f158018b8-6",
+    "v_a004d473d2e9",
+    "v_a004d473d2e9-1",
+    "v_c5932b076be7",
+    "v_fa9d41109b96-1"
+  ],
+  "usage": {
+    "pagesFound": 318,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/avantages-des-services-bancaires-rbc/",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/advantage-banking.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/day-to-day-banking.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/find-chequing-account.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/find-chequing-account.html?transactions="
+    ]
+  },
+  "reuseGuidance": "Default choice for plain equal-width text columns. Use columns-side-heading when the first column is a section title, columns-media for large media + copy, columns-promo for framed CTA boxes, cards-product for product tiles.",
+  "sourceUrl": "https://www.rbcroyalbank.com/"
+}

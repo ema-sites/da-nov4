@@ -1,0 +1,74 @@
+{
+  "variantName": "columns-contact",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "text + image + link",
+    "purpose": "Contact / next-step panel: intro text beside icon contact options (call, visit, apply, book), or equal next-step columns; optional boxed panel, text slider beside contact options, or radio-style question box"
+  },
+  "contentPattern": {
+    "structure": "One row (more rows allowed). First cell: intro (heading, text, optional CTA button) unless a three-up option is set. Each further cell: a contact option or group (optional icon paragraph, heading, text, link; or a list of icon + link items). A picture-only cell is an illustration. slider / slider-2: the last cell is split into text slides at each heading or horizontal rule. boxed-question: a list of links renders as radio-style choices. Empty cells are dropped"
+  },
+  "options": [
+    {
+      "class": "three-up",
+      "label": "Three Up"
+    },
+    {
+      "class": "boxed",
+      "label": "Boxed"
+    },
+    {
+      "class": "grey",
+      "label": "Grey"
+    },
+    {
+      "class": "slider",
+      "label": "Slider"
+    },
+    {
+      "class": "slider-2",
+      "label": "Slider 2"
+    },
+    {
+      "class": "boxed-question",
+      "label": "Boxed Question"
+    },
+    {
+      "class": "three-up-2",
+      "label": "Three Up 2"
+    },
+    {
+      "class": "three-up-3",
+      "label": "Three Up 3"
+    }
+  ],
+  "memberVariantIds": [
+    "v_b8ef564d7ffa",
+    "v_10f806a87978",
+    "v_4a9ae3e120f0",
+    "v_10f806a87978-1",
+    "v_092efb64aa1b",
+    "v_10f806a87978-2",
+    "v_29cd16a9b125-1",
+    "v_29cd16a9b125-2",
+    "v_7f6675e9ff60",
+    "v_985cfc73d69a",
+    "v_cc6bd1f17933"
+  ],
+  "usage": {
+    "pagesFound": 68,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts-offers.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/vip-banking.html",
+      "https://www.rbcroyalbank.com/business/accounts/canadian-banking-marketsmart-gic.html",
+      "https://www.rbcroyalbank.com/business/accounts/canadian-market-linked-gics.html",
+      "https://www.rbcroyalbank.com/bank-accounts/savings-accounts/high-interest-savings-account.html"
+    ]
+  },
+  "reuseGuidance": "Use for 'contact us', 'how to get started' and 'next steps' panels with icon links. Use columns-promo for image + CTA promos and columns-text for plain side-by-side text. Colour options (grey) are styled in the design pass"
+}

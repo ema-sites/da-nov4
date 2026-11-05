@@ -1,0 +1,35 @@
+{
+  "variantName": "accordion-legal",
+  "baseBlock": "accordion",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": false,
+    "imagePattern": "noimg",
+    "structure": "text + button",
+    "purpose": "Collapsed legal disclaimer toggle, usually at the bottom of the page, that expands to show fine print"
+  },
+  "contentPattern": {
+    "structure": "Row 1: cell 1 is the toggle label; optional cell 2 is a summary that stays visible under the toggle when more rows follow (or the disclaimer body when it is the only row). Rows 2+: disclaimer body content (paragraphs, lists, footnotes), hidden until opened"
+  },
+  "options": [
+    {
+      "class": "dark",
+      "label": "Dark"
+    }
+  ],
+  "memberVariantIds": [
+    "v_5e562b146ddc",
+    "v_5cf11a93ad06"
+  ],
+  "usage": {
+    "pagesFound": 167,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/",
+      "https://www.rbcroyalbank.com/avantages-des-services-bancaires-rbc/",
+      "https://www.rbcroyalbank.com/mortgages/cash-back-mortgage.html"
+    ]
+  },
+  "reuseGuidance": "Use once per page for legal disclaimers / footnotes. For question-and-answer lists use accordion-faq."
+}

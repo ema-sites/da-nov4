@@ -1,0 +1,35 @@
+{
+  "variantName": "breadcrumb",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "list + link",
+    "purpose": "Breadcrumb trail at the top of a page showing the path from the site root to the current page"
+  },
+  "contentPattern": {
+    "structure": "A list of links (or one link / text per cell or paragraph). Linked items become ancestor crumbs; trailing plain text is the current page. Use the alt option for trails that end on a linked item with a trailing separator"
+  },
+  "options": [
+    {
+      "class": "alt",
+      "label": "Alt"
+    }
+  ],
+  "memberVariantIds": [
+    "v_13ecae90603c",
+    "v_13ecae90603c-1"
+  ],
+  "usage": {
+    "pagesFound": 231,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/avantages-des-services-bancaires-rbc/",
+      "https://www.rbcroyalbank.com/bank-accounts/british-pound-savings-account.html",
+      "https://www.rbcroyalbank.com/mortgages/"
+    ]
+  },
+  "reuseGuidance": "Use once at the top of interior pages. Do not use for in-page jump links (anchor-nav) or section navigation (section-nav)."
+}

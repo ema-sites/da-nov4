@@ -1,0 +1,71 @@
+{
+  "variantName": "columns-side-heading",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "dense",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "heading + text",
+    "purpose": "Section heading in a narrow left column with rich content (benefits, key-feature lists, fee/rate tables, steps) in a wide right column"
+  },
+  "contentPattern": {
+    "structure": "one or more rows: first cell holds the section heading; second cell holds the content (paragraphs, sub-headings, lists, tables, links/buttons). Extra cells sit side by side in the right column; with boxed-cards each is a bordered card (optional icon + heading header), with boxed-panel the right column is one bordered panel"
+  },
+  "options": [
+    {
+      "class": "image",
+      "label": "Image"
+    },
+    {
+      "class": "boxed-cards",
+      "label": "Boxed Cards"
+    },
+    {
+      "class": "boxed-panel",
+      "label": "Boxed Panel"
+    },
+    {
+      "class": "boxed-cards-2",
+      "label": "Boxed Cards 2"
+    },
+    {
+      "class": "blue",
+      "label": "Blue"
+    },
+    {
+      "class": "light",
+      "label": "Light"
+    }
+  ],
+  "memberVariantIds": [
+    "v_d674b32c3c85",
+    "v_554ffe546157",
+    "v_32dae33543c0",
+    "v_19ae03dabc32",
+    "v_0beac3adcceb",
+    "v_176213572ecd",
+    "v_935f158018b8-4",
+    "v_1e9edcab6897",
+    "v_2132f1b75256",
+    "v_ab9dc71ecbdb",
+    "v_f9a042fbd7d2",
+    "v_0beac3adcceb-1",
+    "v_6bcb08cf3b1c-1",
+    "v_b8ef564d7ffa-2",
+    "v_b8ef564d7ffa-3"
+  ],
+  "usage": {
+    "pagesFound": 158,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/savings-accounts/high-interest-savings-account.html",
+      "https://www.rbcroyalbank.com/business/accounts/agriinvest.html",
+      "https://www.rbcroyalbank.com/business/accounts/business-essentials-savings-account.html",
+      "https://www.rbcroyalbank.com/business/accounts/business-trust-account.html",
+      "https://www.rbcroyalbank.com/business/accounts/canadian-banking-marketsmart-gic.html"
+    ]
+  },
+  "reuseGuidance": "Use for product-detail sections like Benefits, Key Features, Fees and How to Apply. Use columns-text for equal-width text columns and table-striped for standalone data tables.",
+  "sourceUrl": "https://www.rbcroyalbank.com/"
+}

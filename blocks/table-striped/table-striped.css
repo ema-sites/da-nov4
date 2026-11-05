@@ -1,0 +1,57 @@
+/* table-striped: structural layout only; colours and type come from the design pass */
+.table-striped .table-striped-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-striped table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-striped th,
+.table-striped td {
+  padding: 0.75em 1em;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table-striped thead th,
+.table-striped tbody th {
+  font-weight: 700;
+}
+
+.table-striped th p,
+.table-striped td p {
+  margin: 0;
+}
+
+.table-striped td p + p {
+  margin-top: 0.25em;
+}
+
+/* stripes: neutral overlay so it works on any section background */
+.table-striped tbody tr:nth-child(odd) {
+  background-color: rgb(0 0 0 / 4%);
+}
+
+/* alt: stripe the even rows instead */
+.table-striped.alt tbody tr:nth-child(odd) {
+  background-color: transparent;
+}
+
+.table-striped.alt tbody tr:nth-child(even) {
+  background-color: rgb(0 0 0 / 4%);
+}
+
+/* collapsible */
+.table-striped .table-striped-summary {
+  padding: 0.75em 0;
+  cursor: pointer;
+}
+
+@media (width >= 900px) {
+  .table-striped tbody th:not([colspan]) {
+    width: 40%;
+  }
+}

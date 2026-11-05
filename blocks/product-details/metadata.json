@@ -1,0 +1,64 @@
+{
+  "variantName": "product-details",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "dense",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "list + link + button + heading + text + image",
+    "purpose": "Product page body for an account or card: intro box, icon benefit lists, rewards promo, product image with price and offer, and side-by-side ideal/not-ideal panels"
+  },
+  "contentPattern": {
+    "structure": "One row per panel. A row with one cell is a full-width panel (heading, text, lists, links). A row with an image-only cell plus a content cell is a media panel (product image beside name, price, benefits, CTA). A row with two or more content cells renders those cells side by side (e.g. pros and cons). Lists whose items begin with an icon or image become icon feature lists; a link alone in a bold/italic paragraph becomes a button"
+  },
+  "options": [
+    {
+      "class": "light",
+      "label": "Light"
+    },
+    {
+      "class": "grey-light-image",
+      "label": "Grey Light Image"
+    },
+    {
+      "class": "cyan",
+      "label": "Cyan"
+    },
+    {
+      "class": "light-2",
+      "label": "Light 2"
+    },
+    {
+      "class": "alt",
+      "label": "Alt"
+    },
+    {
+      "class": "cyan-2",
+      "label": "Cyan 2"
+    }
+  ],
+  "memberVariantIds": [
+    "v_2b37e1e83a5d",
+    "v_13c02542e5a3",
+    "v_2b37e1e83a5d-1",
+    "v_2b37e1e83a5d-2",
+    "v_2b37e1e83a5d-3",
+    "v_72f0bd24430f-1",
+    "v_2b37e1e83a5d-4",
+    "v_2b37e1e83a5d-5",
+    "v_2b37e1e83a5d-6"
+  ],
+  "usage": {
+    "pagesFound": 15,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/day-to-day-banking.html",
+      "https://www.rbcroyalbank.com/fr/comptes-bancaires/comptes-de-cheques/forfait-bancaire-courant.html",
+      "https://www.rbcroyalbank.com/bank-accounts/students/offers/index.html",
+      "https://www.rbcroyalbank.com/fr/comptes-bancaires/etudiants/offres/index.html",
+      "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/advantage-banking.html"
+    ]
+  },
+  "reuseGuidance": "Use for the main body of product detail pages (chequing, savings, student, credit card). For a single feature row use columns-feature-row; for product comparison grids use cards-plan or cards-product."
+}

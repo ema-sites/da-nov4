@@ -1,0 +1,35 @@
+{
+  "variantName": "anchor-nav",
+  "baseBlock": "custom",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": true,
+    "imagePattern": "noimg",
+    "structure": "list + link",
+    "purpose": "Horizontal in-page jump-link bar (e.g. Key Features, Banking Fees, How to Open) linking to sections of the same page"
+  },
+  "contentPattern": {
+    "structure": "One or more rows whose cells hold links (a list of links or one link per cell); all links are collected into one horizontal list. Rows with no links are kept as plain side-by-side text cells"
+  },
+  "options": [
+    {
+      "class": "light",
+      "label": "Light"
+    }
+  ],
+  "memberVariantIds": [
+    "v_c8b769f11613",
+    "v_2a0fdf8cfa4e"
+  ],
+  "usage": {
+    "pagesFound": 4,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/business/accounts/community-account.html",
+      "https://www.rbcroyalbank.com/business/accounts/ultimate-business-account.html",
+      "https://www.rbcroyalbank.com/fr/comptes-bancaires/comptes-depargne/compte-epargne-a-interet-eleve.html"
+    ]
+  },
+  "reuseGuidance": "Use for in-page anchor links to sections on the same page. Use section-nav for sidebar/tab navigation across related pages. Member v_2a0fdf8cfa4e (light option) is a single fee label/value row that looks closer to columns-feature-row; consider reclassifying it with excat-catalog-manager."
+}

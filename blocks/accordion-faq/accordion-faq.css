@@ -1,0 +1,107 @@
+/* accordion-faq: structural styles only; brand styling comes from the design pass */
+.accordion-faq {
+  position: relative;
+}
+
+.accordion-faq .accordion-faq-intro {
+  margin-bottom: 24px;
+}
+
+.accordion-faq .accordion-faq-item {
+  border-bottom: 1px solid currentcolor;
+}
+
+.accordion-faq .accordion-faq-item-label {
+  position: relative;
+  padding: 16px 40px 16px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.accordion-faq .accordion-faq-item-label::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-faq .accordion-faq-item-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border: solid currentcolor;
+  border-width: 0 1px 1px 0;
+  transform: translateY(-75%) rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.accordion-faq .accordion-faq-item[open] > .accordion-faq-item-label::after {
+  transform: translateY(-25%) rotate(-135deg);
+}
+
+.accordion-faq .accordion-faq-item-body {
+  padding: 0 0 16px;
+}
+
+.accordion-faq .accordion-faq-item-hidden {
+  display: none;
+}
+
+.accordion-faq .accordion-faq-toggle {
+  display: block;
+  margin: 16px auto 0;
+  cursor: pointer;
+}
+
+.accordion-faq .accordion-faq-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (width >= 900px) {
+  /* default: two-column FAQ list; columns keep item heights independent */
+  .accordion-faq:not(.accordion-faq-has-media, .grouped) .accordion-faq-group {
+    columns: 2;
+    column-gap: 32px;
+  }
+
+  .accordion-faq:not(.accordion-faq-has-media, .grouped) .accordion-faq-item {
+    break-inside: avoid;
+  }
+
+  .accordion-faq.grouped .accordion-faq-items {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  /* image beside the accordion list */
+  .accordion-faq.accordion-faq-has-media:is(.image-beside, .image-beside-2) {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* cut-out / background photo behind the accordion */
+  .accordion-faq.accordion-faq-has-media:is(.background-image, .background-image-2, .background-image-3) {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .accordion-faq.accordion-faq-has-media:is(.background-image, .background-image-2, .background-image-3) > * {
+    grid-area: 1 / 1;
+  }
+
+  .accordion-faq.accordion-faq-has-media:is(.background-image, .background-image-2, .background-image-3) .accordion-faq-content {
+    position: relative;
+    width: min(100%, 768px);
+    margin: 0 auto;
+  }
+
+  .accordion-faq.accordion-faq-has-media:is(.background-image, .background-image-2, .background-image-3) .accordion-faq-media img {
+    height: 100%;
+    object-fit: cover;
+  }
+}

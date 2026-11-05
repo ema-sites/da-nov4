@@ -1,0 +1,79 @@
+.columns-media .columns-media-row {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.columns-media .columns-media-row + .columns-media-row {
+  margin-top: 32px;
+}
+
+.columns-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.columns-media .columns-media-media {
+  order: 0;
+}
+
+.columns-media .columns-media-text {
+  order: 1;
+}
+
+.columns-media .columns-media-poster {
+  position: relative;
+}
+
+.columns-media .columns-media-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* overlap-card: text card sits over the edge of the image */
+.columns-media.overlap-card .columns-media-row {
+  position: relative;
+}
+
+.columns-media.overlap-card .columns-media-text {
+  position: relative;
+  z-index: 1;
+}
+
+/* banner: rounded, filled container */
+.columns-media.banner,
+.columns-media.banner-2,
+.columns-media.banner-3 {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+@media (width >= 900px) {
+  .columns-media .columns-media-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .columns-media .columns-media-row > div {
+    flex: 1;
+    order: unset;
+    min-width: 0;
+  }
+
+  .columns-media.overlap-card .columns-media-text {
+    flex: 0 0 50%;
+  }
+
+  .columns-media.overlap-card .columns-media-media-end .columns-media-text {
+    margin-inline-end: -10%;
+  }
+
+  .columns-media.overlap-card .columns-media-row:not(.columns-media-media-end) .columns-media-text {
+    margin-inline: -10% 0;
+  }
+}

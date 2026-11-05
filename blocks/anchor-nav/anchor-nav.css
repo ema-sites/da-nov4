@@ -1,0 +1,28 @@
+/* anchor-nav: structural styles only */
+.anchor-nav .anchor-nav-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.anchor-nav .anchor-nav-links a {
+  display: inline-block;
+  padding: 8px 0;
+}
+
+.anchor-nav .anchor-nav-links a[aria-current='true'] {
+  text-decoration: underline;
+}
+
+.anchor-nav .anchor-nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+}
+
+.anchor-nav .anchor-nav-cell {
+  flex: 1 1 240px;
+}

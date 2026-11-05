@@ -1,0 +1,35 @@
+{
+  "variantName": "embed-video",
+  "baseBlock": "embed",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "hasGrid": false,
+    "imagePattern": "noimg",
+    "structure": "video",
+    "purpose": "Embedded video player (YouTube, Vimeo, mp4) optionally behind a poster image with a play button; several videos sit side by side"
+  },
+  "contentPattern": {
+    "structure": "One row per video: optional poster image, the video URL as a link, optional caption text. Two or more rows render as a two-up grid"
+  },
+  "options": [
+    {
+      "class": "image-dark-light",
+      "label": "Image Dark Light"
+    }
+  ],
+  "memberVariantIds": [
+    "v_c356e257d688",
+    "v_8951de37e269"
+  ],
+  "usage": {
+    "pagesFound": 7,
+    "sampleUrls": [
+      "https://www.rbcroyalbank.com/business/advice/business-plan-builder/index.html",
+      "https://www.rbcroyalbank.com/credit-cards/travel-credit-cards/infinite-avion.html",
+      "https://www.rbcroyalbank.com/business/advice/registered-pension-plan-and-group-retirement-savings/index.html"
+    ]
+  },
+  "reuseGuidance": "Use for standalone embedded videos. Background videos inside a banner belong to hero-banner (video option)."
+}
