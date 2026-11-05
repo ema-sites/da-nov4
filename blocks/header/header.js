@@ -313,6 +313,8 @@ export default async function decorate(block) {
   block.textContent = '';
   if (!fragment) return;
   const sections = [...fragment.children].filter((c) => c.tagName === 'DIV');
+  // the published nav wraps each top-level list item's label in a <p>; unwrap it
+  sections.forEach((s) => s.querySelectorAll(':scope > ul > li > p:first-child').forEach((p) => p.replaceWith(...p.childNodes)));
   const header = block.closest('header') || block;
   const nav = el('nav');
   nav.id = 'nav';
