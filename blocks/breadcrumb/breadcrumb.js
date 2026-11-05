@@ -48,6 +48,11 @@ export default function decorate(block) {
       li.append(span);
     }
     if (last && !item.href) li.setAttribute('aria-current', 'page');
+    // decorative chevron; CSS decides which ones show (alt keeps the trailing one)
+    const sep = document.createElement('span');
+    sep.className = 'breadcrumb-separator';
+    sep.setAttribute('aria-hidden', 'true');
+    li.append(sep);
     ol.append(li);
   });
 

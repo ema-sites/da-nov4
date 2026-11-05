@@ -1,27 +1,108 @@
-/* breadcrumb: structural styles only */
+/* breadcrumb: values from rbcroyalbank.com nav.breadcrumb-wpr (see migration-work/breadcrumb-extracted.css) */
+
+/* mobile: full-bleed grey bar, trail collapsed to "..." > ancestors */
+.breadcrumb {
+  margin: 0 calc(-1 * var(--content-gutter));
+  padding: 8px var(--content-gutter);
+  background-color: #f3f4f5;
+}
+
 .breadcrumb .breadcrumb-list {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   margin: 0;
   padding: 0;
   list-style: none;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
 .breadcrumb .breadcrumb-item {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
 }
 
-/* chevron separator after each item except the current page */
-.breadcrumb .breadcrumb-item:not(:last-child)::after,
-.breadcrumb.alt .breadcrumb-item:last-child::after {
+.breadcrumb .breadcrumb-item > a,
+.breadcrumb .breadcrumb-item > span {
+  font-size: var(--body-font-size-xs);
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.breadcrumb .breadcrumb-item > a:any-link {
+  color: var(--link-color);
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.breadcrumb .breadcrumb-item > a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+.breadcrumb .breadcrumb-item > span {
+  color: #000;
+  font-weight: 300;
+}
+
+/* chevron separator (source: ui-breadcrumb-chevron.svg, 4x8, margin 7px 8px 8px) */
+.breadcrumb .breadcrumb-separator::before {
   content: '';
   display: inline-block;
-  width: 5px;
-  height: 5px;
-  margin: 0 12px 0 8px;
-  border: solid currentcolor;
-  border-width: 1px 1px 0 0;
-  transform: rotate(45deg);
+  width: 4px;
+  height: 8px;
+  margin: 7px 8px 8px;
+  vertical-align: middle;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='8' fill='none'%3E%3Cpath fill='%236F6F6F' stroke='%23B3B3B3' d='M3.95 3.933.446 7.375.05 7.004l3.12-3.066-3.114-2.93L.44.624l3.51 3.308z'/%3E%3C/svg%3E") no-repeat center / 4px 8px;
+}
+
+/* mobile: the current page and the chevron leading to it are hidden */
+.breadcrumb .breadcrumb-item:last-child:not(:only-child),
+.breadcrumb .breadcrumb-item:last-child > .breadcrumb-separator,
+.breadcrumb .breadcrumb-item:nth-last-child(2) > .breadcrumb-separator {
+  display: none;
+}
+
+/* mobile: home crumb collapses to "..." (label kept for screen readers) */
+.breadcrumb .breadcrumb-item:first-child:not(:last-child) > a {
+  display: inline-block;
+  font-size: 0;
+  line-height: 0;
+}
+
+.breadcrumb .breadcrumb-item:first-child:not(:last-child) > a::before {
+  content: '...' / '';
+  font-size: var(--body-font-size-xs);
+  line-height: 18px;
+}
+
+@media (width >= 768px) {
+  .breadcrumb {
+    margin: 0;
+    padding: 8px 0;
+    background-color: transparent;
+  }
+
+  .breadcrumb .breadcrumb-list {
+    white-space: normal;
+    overflow-x: visible;
+  }
+
+  .breadcrumb .breadcrumb-item:last-child:not(:only-child) {
+    display: inline-block;
+  }
+
+  .breadcrumb .breadcrumb-item:nth-last-child(2) > .breadcrumb-separator,
+  .breadcrumb.alt .breadcrumb-item:last-child > .breadcrumb-separator {
+    display: inline;
+  }
+
+  .breadcrumb .breadcrumb-item:first-child:not(:last-child) > a {
+    font-size: var(--body-font-size-xs);
+    line-height: 18px;
+  }
+
+  .breadcrumb .breadcrumb-item:first-child:not(:last-child) > a::before {
+    content: none;
+  }
 }
