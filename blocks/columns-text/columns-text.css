@@ -76,8 +76,10 @@
   text-decoration: none;
 }
 
+/* source: a and its label span both turn #23527c and underline on hover */
 .columns-text a.columns-text-icon-link:hover {
   color: var(--link-hover-color);
+  text-decoration: underline;
 }
 
 .columns-text a.columns-text-icon-link:hover span {

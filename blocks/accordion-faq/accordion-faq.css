@@ -37,7 +37,9 @@
   display: none;
 }
 
+/* source .collapse-toggle:hover turns #23527c and underlines */
 .accordion-faq .accordion-faq-item-label:hover {
+  color: var(--link-hover-color);
   text-decoration: underline;
 }
 
@@ -47,7 +49,7 @@
   font: inherit;
 }
 
-/* chevron: source ui-chevron-down-blue.svg, 12x7, right 0, 10px below the label text top */
+/* chevron: source ui-chevron-down-blue.svg (fixed blue, unchanged on hover), 12x7, right 0, 10px below the label text top */
 .accordion-faq .accordion-faq-item-label::after {
   content: '';
   position: absolute;
@@ -55,7 +57,7 @@
   right: 0;
   width: 12px;
   height: 7px;
-  background-color: currentcolor;
+  background-color: var(--link-color);
   mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7"><path d="M6.12 7L0 .71.66 0l5.45 5.6L11.32.01 12 .7 6.12 7z"/></svg>') no-repeat center / 12px 7px;
   transition: transform 0.3s ease-in-out;
 }

@@ -143,13 +143,16 @@
   outline-offset: 0;
 }
 
-/* disabled (grey) until a question is typed */
+/*
+ * disabled (grey) until a question is typed. Source keeps cursor: pointer on the
+ * button in both states; pointer-events: none lets the box's arrow show while empty.
+ */
 .search-site.boxed .search-site-button:disabled {
   background-color: #eee;
   box-shadow: inset 0 0 0 1px var(--dark-color);
   color: var(--dark-color);
   font-weight: 400;
-  cursor: default;
+  cursor: pointer;
   pointer-events: none;
 }
 
