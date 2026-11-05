@@ -310,6 +310,16 @@ main > .section.branch-locator-container {
   padding: 0;
 }
 
+main > .section.accordion-legal-container {
+  padding: 37.5px 0;
+}
+
+@media (width >= 640px) {
+  main > .section.accordion-legal-container {
+    padding: var(--section-padding-colored) 0;
+  }
+}
+
 main .section.centered > .default-content-wrapper {
   text-align: center;
 }

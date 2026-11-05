@@ -1,34 +1,139 @@
-/* accordion-legal: structural styles only */
+/* accordion-legal: values from rbcroyalbank.com section.disclaimer computed styles */
+.accordion-legal {
+  color: var(--dark-color);
+  font-size: var(--body-font-size-s);
+  font-weight: var(--body-font-weight);
+  line-height: 20px;
+}
+
+/* toggle: "+ Things our lawyers want you to know" */
 .accordion-legal .accordion-legal-toggle {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0;
+  display: inline-block;
+  max-width: 770px;
+  margin: 0;
+  padding: 0 0 0 22px;
   border: 0;
   background: none;
-  color: inherit;
-  font: inherit;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+  line-height: 24px;
   text-align: left;
   cursor: pointer;
 }
 
+.accordion-legal .accordion-legal-toggle:hover {
+  text-decoration: underline;
+}
+
+.accordion-legal .accordion-legal-toggle:focus-visible {
+  outline: 1px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+/* plus icon: 13x1 horizontal bar + 1x13 vertical bar that rotates flat when open */
+.accordion-legal .accordion-legal-toggle::before,
+.accordion-legal .accordion-legal-toggle::after {
+  content: '';
+  position: absolute;
+  display: block;
+  background-color: currentcolor;
+}
+
 .accordion-legal .accordion-legal-toggle::before {
-  content: '+';
-  display: inline-block;
-  width: 1em;
-  text-align: center;
+  top: 13px;
+  left: 0;
+  width: 13px;
+  height: 1px;
 }
 
-.accordion-legal .accordion-legal-toggle[aria-expanded='true']::before {
-  content: '\2212';
+.accordion-legal .accordion-legal-toggle::after {
+  top: 7px;
+  left: 6px;
+  width: 1px;
+  height: 13px;
+  transition: transform 0.3s ease-in-out;
 }
 
-.accordion-legal .accordion-legal-summary,
-.accordion-legal .accordion-legal-body {
+.accordion-legal .accordion-legal-toggle[aria-expanded='true']::after {
+  transform: rotate(90deg);
+}
+
+.accordion-legal .accordion-legal-summary {
+  max-width: 770px;
   margin-top: 8px;
+}
+
+/* disclaimer body */
+.accordion-legal .accordion-legal-body {
+  max-width: 770px;
+  padding-top: 15px;
 }
 
 .accordion-legal .accordion-legal-body[hidden] {
   display: none;
+}
+
+.accordion-legal .accordion-legal-body a:any-link {
+  font-weight: 400;
+}
+
+/* numbered footnotes: marker column + content column */
+.accordion-legal .accordion-legal-footnotes {
+  display: table;
+}
+
+.accordion-legal .accordion-legal-item {
+  display: table-row;
+}
+
+.accordion-legal .accordion-legal-marker,
+.accordion-legal .accordion-legal-content {
+  display: table-cell;
+  vertical-align: top;
+  padding: 0 0 15px;
+}
+
+.accordion-legal .accordion-legal-marker {
+  padding-right: 7.5px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.accordion-legal .accordion-legal-item:last-child > div {
+  padding-bottom: 0;
+}
+
+.accordion-legal .accordion-legal-content > p {
+  margin: 0;
+}
+
+.accordion-legal .accordion-legal-body ul {
+  margin: 0 0 15px;
+  padding: 0;
+  list-style: none;
+}
+
+.accordion-legal .accordion-legal-body ul > li {
+  margin: 0 0 10px;
+  padding: 0 0 0 15px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='5' fill='%23006AC3'%3E%3Ccircle cx='2.5' cy='2.5' r='2.5'/%3E%3C/svg%3E") no-repeat 0 8.4px;
+}
+
+.accordion-legal .accordion-legal-content > :last-child,
+.accordion-legal .accordion-legal-body > :last-child {
+  margin-bottom: 0;
+}
+
+/* dark variant: on dark section backgrounds */
+.accordion-legal.dark,
+.accordion-legal.dark .accordion-legal-toggle,
+.accordion-legal.dark .accordion-legal-body a:any-link {
+  color: var(--background-color);
+}
+
+.accordion-legal.dark .accordion-legal-body ul > li {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='5' fill='%23fff'%3E%3Ccircle cx='2.5' cy='2.5' r='2.5'/%3E%3C/svg%3E");
 }
