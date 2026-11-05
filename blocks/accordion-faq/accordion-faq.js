@@ -39,6 +39,31 @@ function buildItem(labelCell, bodyCell) {
   return details;
 }
 
+// a list made only of links (e.g. "I'm buying my first home") gets the chevron link-list look
+function markLinkLists(body) {
+  body.querySelectorAll(':scope > ul').forEach((ul) => {
+    const lis = [...ul.children];
+    const linksOnly = lis.length > 0 && lis.every((li) => {
+      const a = li.querySelector(':scope > a');
+      return a && a.textContent.trim() === li.textContent.trim();
+    });
+    if (linksOnly) ul.classList.add('accordion-faq-links');
+  });
+}
+
+// default layout: split the items into two columns that grow independently when opened
+function splitColumns(group) {
+  const items = [...group.querySelectorAll(':scope > .accordion-faq-item')];
+  if (items.length < 2) return;
+  const half = Math.ceil(items.length / 2);
+  [items.slice(0, half), items.slice(half)].forEach((colItems) => {
+    const col = document.createElement('div');
+    col.className = 'accordion-faq-column';
+    col.append(...colItems);
+    group.append(col);
+  });
+}
+
 function addShowMore(group) {
   const items = [...group.querySelectorAll(':scope .accordion-faq-item')];
   if (items.length <= SHOW_LIMIT) return;
@@ -102,9 +127,23 @@ export default function decorate(block) {
     }
   });
 
-  if (block.classList.contains('grouped')) {
+  items.querySelectorAll('.accordion-faq-item-body').forEach(markLinkLists);
+
+  const grouped = block.classList.contains('grouped');
+  if (grouped) {
     items.querySelectorAll('.accordion-faq-group').forEach(addShowMore);
+  } else if (!media.childNodes.length) {
+    items.querySelectorAll('.accordion-faq-group').forEach(splitColumns);
   }
+
+  // one open item per group, like the source accordions (data-parent)
+  block.addEventListener('toggle', (e) => {
+    const item = e.target;
+    if (!item.open || !item.classList.contains('accordion-faq-item')) return;
+    item.closest('.accordion-faq-group').querySelectorAll('.accordion-faq-item[open]').forEach((other) => {
+      if (other !== item) other.open = false;
+    });
+  }, true);
 
   const content = document.createElement('div');
   content.className = 'accordion-faq-content';

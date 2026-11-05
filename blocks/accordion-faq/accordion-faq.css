@@ -1,19 +1,34 @@
-/* accordion-faq: structural styles only; brand styling comes from the design pass */
+/* accordion-faq: values from rbcroyalbank.com #help-accordion (see migration-work/accordion-faq-extracted.css) */
 .accordion-faq {
   position: relative;
+  margin: 15px 0 30px;
+  color: var(--text-color);
 }
 
 .accordion-faq .accordion-faq-intro {
   margin-bottom: 24px;
 }
 
+/* item (source .accordion-panel) */
 .accordion-faq .accordion-faq-item {
-  border-bottom: 1px solid currentcolor;
+  border-bottom: 1px solid #c4c8cc;
 }
 
+.accordion-faq .accordion-faq-group > .accordion-faq-item:first-of-type,
+.accordion-faq .accordion-faq-column:first-of-type > .accordion-faq-item:first-child {
+  border-top: 1px solid #c4c8cc;
+}
+
+/* label (source .collapse-toggle) */
 .accordion-faq .accordion-faq-item-label {
   position: relative;
-  padding: 16px 40px 16px 0;
+  display: block;
+  padding: 15px 22px 15px 0;
+  color: var(--link-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
   cursor: pointer;
   list-style: none;
 }
@@ -22,25 +37,73 @@
   display: none;
 }
 
+.accordion-faq .accordion-faq-item-label:hover {
+  text-decoration: underline;
+}
+
+.accordion-faq .accordion-faq-item-label > :is(p, h2, h3, h4, h5, h6) {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+}
+
+/* chevron: source ui-chevron-down-blue.svg, 12x7, right 0, 10px below the label text top */
 .accordion-faq .accordion-faq-item-label::after {
   content: '';
   position: absolute;
-  top: 50%;
-  right: 8px;
-  width: 8px;
-  height: 8px;
-  border: solid currentcolor;
-  border-width: 0 1px 1px 0;
-  transform: translateY(-75%) rotate(45deg);
-  transition: transform 0.2s;
+  top: 25px;
+  right: 0;
+  width: 12px;
+  height: 7px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7"><path d="M6.12 7L0 .71.66 0l5.45 5.6L11.32.01 12 .7 6.12 7z"/></svg>') no-repeat center / 12px 7px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .accordion-faq .accordion-faq-item[open] > .accordion-faq-item-label::after {
-  transform: translateY(-25%) rotate(-135deg);
+  transform: rotate(180deg);
 }
 
+/* body (source .collapse-inner) */
 .accordion-faq .accordion-faq-item-body {
-  padding: 0 0 16px;
+  padding: 0 15px 15px 0;
+}
+
+.accordion-faq .accordion-faq-item-body > :last-child {
+  margin-bottom: 0;
+}
+
+/* link list (source ul.chevron-list) */
+.accordion-faq ul.accordion-faq-links {
+  margin: 0;
+  padding: 0 0 0 15px;
+  list-style: none;
+}
+
+.accordion-faq ul.accordion-faq-links > li {
+  position: relative;
+  margin: 0 0 10px;
+  padding-left: 15px;
+}
+
+.accordion-faq ul.accordion-faq-links > li:last-child {
+  margin-bottom: 0;
+}
+
+/* source ui-chevron-right-blue.svg, 6x10 at 0 0.43em */
+.accordion-faq ul.accordion-faq-links > li::before {
+  content: '';
+  position: absolute;
+  top: 0.43em;
+  left: 0;
+  width: 6px;
+  height: 10px;
+  background-color: var(--link-color);
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+.accordion-faq ul.accordion-faq-links a:any-link {
+  font-weight: 400;
 }
 
 .accordion-faq .accordion-faq-item-hidden {
@@ -59,17 +122,26 @@
   height: auto;
 }
 
+/* source switches the two-column help topics on at 640px */
+@media (width >= 640px) {
+  .accordion-faq:not(.accordion-faq-has-media, .grouped) .accordion-faq-group:has(> .accordion-faq-column) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 30px;
+    align-items: start;
+    padding: 0 15px;
+  }
+
+  .accordion-faq:not(.accordion-faq-has-media, .grouped) .accordion-faq-group > .accordion-faq-group-heading {
+    grid-column: 1 / -1;
+  }
+
+  .accordion-faq .accordion-faq-column > .accordion-faq-item:first-child {
+    border-top: 1px solid #c4c8cc;
+  }
+}
+
 @media (width >= 900px) {
-  /* default: two-column FAQ list; columns keep item heights independent */
-  .accordion-faq:not(.accordion-faq-has-media, .grouped) .accordion-faq-group {
-    columns: 2;
-    column-gap: 32px;
-  }
-
-  .accordion-faq:not(.accordion-faq-has-media, .grouped) .accordion-faq-item {
-    break-inside: avoid;
-  }
-
   .accordion-faq.grouped .accordion-faq-items {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
