@@ -16,3 +16,4 @@ helix-importer-ui
 tools/importer/bd-snapshots/
 tools/importer/reports/
 tools/importer/*.bundle.js
+migration-work/navigation-validation/
