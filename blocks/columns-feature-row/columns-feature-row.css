@@ -1,8 +1,12 @@
+/* columns-feature-row: values from rbcroyalbank.com computed styles
+ * default / alt / light: one tinted row of the source .features-table
+ * (each source .table-row.blue is its own block, so rows stack flush)
+ * explainer: .sa-callout card (heading + text beside an illustration)
+ */
+
 .columns-feature-row .columns-feature-row-row {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px;
+  box-sizing: border-box;
 }
 
 .columns-feature-row .columns-feature-row-row > div {
@@ -21,6 +25,105 @@
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+/* explainer: white card, text beside a bottom-aligned illustration */
+.columns-feature-row.explainer .columns-feature-row-row {
+  flex-wrap: wrap;
+  gap: 32px;
+  max-width: 1165px;
+  min-height: 250px;
+  margin: 0 auto;
+  padding: 0 15px 0 24px;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: var(--background-color);
+  box-shadow:
+    rgb(37 37 37 / 4%) 0 54px 118px 0,
+    rgb(37 37 37 / 6%) 0 12.062px 26.357px 0,
+    rgb(37 37 37 / 8%) 0 3.591px 7.847px 0;
+  color: var(--text-color);
+}
+
+.columns-feature-row.explainer .columns-feature-row-label,
+.columns-feature-row.explainer .columns-feature-row-content {
+  flex: 1 1 0;
+  align-self: center;
+  padding: 24px 0;
+}
+
+.columns-feature-row.explainer h2 {
+  margin: 0 0 15px;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 27px;
+}
+
+.columns-feature-row.explainer .columns-feature-row-row p {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.columns-feature-row.explainer .columns-feature-row-image {
+  display: none;
+}
+
+/* default / alt / light: tinted label | value table row */
+.columns-feature-row:not(.explainer, .award, .awards) .columns-feature-row-row {
+  min-height: 100px;
+  border-right: 1px solid rgb(0 0 0 / 10%);
+  border-left: 1px solid rgb(0 0 0 / 10%);
+  background-color: rgb(237 247 252);
+  color: var(--text-color);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 30px;
+}
+
+.columns-feature-row:not(.explainer, .award, .awards) .columns-feature-row-row > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.columns-feature-row:not(.explainer, .award, .awards) .columns-feature-row-label {
+  flex: 0 0 40%;
+  border-right: 1px solid rgb(0 0 0 / 10%);
+}
+
+.columns-feature-row:not(.explainer, .award, .awards) .columns-feature-row-content {
+  flex: 1 1 0;
+}
+
+.columns-feature-row:not(.explainer, .award, .awards) .columns-feature-row-row p {
+  margin: 0 0 15px;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.columns-feature-row:not(.explainer, .award, .awards) .columns-feature-row-row > div > p:last-child {
+  margin-bottom: 0;
+}
+
+.columns-feature-row:not(.explainer, .award, .awards) .columns-feature-row-row a:any-link:not(:has(> sup)) {
+  text-decoration: underline;
+}
+
+.columns-feature-row:not(.explainer, .award, .awards) .columns-feature-row-row em {
+  font-weight: 400;
+}
+
+/* award / awards: label beside a strip of logo + caption items */
+.columns-feature-row.award .columns-feature-row-row,
+.columns-feature-row.awards .columns-feature-row-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
 }
 
 .columns-feature-row .columns-feature-row-media-item {
@@ -48,44 +151,42 @@
   margin-bottom: 0;
 }
 
-/* award / awards: label beside a strip of logo + caption items */
-.columns-feature-row.award .columns-feature-row-row,
-.columns-feature-row.awards .columns-feature-row-row {
-  align-items: flex-start;
+@media (width >= 640px) {
+  .columns-feature-row.explainer .columns-feature-row-row {
+    padding: 0 0 0 60px;
+  }
+
+  .columns-feature-row.explainer h2 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .columns-feature-row.explainer .columns-feature-row-image {
+    display: block;
+    flex: 0 0 auto;
+    align-self: flex-end;
+  }
+
+  .columns-feature-row.explainer .columns-feature-row-image img {
+    width: 366px;
+  }
 }
 
 @media (width >= 900px) {
-  .columns-feature-row .columns-feature-row-row {
+  .columns-feature-row.award .columns-feature-row-row,
+  .columns-feature-row.awards .columns-feature-row-row {
     flex-direction: row;
     align-items: center;
     gap: 32px;
   }
 
-  .columns-feature-row .columns-feature-row-label {
-    flex: 0 0 35%;
-  }
-
-  .columns-feature-row .columns-feature-row-content {
-    flex: 1 1 0;
-  }
-
-  .columns-feature-row .columns-feature-row-image {
-    flex: 0 0 30%;
-  }
-
-  /* explainer: heading + text beside an illustration */
-  .columns-feature-row.explainer .columns-feature-row-label,
-  .columns-feature-row.explainer .columns-feature-row-content {
-    flex: 1 1 0;
-  }
-
-  .columns-feature-row.award .columns-feature-row-row,
-  .columns-feature-row.awards .columns-feature-row-row {
-    align-items: center;
-  }
-
   .columns-feature-row.award .columns-feature-row-label,
   .columns-feature-row.awards .columns-feature-row-label {
     flex: 0 0 auto;
+  }
+
+  .columns-feature-row.award .columns-feature-row-content,
+  .columns-feature-row.awards .columns-feature-row-content {
+    flex: 1 1 0;
   }
 }

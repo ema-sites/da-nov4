@@ -57,6 +57,74 @@
   justify-content: center;
 }
 
+/* media row: illustration beside text (source: RBC Mobile App .grid-wpr > .grid-half) */
+.columns-contact .columns-contact-row.columns-contact-media {
+  gap: 15px;
+}
+
+.columns-contact .columns-contact-media > .columns-contact-item {
+  text-align: start;
+}
+
+.columns-contact .columns-contact-media > .columns-contact-image img {
+  max-width: 421px;
+}
+
+.columns-contact .columns-contact-media h2 {
+  margin: 0 0 15px;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.columns-contact .columns-contact-media p {
+  margin: 0;
+}
+
+.columns-contact .columns-contact-lead {
+  display: flex;
+  align-items: center;
+}
+
+.columns-contact .columns-contact-lead > p {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.columns-contact .columns-contact-lead > .columns-contact-icon {
+  flex: 0 0 auto;
+  margin: 0 24px 0 0;
+}
+
+.columns-contact .columns-contact-lead > .columns-contact-icon img {
+  display: block;
+  width: auto;
+  height: 110px;
+  border-radius: 8px;
+}
+
+.columns-contact .columns-contact-lead > .columns-contact-icon-missing img {
+  width: 0;
+  visibility: hidden;
+}
+
+.columns-contact .columns-contact-badges {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 15px;
+  margin: 15px 0;
+}
+
+.columns-contact .columns-contact-badges > .columns-contact-icon {
+  margin: 0;
+}
+
+.columns-contact .columns-contact-badges > .columns-contact-icon img {
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 15px 0 7.5px;
+}
+
 /* boxed: each column (or the whole row) sits in a panel */
 .columns-contact.boxed .columns-contact-row,
 .columns-contact.boxed-question .columns-contact-row {
@@ -182,5 +250,23 @@
   .columns-contact.slider .columns-contact-row,
   .columns-contact.slider-2 .columns-contact-row {
     align-items: center;
+  }
+
+  .columns-contact .columns-contact-row.columns-contact-media {
+    gap: 30px;
+  }
+
+  .columns-contact .columns-contact-media h2 {
+    margin-bottom: 30px;
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .columns-contact .columns-contact-badges {
+    margin-top: 30px;
+  }
+
+  .columns-contact .columns-contact-badges > .columns-contact-icon img {
+    margin-bottom: 0;
   }
 }

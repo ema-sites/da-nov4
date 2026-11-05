@@ -36,6 +36,43 @@ function decorateContactItems(cell) {
   });
 }
 
+/**
+ * Media row (illustration cell beside a text cell): pair a lone icon paragraph with the
+ * paragraph after it (logo beside text) and group consecutive linked icons (store badges).
+ */
+function decorateMediaText(cell) {
+  [...cell.querySelectorAll(':scope > p.columns-contact-icon')].forEach((icon) => {
+    if (!icon.isConnected || icon.parentElement !== cell) return;
+    if (icon.querySelector('a')) {
+      const badges = [icon];
+      let next = icon.nextElementSibling;
+      while (next && next.matches('p.columns-contact-icon') && next.querySelector('a')) {
+        badges.push(next);
+        next = next.nextElementSibling;
+      }
+      if (badges.length < 2) return;
+      const group = document.createElement('div');
+      group.className = 'columns-contact-badges';
+      icon.before(group);
+      group.append(...badges);
+      return;
+    }
+    const text = icon.nextElementSibling;
+    if (!text || text.tagName !== 'P' || text.classList.contains('columns-contact-icon')) return;
+    const lead = document.createElement('div');
+    lead.className = 'columns-contact-lead';
+    icon.before(lead);
+    lead.append(icon, text);
+    // a logo that fails to load collapses (as on the source) instead of showing a broken frame
+    const logo = icon.querySelector('img');
+    if (logo) {
+      const collapse = () => icon.classList.add('columns-contact-icon-missing');
+      if (logo.complete && !logo.naturalWidth) collapse();
+      else logo.addEventListener('error', collapse, { once: true });
+    }
+  });
+}
+
 /** Split a cell into text slides at each heading or <hr>, with arrows and dots. */
 function buildSlider(cell) {
   const slides = [];
@@ -133,6 +170,12 @@ export default function decorate(block) {
       decorateContactItems(cell);
       if (slider && idx === cells.length - 1 && cells.length > 1) buildSlider(cell);
     });
+
+    const hasImage = cells.some((cell) => cell.classList.contains('columns-contact-image'));
+    if (hasImage && !slider && !question && cells.length > 1) {
+      row.classList.add('columns-contact-media');
+      row.querySelectorAll(':scope > .columns-contact-item').forEach(decorateMediaText);
+    }
 
     if (question) {
       row.querySelectorAll('ul, ol').forEach((list) => {

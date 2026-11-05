@@ -6,7 +6,7 @@ Custom **columns** block. Purpose: Tinted panel row pairing a feature label with
 
 Model: `standalone`
 
-Single block table. Content: One row per feature. First text cell: the label (or heading + text for explainer). Following cells: description (text, links, info button), a picture-only illustration/logo, or a media item (logo picture plus bold title and caption, laid out side by side). A single-cell row spans the full width. Empty cells are dropped.
+Single block table. Content: One row per feature. First text cell: the label (or heading + text for explainer). Following cells: description (text, links, info button), a picture-only illustration/logo, or a media item (logo picture plus bold title and caption, laid out side by side). A single-cell row spans the full width. A text cell ending in a picture-only paragraph (explainer: heading + text, then the illustration) is split so the illustration sits beside the text. Each default/alt/light block renders one tinted label | value table row, so consecutive blocks stack flush like the source table. Empty cells are dropped.
 
 ## Supported variations
 

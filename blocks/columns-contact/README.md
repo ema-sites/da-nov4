@@ -6,7 +6,7 @@ Custom **columns** block. Purpose: Contact / next-step panel: intro text beside 
 
 Model: `standalone`
 
-Single block table. Content: One row (more rows allowed). First cell: intro (heading, text, optional CTA button) unless a three-up option is set. Each further cell: a contact option or group (optional icon paragraph, heading, text, link; or a list of icon + link items). A picture-only cell is an illustration. slider / slider-2: the last cell is split into text slides at each heading or horizontal rule. boxed-question: a list of links renders as radio-style choices. Empty cells are dropped.
+Single block table. Content: One row (more rows allowed). First cell: intro (heading, text, optional CTA button) unless a three-up option is set. Each further cell: a contact option or group (optional icon paragraph, heading, text, link; or a list of icon + link items). A picture-only cell is an illustration; a row with an illustration beside text lays out as two equal, left-aligned halves (a lone icon paragraph sits beside the paragraph after it, and consecutive linked icons such as app-store badges form one row). slider / slider-2: the last cell is split into text slides at each heading or horizontal rule. boxed-question: a list of links renders as radio-style choices. Empty cells are dropped.
 
 ## Supported variations
 

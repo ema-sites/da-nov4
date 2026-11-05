@@ -20,9 +20,27 @@ function isPictureOnly(el) {
 }
 
 /**
+ * A text cell ending in picture-only paragraphs (explainer: heading + text, then
+ * the illustration) is split so the illustration becomes its own image cell.
+ */
+function splitTrailingIllustration(cell) {
+  const trailing = [];
+  let last = cell.lastElementChild;
+  while (last && last.tagName === 'P' && isPictureOnly(last)) {
+    trailing.unshift(last);
+    last = last.previousElementSibling;
+  }
+  if (!trailing.length || !last) return;
+  const image = document.createElement('div');
+  trailing.forEach((p) => image.append(...p.childNodes));
+  trailing.forEach((p) => p.remove());
+  cell.after(image);
+}
+
+/**
  * Each row: label cell, then one or more content cells.
  * - picture-only cells are illustrations (explainer) or award logos
- * - a cell with a picture plus text is a media item (logo beside its caption)
+ * - a cell starting with a picture followed by text is a media item (logo beside its caption)
  */
 export default function decorate(block) {
   let maxCols = 1;
@@ -30,6 +48,7 @@ export default function decorate(block) {
     row.classList.add('columns-feature-row-row');
     [...row.children].forEach((cell) => {
       if (isEmpty(cell)) cell.remove();
+      else if (!isPictureOnly(cell)) splitTrailingIllustration(cell);
     });
     const cells = [...row.children];
     if (!cells.length) {
@@ -50,7 +69,10 @@ export default function decorate(block) {
         return;
       }
       cell.classList.add('columns-feature-row-content');
-      const pic = cell.querySelector(':scope > picture, :scope > p > picture:only-child');
+      const first = cell.firstElementChild;
+      const pic = first && (first.tagName === 'PICTURE' || (first.tagName === 'P' && isPictureOnly(first)))
+        ? first.querySelector(':scope > picture, :scope > img') || first
+        : null;
       if (pic) {
         cell.classList.add('columns-feature-row-media-item');
         const media = pic.closest('p') || pic;
