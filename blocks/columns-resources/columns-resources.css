@@ -80,6 +80,10 @@
 }
 
 /* feature-panels: equal white panels with link lists, a ruled CTA footer and an edge-to-edge closing photo */
+.columns-resources.feature-panels {
+  margin-top: 30px;
+}
+
 .columns-resources.feature-panels .columns-resources-row {
   gap: 15px;
 }
@@ -122,36 +126,6 @@
   font-weight: 400;
 }
 
-/* icon lists: 40px icon beside each link */
-.columns-resources.feature-panels .columns-resources-icon-list {
-  gap: 0;
-}
-
-.columns-resources.feature-panels .columns-resources-icon-list li {
-  padding: 15px 0;
-}
-
-.columns-resources.feature-panels .columns-resources-icon-list li:has(> picture),
-.columns-resources.feature-panels .columns-resources-icon-list li > a:has(picture) {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.columns-resources.feature-panels .columns-resources-icon-list li:has(> picture) {
-  margin: -8px 0;
-}
-
-.columns-resources.feature-panels .columns-resources-icon-list picture {
-  flex: none;
-}
-
-.columns-resources.feature-panels .columns-resources-icon-list img {
-  display: block;
-  width: 40px;
-  height: 40px;
-}
-
 /* link lists: stacked links with a trailing chevron */
 .columns-resources.feature-panels ul {
   display: flex;
@@ -169,6 +143,55 @@
 
 .columns-resources.feature-panels ul + p {
   margin-top: 15px;
+}
+
+/* icon lists: 40px icon in a 55px gutter beside each link; rows are 54px (15px + 24px line + 15px) */
+.columns-resources.feature-panels .columns-resources-icon-list {
+  gap: 0;
+}
+
+.columns-resources.feature-panels .columns-resources-icon-list picture {
+  display: block;
+}
+
+.columns-resources.feature-panels .columns-resources-icon-list img {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+
+/* the h3 wrapping each product link reads as plain link text */
+.columns-resources.feature-panels .columns-resources-icon-list h3,
+.columns-resources.feature-panels .columns-resources-icon-list p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.columns-resources.feature-panels .columns-resources-icon-list li {
+  padding: 15px 0;
+}
+
+.columns-resources.feature-panels .columns-resources-icon-list li:has(> picture),
+.columns-resources.feature-panels .columns-resources-icon-list li:has(> p > picture),
+.columns-resources.feature-panels .columns-resources-icon-list li > a:has(picture) {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* the 40px icon overhangs the 24px text line by 8px each side, as on the source */
+.columns-resources.feature-panels .columns-resources-icon-list li > picture,
+.columns-resources.feature-panels .columns-resources-icon-list li > p:has(> picture),
+.columns-resources.feature-panels .columns-resources-icon-list li > a > picture {
+  flex: none;
+  margin: -8px 0;
+}
+
+.columns-resources.feature-panels .columns-resources-icon-list a:any-link::after {
+  content: none;
 }
 
 .columns-resources.feature-panels .columns-resources-link-list a:any-link,
@@ -255,6 +278,10 @@
   .columns-resources.accordion .columns-resources-card,
   .columns-resources.body-text .columns-resources-card {
     align-self: flex-start;
+  }
+
+  .columns-resources.feature-panels {
+    margin-top: 45px;
   }
 
   .columns-resources.feature-panels .columns-resources-row {
