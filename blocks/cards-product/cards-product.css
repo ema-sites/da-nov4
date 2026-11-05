@@ -63,18 +63,102 @@
   order: -1;
 }
 
-/* image option: small logos/badges keep their own size, uncropped and centred */
+/* image option: award tiles (badge, optional ribbon, title, byline, description) */
+.cards-product.image {
+  --cards-product-award-gap: 15px;
+  --cards-product-award-img: 104px;
+}
+
+.cards-product.image > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.cards-product.image > ul > li {
+  align-items: center;
+  gap: var(--cards-product-award-gap);
+  overflow: visible;
+  border: 0;
+  background-color: transparent;
+}
+
+/* small logos/badges keep their own size, uncropped and centred */
 .cards-product.image .cards-product-card-logo {
   display: flex;
   justify-content: center;
-  padding: 16px 16px 0;
+  align-items: center;
 }
 
 .cards-product.image .cards-product-card-logo img {
-  width: auto;
+  width: var(--cards-product-award-img);
+  height: var(--cards-product-award-img);
   max-width: 100%;
   aspect-ratio: auto;
   object-fit: contain;
+}
+
+/* when one tile has a ribbon under its badge, the other badges share its height */
+.cards-product.image:has(.cards-product-card-body > p:first-child > em:only-child) > ul > li:not(:has(.cards-product-card-body > p:first-child > em:only-child)) .cards-product-card-logo {
+  min-height: calc(var(--cards-product-award-img) + 33px);
+}
+
+.cards-product.image .cards-product-card-body {
+  align-items: center;
+  padding: 0;
+  text-align: center;
+}
+
+.cards-product.image .cards-product-card-body > :is(h2, h3, h4, p) {
+  margin: 0;
+}
+
+.cards-product.image .cards-product-card-body h3 {
+  font-size: var(--heading-font-size-s);
+  font-weight: 500;
+  line-height: 27px;
+}
+
+/* description */
+.cards-product.image .cards-product-card-body > p:last-child {
+  max-width: 218px;
+  margin: 0 auto;
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cards-product.image .cards-product-card-body > :is(h2, h3, h4) + p:last-child {
+  margin-top: 12px;
+}
+
+/* byline under the title */
+.cards-product.image .cards-product-card-body > :is(h2, h3, h4) + p:not(:last-child) {
+  margin-bottom: 12px;
+  font-size: var(--body-font-size-m);
+  font-weight: 500;
+  line-height: var(--body-line-height);
+}
+
+/* ribbon: a lone italic paragraph above the title, e.g. "3 Years Running" */
+.cards-product.image .cards-product-card-body > p:first-child:has(> em:only-child) {
+  margin: calc(8px - var(--cards-product-award-gap)) 0 var(--cards-product-award-gap);
+  padding: 2.5px 30px 7.5px;
+  background: url('./award-ribbon.svg') no-repeat;
+  font-family: Georgia, Times, 'Times New Roman', serif;
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cards-product.image .cards-product-card-body a:any-link {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+/* award tiles keep only the inline link clickable */
+.cards-product.image .cards-product-card-linked .cards-product-card-body a::after {
+  content: none;
 }
 
 /* header-strip: coloured label bar across the top of each card */
@@ -179,5 +263,32 @@
 
   .cards-product.featured .cards-product-card-featured {
     grid-row: span 2;
+  }
+
+  /* image: award tiles side by side */
+  .cards-product.image {
+    --cards-product-award-gap: 24px;
+    --cards-product-award-img: 118px;
+  }
+
+  .cards-product.image > ul {
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .cards-product.image > ul > li {
+    flex: 0 1 326px;
+    max-width: 370px;
+  }
+
+  .cards-product.image .cards-product-card-body h3 {
+    font-size: var(--heading-font-size-m);
+    line-height: 26px;
+  }
+
+  .cards-product.image .cards-product-card-body > :is(h2, h3, h4) + p:not(:last-child) {
+    font-size: 18px;
+    line-height: 27px;
   }
 }
