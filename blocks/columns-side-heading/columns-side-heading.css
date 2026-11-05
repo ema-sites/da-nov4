@@ -1,7 +1,7 @@
 .columns-side-heading .columns-side-heading-row {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 15px;
 }
 
 .columns-side-heading .columns-side-heading-row + .columns-side-heading-row {
@@ -15,6 +15,24 @@
 
 .columns-side-heading .columns-side-heading-heading > :first-child {
   margin-top: 0;
+}
+
+.columns-side-heading .columns-side-heading-heading > :last-child,
+.columns-side-heading .columns-side-heading-content > :last-child {
+  margin-bottom: 0;
+}
+
+/* source: h2.h1 in grid-one-third (28px/35px mobile, 40px/48px desktop) */
+.columns-side-heading .columns-side-heading-heading > h2 {
+  font-size: var(--heading-font-size-xl);
+  line-height: 35px;
+}
+
+/* source: h3.h4.mar-b-qtr sub-headings in grid-two-thirds */
+.columns-side-heading .columns-side-heading-content > h3 {
+  margin: 0 0 7.5px;
+  font-size: var(--heading-font-size-s);
+  line-height: 27px;
 }
 
 .columns-side-heading .columns-side-heading-body {
@@ -55,8 +73,25 @@
 @media (width >= 900px) {
   .columns-side-heading .columns-side-heading-row {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 32px;
+
+    /* source grid-one-third / grid-two-thirds: 33.33% / 66.67% cols with a 30px gutter */
+    grid-template-columns: calc((100% + 30px) / 3 - 30px) minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .columns-side-heading .columns-side-heading-heading > h2 {
+    font-size: var(--heading-font-size-xxl);
+    line-height: 48px;
+  }
+
+  .columns-side-heading .columns-side-heading-content > h3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  /* source p.mar-b: 30px below a paragraph before the next sub-heading */
+  .columns-side-heading .columns-side-heading-content > h3:not(:first-child) {
+    margin-top: 30px;
   }
 
   .columns-side-heading .columns-side-heading-no-heading .columns-side-heading-body {

@@ -39,7 +39,7 @@
   --content-max-width: 1200px;
   --content-gutter: 15px;
   --section-padding: 45px;
-  --section-padding-colored: 60px;
+  --section-padding-colored: 30px;
 
   /* nav height */
   --nav-height: 160px;
@@ -47,6 +47,9 @@
 
 @media (width >= 900px) {
   :root {
+    /* coloured sections: 30px on mobile (measured), 60px from desktop */
+    --section-padding-colored: 60px;
+
     /* heading sizes (desktop) */
     --heading-font-size-xxl: 40px;
     --heading-font-size-xl: 36px;
