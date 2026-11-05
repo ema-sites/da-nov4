@@ -1,4 +1,4 @@
-/* search-site: structural layout only; colours and type come from the design pass */
+/* search-site: base layout; variant designs follow */
 .search-site .search-site-box {
   display: flex;
   align-items: stretch;
@@ -40,34 +40,136 @@
   margin-left: -1.5em;
 }
 
-/* boxed / boxed-light: full-width bar inside a panel */
-.search-site.boxed .search-site-box,
+/* boxed-light: full-width bar inside a panel */
 .search-site.boxed-light .search-site-box {
   max-width: none;
   padding: 16px;
 }
 
-/* boxed: label, field and button on one line inside a bordered panel; label stacks on small screens */
+/*
+ * boxed: "Still need help?" question box (source #intellResponse_form).
+ * Spacing follows the source fluid ramps: 15px below 639px, 30px from 1200px.
+ * The label stacks above the field and button on small screens.
+ */
 .search-site.boxed .search-site-box {
+  box-sizing: border-box;
   flex-wrap: wrap;
-  gap: 16px 0;
-  border: 1px solid currentcolor;
+  max-width: none;
+  border: 1px solid #c4c8cc;
+  padding: clamp(15px, calc(2.6738vw - 2.0856px), 30px);
+  background-color: var(--background-color);
+  box-shadow: 0 2px 24px 0 rgb(0 0 0 / 7%);
+  color: var(--text-color);
 }
 
 .search-site.boxed .search-site-label {
-  flex-basis: 100%;
+  flex: 0 0 100%;
+  align-self: auto;
+  margin: 0 0 15px;
+  color: var(--text-color);
+  font-family: Georgia, Times, "Times New Roman", serif;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+/* yellow accent bar under the label */
+.search-site.boxed .search-site-label::after {
+  content: "";
+  display: block;
+  width: 52px;
+  height: 4px;
+  margin-top: 6px;
+  background-color: var(--brand-yellow);
+}
+
+.search-site.boxed .search-site-input {
+  flex: 1 1 0%;
+  height: 50px;
+  margin: 0 15px 0 0;
+  border: 1px solid #6f6f6f;
+  border-radius: 0;
+  padding: 10px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 16px;
+  appearance: none;
+}
+
+/* the source field shows no placeholder; the authored text stays as the field's hint for assistive tech */
+.search-site.boxed .search-site-input::placeholder {
+  color: transparent;
+}
+
+.search-site.boxed .search-site-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.search-site.boxed .search-site-input:focus {
+  border-color: var(--brand-blue);
+  box-shadow: inset 0 0 0 1px var(--brand-blue);
+  outline: none;
 }
 
 .search-site.boxed .search-site-button {
-  margin-inline-start: 16px;
+  box-sizing: border-box;
+  height: 50px;
+  margin: 0;
+  border: 1px solid var(--background-color);
+  border-radius: 1px;
+  padding: 12px 15px;
+  background-color: var(--brand-blue);
+  box-shadow: inset 0 0 0 1px var(--brand-blue-dark);
+  color: var(--background-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: center;
+  transition: all 0.2s ease;
 }
 
-@media (width >= 600px) {
+.search-site.boxed .search-site-button:hover {
+  background-color: var(--brand-blue-dark);
+  box-shadow: inset 0 0 0 1px var(--brand-navy);
+}
+
+.search-site.boxed .search-site-button:focus-visible {
+  outline: 1px solid var(--brand-yellow);
+  outline-offset: 0;
+}
+
+/* disabled (grey) until a question is typed */
+.search-site.boxed .search-site-button:disabled {
+  background-color: #eee;
+  box-shadow: inset 0 0 0 1px var(--dark-color);
+  color: var(--dark-color);
+  font-weight: 400;
+  cursor: default;
+  pointer-events: none;
+}
+
+@media (width >= 640px) {
   .search-site.boxed .search-site-box {
     flex-wrap: nowrap;
   }
 
   .search-site.boxed .search-site-label {
-    flex-basis: auto;
+    flex: 0 0 auto;
+    align-self: center;
+    height: 30px;
+    margin: 0 clamp(15px, calc(2.6738vw - 2.0856px), 30px) clamp(5px, calc(0.8913vw - 0.6952px), 10px) 0;
+  }
+
+  .search-site.boxed .search-site-label::after {
+    margin-top: 5px;
+  }
+
+  .search-site.boxed .search-site-input {
+    margin-right: clamp(15px, calc(2.6738vw - 2.0856px), 30px);
   }
 }

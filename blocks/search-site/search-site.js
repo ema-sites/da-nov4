@@ -1,6 +1,8 @@
 const DEFAULT_PLACEHOLDER = 'Search';
 const DEFAULT_BUTTON = 'Search';
 const DEFAULT_ACTION = '/search';
+// query parameter read by the RBC results page (source form #intellResponse_form)
+const QUERY_PARAM = 'question';
 
 /**
  * Read authored content defensively. Any cell may be missing:
@@ -75,7 +77,7 @@ function buildForm(config) {
   const placeholder = config.placeholder || DEFAULT_PLACEHOLDER;
   const input = document.createElement('input');
   input.type = 'search';
-  input.name = 'q';
+  input.name = QUERY_PARAM;
   input.className = 'search-site-input';
   input.placeholder = placeholder;
   let label;
@@ -89,13 +91,20 @@ function buildForm(config) {
     input.setAttribute('aria-label', placeholder);
   }
   const { search: query } = window.location;
-  const current = new URLSearchParams(query).get('q');
+  const current = new URLSearchParams(query).get(QUERY_PARAM);
   if (current) input.value = current;
 
   const button = document.createElement('button');
   button.type = 'submit';
   button.className = 'search-site-button';
   button.textContent = config.button || DEFAULT_BUTTON;
+
+  if (config.requireQuery) {
+    // keep the submit button disabled until a question is typed
+    const sync = () => { button.disabled = !input.value.trim(); };
+    input.addEventListener('input', sync);
+    sync();
+  }
 
   if (label) form.append(label);
   form.append(input, button);
@@ -107,6 +116,7 @@ function buildForm(config) {
  */
 export default function decorate(block) {
   const config = readConfig(block);
+  config.requireQuery = block.classList.contains('boxed');
   const box = config.options.length ? buildSelect(config) : buildForm(config);
   block.replaceChildren(box);
 }
