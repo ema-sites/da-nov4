@@ -321,6 +321,28 @@ main > .section.accordion-legal-container {
   }
 }
 
+/* per-section spacing measured from the source homepage */
+main > .section.columns-resources-container {
+  padding-bottom: var(--section-padding);
+}
+
+main > .section.columns-media-container {
+  padding: var(--section-padding-colored) 0;
+}
+
+main > .section.cards-article-container {
+  padding: var(--section-padding) 0;
+}
+
+main .section.cards-article-container > .default-content-wrapper > h2 {
+  margin-bottom: 30px;
+}
+
+main .section.centered > .default-content-wrapper > h1 {
+  font-size: var(--heading-font-size-xl);
+  line-height: 1.22;
+}
+
 main .section.centered > .default-content-wrapper {
   text-align: center;
 }
@@ -329,4 +351,15 @@ main .section.centered > .default-content-wrapper > p:not(.button-wrapper) {
   max-width: 780px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* section-specific intro widths (after the generic centered rule) */
+main .section.cards-article-container > .default-content-wrapper > p:not(.button-wrapper) {
+  max-width: none;
+}
+
+main .section.cards-product-container > .default-content-wrapper > p:not(.button-wrapper) {
+  max-width: 656px;
+  padding-bottom: 20px;
+  text-align: left;
 }
