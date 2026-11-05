@@ -191,7 +191,23 @@ function headingTag(el) {
 function buildList(document, list) {
   const out = document.createElement(list.tagName === 'OL' ? 'ol' : 'ul');
   [...list.children].forEach((li) => {
-    if (li.tagName !== 'LI' || isHidden(li)) return;
+    if (isHidden(li)) return;
+    if (li.tagName !== 'LI') {
+      // invalid markup: <p>/<div> straight inside a list, e.g. a "View more" toggle
+      // followed by a collapsible <div> holding the remaining items
+      if (li.matches(TOGGLE_LIKE)) return;
+      const rest = li.cloneNode(true);
+      rest.querySelectorAll(TOGGLE_LIKE).forEach((t) => t.remove());
+      if (!cleanText(rest.textContent) && !rest.querySelector('img')) return;
+      const nested = [...li.querySelectorAll('ul, ol')].filter((l) => !l.parentElement.closest('ul, ol') || !li.contains(l.parentElement.closest('ul, ol')));
+      if (nested.length) {
+        nested.forEach((l) => out.append(...buildList(document, l).children));
+        return;
+      }
+      const item = trimNode(appendInline(document, rest, document.createElement('li')));
+      if (hasContent(item)) out.append(item);
+      return;
+    }
     const item = document.createElement('li');
     let first = true;
     [...li.childNodes].forEach((n) => {
@@ -236,15 +252,28 @@ function buildTable(document, table) {
   const out = document.createElement('table');
   const tbody = document.createElement('tbody');
   out.append(tbody);
+  let bodyStarted = false;
   table.querySelectorAll('tr').forEach((tr) => {
     if (tr.closest('table') !== table) return;
     const row = document.createElement('tr');
-    [...tr.children].forEach((c) => {
-      if (!/^T[HD]$/.test(c.tagName)) return;
-      const cell = document.createElement(c.tagName.toLowerCase());
+    const srcCells = [...tr.children].filter((c) => /^T[HD]$/.test(c.tagName));
+    // a header-only row after body rows is a section label (e.g. a collapsible
+    // <tbody> toggle); kept as <th> it would be hoisted into the table head
+    const allTh = srcCells.length && srcCells.every((c) => c.tagName === 'TH');
+    const sectionRow = allTh && bodyStarted;
+    if (!allTh) bodyStarted = true;
+    srcCells.forEach((c) => {
+      const cell = document.createElement(sectionRow ? 'td' : c.tagName.toLowerCase());
       if (c.getAttribute('colspan')) cell.setAttribute('colspan', c.getAttribute('colspan'));
       if (c.getAttribute('rowspan')) cell.setAttribute('rowspan', c.getAttribute('rowspan'));
-      const parts = toBlocks(document, c);
+      // yes/no glyph images (ui-checkmark / ui-close) carry the cell's meaning: text marks
+      const src = c.cloneNode(true);
+      src.querySelectorAll('img').forEach((img) => {
+        const s = img.getAttribute('src') || '';
+        if (!/checkmark|check-mark|ui-close|ui-x\b/i.test(s)) return;
+        img.replaceWith(document.createTextNode(/check/i.test(s) ? '\u2713' : '\u2717'));
+      });
+      const parts = toBlocks(document, src);
       if (parts.length === 1 && parts[0].tagName === 'P') cell.append(...parts[0].childNodes);
       else cell.append(...parts);
       row.append(cell);

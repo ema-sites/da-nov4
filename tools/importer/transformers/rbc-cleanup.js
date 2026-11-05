@@ -52,6 +52,23 @@ const BEFORE_SELECTORS = [
   'button.mobile-nav-btn',
 ];
 
+/**
+ * Product pages: a scroll-triggered sticky bar (aside.sticky-nav__custom) repeats
+ * the page <h1>; it imports as a second page title. Drop the repeated title and
+ * the bar when nothing else is left (some bars carry a unique offer line + CTA).
+ */
+function removeStickyTitleBars(element) {
+  const norm = (n) => (n.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  element.querySelectorAll('aside.sticky-nav__custom').forEach((bar) => {
+    if (bar.matches('[data-catalog-block]') || bar.querySelector('[data-catalog-block]')) return;
+    const titles = [...element.querySelectorAll('h1')].filter((h) => !bar.contains(h)).map(norm);
+    bar.querySelectorAll('h1').forEach((h) => { if (titles.includes(norm(h))) h.remove(); });
+    const rest = bar.cloneNode(true);
+    rest.querySelectorAll('.offscreen, .sr-only').forEach((n) => n.remove());
+    if (!norm(rest)) bar.remove();
+  });
+}
+
 // Modal / popup containers. Their content is only shown on demand (jQuery
 // popupoverlay wrappers appended to <body>, .modal dialogs), so it is removed
 // unless it is actually rendered on the page at import time.
@@ -82,6 +99,19 @@ const AFTER_SELECTORS = [
   'img[src*="bat.bing.com"]',
   'img[src*="doubleclick.net"]',
   'img[src*="facebook.com/tr"]',
+  // Leftover form widgets of JS tools kept as default content (questionnaires):
+  // html2md writes radios/checkboxes as "[ ]" and the progress bar as "0%".
+  'input[type="radio"]',
+  'input[type="checkbox"]',
+  '.progress-bar',
+  '[role="progressbar"]',
+  // carousel arrows/dots left next to a carousel header ("Click to go back in the carousel")
+  'button.carousel-button',
+  '.carousel-ctrl',
+  '.slick-arrow',
+  'button.slick-prev',
+  'button.slick-next',
+  '.slick-dots',
 ];
 
 const TRACKING_ATTRS = [
@@ -128,7 +158,10 @@ function removeHiddenModals(element) {
   element.querySelectorAll(MODAL_SELECTORS.join(', ')).forEach((el) => {
     if (!el.isConnected || kept.some((k) => k.contains(el))) return;
     // never take out a whole page wrapper by accident
-    if (el.matches('main, body') || el.querySelector('main, h1')) return;
+    if (el.matches('main, body') || el.querySelector('main')) return;
+    // a popup page whose only <h1> is inside the modal is the page itself; product
+    // detail popups (with their own <h1>) next to a page <h1> are not
+    if (el.querySelector('h1') && ![...el.ownerDocument.querySelectorAll('h1')].some((h) => !el.contains(h))) return;
     if (isRendered(el)) return;
     if (isRatesPopup(el)) {
       kept.push(el);
@@ -252,11 +285,43 @@ function wrapLooseInline(element) {
   });
 }
 
+const MOBILE_COPY = '.mobile-only, .mobile-only-flex, .banner-mobile, .show-for-small-only';
+const DESKTOP_COPY = '.desktop-only, .banner-desktop, .hide-for-small-only';
+
+function wordSet(el) {
+  return new Set((el.textContent || '').toLowerCase().split(/[^a-z0-9$%]+/).filter((w) => w.length > 1));
+}
+
+/**
+ * RBC pages often render a section twice: a desktop copy (.desktop-only,
+ * .banner-desktop) and a mobile copy (.mobile-only, .banner-mobile) that is
+ * display:none on desktop. Both import as default content, duplicating the
+ * text. Drop a hidden mobile copy when a desktop sibling carries the same words.
+ */
+function removeMobileTwins(element) {
+  element.querySelectorAll(MOBILE_COPY).forEach((m) => {
+    if (!m.isConnected || !m.parentElement || isRendered(m)) return;
+    // a copy the catalog mapped to a block is kept for its parser
+    if (m.matches('[data-catalog-block]') || m.querySelector('[data-catalog-block]')) return;
+    const words = wordSet(m);
+    if (!words.size) return;
+    const twin = [...m.parentElement.children].some((s) => {
+      if (s === m || !s.matches(DESKTOP_COPY)) return false;
+      const other = wordSet(s);
+      const shared = [...words].filter((w) => other.has(w)).length;
+      return shared / Math.max(words.size, other.size) >= 0.8;
+    });
+    if (twin) m.remove();
+  });
+}
+
 export default function transform(hookName, element, payload) {
   if (hookName === 'beforeTransform') {
     WebImporter.DOMUtils.remove(element, BEFORE_SELECTORS);
     removeHiddenModals(element);
     removeMobileTableCopies(element);
+    removeMobileTwins(element);
+    removeStickyTitleBars(element);
     element.querySelectorAll('table').forEach((t) => t.setAttribute(SRC_TABLE_ATTR, ''));
   }
 

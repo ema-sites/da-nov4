@@ -37,9 +37,10 @@ const FALLBACK_PLACEHOLDER = 'Type your question here';
 
 export default function parse(element, { document }) {
   const form = element.matches('form') ? element : element.querySelector('form');
+  // only a free-text field makes a search box; radio/checkbox-driven wizards
+  // (e.g. the specialist-locator questionnaire) stay default content
   const input = element.querySelector('#intelli-search')
-    || element.querySelector('input[type="text"], input[type="search"]')
-    || [...element.querySelectorAll('input:not([type="hidden"])')].pop();
+    || element.querySelector('input[type="text"], input[type="search"], input:not([type])');
   if (!input) return; // no search field: not a search box (e.g. a select-driven tool)
   // a visible label only (screen-reader-only "Search" labels are not shown)
   const labelEl = element.querySelector('label:not(.offscreen):not(.sr-only), .ask-callout-title');
