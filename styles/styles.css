@@ -363,3 +363,15 @@ main .section.cards-product-container > .default-content-wrapper > p:not(.button
   padding-bottom: 20px;
   text-align: left;
 }
+
+main .section.promo-mosaic-container > .default-content-wrapper > h2 {
+  box-sizing: border-box;
+  max-width: 865px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 30px;
+}
+
+main .section.cards-article-container > .default-content-wrapper:last-child > p.button-wrapper:last-child {
+  margin-bottom: 0;
+}
