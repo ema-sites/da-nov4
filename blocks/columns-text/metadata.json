@@ -78,9 +78,10 @@
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts/find-chequing-account.html?transactions="
     ],
     "pagesUsing": [
-      "/index"
+      "/index",
+      "/avantages-des-services-bancaires-rbc/index"
     ],
-    "reuseCount": 1,
+    "reuseCount": 2,
     "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Default choice for plain equal-width text columns. Use columns-side-heading when the first column is a section title, columns-media for large media + copy, columns-promo for framed CTA boxes, cards-product for product tiles.",

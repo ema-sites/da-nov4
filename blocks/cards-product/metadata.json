@@ -215,9 +215,10 @@
       "https://www.rbcroyalbank.com/business/international-trade/export-guarantee.html"
     ],
     "pagesUsing": [
-      "/index"
+      "/index",
+      "/avantages-des-services-bancaires-rbc/index"
     ],
-    "reuseCount": 1,
+    "reuseCount": 2,
     "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Default card grid for product/category teasers. Structural options: image/image-* (photo above text), horizontal/horizontal-2 (photo beside text), photo-overlay/photo-overlay-2/photo-overlay-audience(-2) (text over full-bleed photo), header-strip/header-strip-blue-grey (first short cell becomes a coloured label bar), featured (first card wide), tiers (stacked rate rows), apply (single CTA panel with image beside text). Colour options (tinted, alt, blue, orange, red-light, cyan-red, grey, light, shadow, etc.) are styling hooks for the design pass. Use cards-plan for priced plan comparisons and cards-article for editorial teasers."

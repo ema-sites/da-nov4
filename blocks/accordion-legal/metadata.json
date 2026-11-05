@@ -31,9 +31,10 @@
       "https://www.rbcroyalbank.com/mortgages/cash-back-mortgage.html"
     ],
     "pagesUsing": [
-      "/index"
+      "/index",
+      "/avantages-des-services-bancaires-rbc/index"
     ],
-    "reuseCount": 1,
+    "reuseCount": 2,
     "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use once per page for legal disclaimers / footnotes. For question-and-answer lists use accordion-faq."

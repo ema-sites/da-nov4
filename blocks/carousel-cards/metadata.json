@@ -72,7 +72,12 @@
       "https://www.rbcroyalbank.com/bank-accounts/chequing-accounts-offers.html",
       "https://www.rbcroyalbank.com/business/accounts/digital-choice-business-account.html",
       "https://www.rbcroyalbank.com/fr/comptes-bancaires/comptes-de-cheques/forfait-bancaire-vip.html"
-    ]
+    ],
+    "pagesUsing": [
+      "/avantages-des-services-bancaires-rbc/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use for any scrolling set of 3+ cards or rotating text slides. Use carousel-hero for full-width hero slides. Colour options (alt, blue, blue-light, blue-cyan, blue-purple) are styled in the design pass"
 }

@@ -428,8 +428,67 @@ function isMobileTwin(n) {
 }
 // ---- end shared helpers ----
 
+const LOCAL_HOST_RE = /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/i;
+
+/**
+ * URL of the source page, used to resolve relative image paths. The live
+ * document location wins; behind a local proxy (localhost) fall back to the
+ * page's canonical / og:url, then document.baseURI.
+ */
+function pageUrl(document) {
+  const candidates = [];
+  try { candidates.push(document.defaultView && document.defaultView.location && document.defaultView.location.href); } catch (e) { /* no window */ }
+  const canon = document.querySelector('link[rel="canonical"][href], meta[property="og:url"][content]');
+  if (canon) candidates.push(canon.getAttribute('href') || canon.getAttribute('content'));
+  candidates.push(document.baseURI);
+  const ok = candidates.filter(Boolean).map((c) => { try { return new URL(c); } catch (e) { return null; } })
+    .filter((u) => u && /^https?:$/.test(u.protocol));
+  const remote = ok.find((u) => !LOCAL_HOST_RE.test(u.hostname));
+  return (remote || ok[0] || { href: '' }).href;
+}
+
+/** Absolute URL against the source page; proxied localhost URLs get the page origin. */
 function absolute(src, document) {
-  try { return new URL(src, document.baseURI).href; } catch (e) { return src; }
+  if (!src) return src;
+  const base = pageUrl(document);
+  try {
+    const u = new URL(src, base || undefined);
+    const page = base ? new URL(base) : null;
+    if (page && LOCAL_HOST_RE.test(u.hostname) && !LOCAL_HOST_RE.test(page.hostname)) {
+      u.searchParams.delete('host');
+      return `${page.origin}${u.pathname}${u.search}${u.hash}`;
+    }
+    return u.href;
+  } catch (e) { return src; }
+}
+
+const BG_HOLDER_RE = /(banner|hero|bg|img|image|photo|picture|background)/i;
+
+/**
+ * Banner background of one element: inline style / data-bg (bgUrl), then the
+ * data-img attribute RBC's script turns into the background, then (live DOM)
+ * the computed background-image. Roots always use computed styles;
+ * descendants only when they look like an image holder and carry no text,
+ * so decorative CSS backgrounds (icons, energy lines) are not picked up.
+ */
+function heroBgUrl(el, document, isRoot) {
+  if (!el || !el.getAttribute) return '';
+  const inline = bgUrl(el);
+  if (inline) return absolute(inline, document);
+  let src = '';
+  const data = el.getAttribute('data-img') || el.getAttribute('data-image') || el.getAttribute('data-bg-img') || '';
+  if (data && !data.startsWith('data:') && /\.(jpe?g|png|webp|gif|avif)(\?|#|$)/i.test(data)) src = data;
+  if (!src && (isRoot || (BG_HOLDER_RE.test(el.className || '') && !cleanText(el.textContent)))) {
+    try {
+      const win = document.defaultView;
+      if (win && win.getComputedStyle) {
+        const m = (win.getComputedStyle(el).backgroundImage || '').match(/url\(\s*(['"]?)(.*?)\1\s*\)/i);
+        if (m && m[2] && !m[2].startsWith('data:')) src = m[2];
+      }
+    } catch (e) { /* no computed styles */ }
+  }
+  if (!src || isDecorativeSrc(src) || /\.svg(\?|#|$)/i.test(src)) return '';
+  return absolute(src, document);
 }
 
 function isMobileOnly(n) {
@@ -444,14 +503,15 @@ function findVideo(element) {
 }
 
 /** Background/feature image: element bg, then descendant bg (desktop first), then a standalone image column. */
-function findBackground(element) {
+function findBackground(element, document) {
   const label = element.querySelector(':scope > .offscreen, :scope > .sr-only, :scope > [role="img"][aria-label]');
   const alt = label ? cleanText(label.getAttribute('aria-label') || label.textContent) : '';
-  if (bgUrl(element)) return { src: bgUrl(element), alt, nodes: [] };
-  const bgs = [...element.querySelectorAll('*')].filter((n) => bgUrl(n));
-  const desktop = bgs.find((n) => !/mobile/i.test(n.className || '') && !isMobileOnly(n));
+  const rootBg = heroBgUrl(element, document, true);
+  if (rootBg) return { src: rootBg, alt, nodes: [] };
+  const bgs = [...element.querySelectorAll('*')].map((n) => [n, heroBgUrl(n, document, false)]).filter(([, u]) => u);
+  const desktop = bgs.find(([n]) => !/mobile/i.test(n.className || '') && !isMobileOnly(n));
   const pick = desktop || bgs[0];
-  if (pick) return { src: bgUrl(pick), alt: alt || cleanText(pick.getAttribute('aria-label') || ''), nodes: bgs.filter((n) => !cleanText(n.textContent)) };
+  if (pick) return { src: pick[1], alt: alt || cleanText(pick[0].getAttribute('aria-label') || ''), nodes: bgs.map(([n]) => n).filter((n) => !cleanText(n.textContent)) };
   // a standalone image column next to the text (split / lifestyle banners)
   const imgs = [...element.querySelectorAll('img')].filter((i) => imgSrc(i) && !isMobileOnly(i) && !isDecorativeSrc(imgSrc(i)));
   for (const img of imgs) {
@@ -508,7 +568,7 @@ export default function parse(element, { document }) {
   const asides = findAsides(element, heading);
   // images inside asides belong to the aside, not the background
   const hidden = asides.map((a) => { const c = a.cloneNode(false); a.replaceWith(c); return [a, c]; });
-  const bg = findBackground(element);
+  const bg = findBackground(element, document);
   hidden.forEach(([a, c]) => c.replaceWith(a));
   if (!heading && !video && !bg) return; // not a banner: keep as default content
 

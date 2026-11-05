@@ -549,10 +549,8 @@ function planItems(element) {
   return { items: [element], before: [], after: [] };
 }
 
-export default function parse(element, { document }) {
-  const variants = resolveVariants(element, []);
+function planCells(document, element) {
   dropMobileDuplicates(element);
-
   const { items, before, after } = planItems(element);
   const cards = items.map((item) => {
     const media = findMedia(item);
@@ -562,9 +560,91 @@ export default function parse(element, { document }) {
     if (!body.length && !images.length) return null;
     return { images, body };
   }).filter(Boolean);
-  if (!cards.length) return;
-
+  if (!cards.length) return null;
   const hasImage = cards.some((c) => c.images.length);
   const cells = cards.map((c) => (hasImage ? [c.images.length ? c.images : '', c.body] : [c.body]));
-  replaceWithBlock(document, element, 'cards-plan', cells, variants, before, after);
+  return { cells, before, after };
+}
+
+const TAB_LIST_SEL = ':scope > .tab-btns, :scope > [role="tablist"], :scope > .tabs-nav, :scope > .nav-tabs';
+const TAB_PANEL_RE = /(^|\s)(tab-content|tab-pane|[\w-]+-content)(\s|$)/;
+const SR_ONLY_SEL = '.offscreen, .sr-only, .visually-hidden, .show-for-sr, .screen-reader-text, .sr-text';
+
+/**
+ * Card grid inside one panel of a button-tab widget (e.g. .floating-tab with
+ * .tab-btns + .us-da-content / .foreign-ca-content): only the active panel is
+ * mapped in the catalog, the others are display:none siblings. Returns every
+ * panel's label and card container (matched by the element's own classes), or
+ * null when the element is not inside such a widget. Buttons pair with panels
+ * by document order; a single filtered panel (loans tabs) does not qualify.
+ */
+function tabGroup(element) {
+  const cls = [...element.classList].filter((c) => /^[\w-]+$/.test(c) && !/^(active|col-wpr|eh-wpr|desktop-only)$/.test(c));
+  if (!cls.length) return null;
+  const boxSel = `.${cls[0]}`;
+  for (let panel = element.parentElement; panel && panel.parentElement; panel = panel.parentElement) {
+    if (panel.matches('main, body, section')) break;
+    const host = panel.parentElement;
+    const list = host.querySelector(TAB_LIST_SEL);
+    if (!list) continue;
+    const panels = [...host.children].filter((c) => c !== list && (TAB_PANEL_RE.test(c.className || '') || c.getAttribute('role') === 'tabpanel'));
+    const buttons = [...list.querySelectorAll('button, [role="tab"]')].filter((b) => cleanText(b.textContent));
+    if (!panels.includes(panel) || panels.length < 2 || buttons.length !== panels.length) return null;
+    const tabs = panels.map((p, i) => {
+      const box = p === panel ? element : p.querySelector(boxSel);
+      const label = buttons[i].cloneNode(true);
+      label.querySelectorAll(SR_ONLY_SEL).forEach((n) => n.remove());
+      return { panel: p, box, label: cleanText(label.textContent) };
+    });
+    // another catalog instance already owns a box: leave the widget alone
+    if (tabs.some((t) => !t.box || (t.box !== element && t.box.hasAttribute('data-catalog-block')))) return null;
+    return { list, tabs };
+  }
+  return null;
+}
+
+/** Visible text without whitespace (the active panel may already hold parsed block tables). */
+function panelText(el) {
+  const clone = el.cloneNode(true);
+  // block tables: drop the header row (block name) so only the authored text is compared
+  clone.querySelectorAll(`${SR_ONLY_SEL}, script, style, template, th`).forEach((n) => n.remove());
+  return (clone.textContent || '').replace(/[\s ]+/g, '');
+}
+
+/** Remove an inactive panel's nodes that repeat the active panel (shared benefit lists). */
+function dropRepeatedPanelContent(active, other) {
+  const seen = new Set([...active.children].map(panelText).filter(Boolean));
+  [...other.children].forEach((c) => { const t = panelText(c); if (t && seen.has(t)) c.remove(); });
+}
+
+function parseTabs(document, element, group, variants) {
+  const built = group.tabs.map((t) => ({ ...t, plan: planCells(document, t.box) }));
+  if (!built.some((t) => t.plan)) return false;
+  const active = group.tabs.find((t) => t.box === element).panel;
+  built.forEach((t) => {
+    if (t.panel !== active) {
+      dropRepeatedPanelContent(active, t.panel);
+      // leftover default content of a hidden panel: no screen-reader labels
+      t.panel.querySelectorAll(SR_ONLY_SEL).forEach((n) => { if (n !== t.box && !n.contains(t.box)) n.remove(); });
+    }
+    if (!t.plan) { t.box.remove(); return; }
+    const h = document.createElement('h3');
+    h.textContent = t.label;
+    t.box.before(h);
+    replaceWithBlock(document, t.box, 'cards-plan', t.plan.cells, variants, t.plan.before, t.plan.after);
+  });
+  // the tab buttons are now the headings above each block
+  if (group.list.isConnected && group.list.querySelector('button')) group.list.remove();
+  return true;
+}
+
+export default function parse(element, { document }) {
+  const variants = resolveVariants(element, []);
+
+  const group = tabGroup(element);
+  if (group && parseTabs(document, element, group, variants)) return;
+
+  const plan = planCells(document, element);
+  if (!plan) return;
+  replaceWithBlock(document, element, 'cards-plan', plan.cells, variants, plan.before, plan.after);
 }

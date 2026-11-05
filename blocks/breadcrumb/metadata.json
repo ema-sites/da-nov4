@@ -29,7 +29,12 @@
       "https://www.rbcroyalbank.com/avantages-des-services-bancaires-rbc/",
       "https://www.rbcroyalbank.com/bank-accounts/british-pound-savings-account.html",
       "https://www.rbcroyalbank.com/mortgages/"
-    ]
+    ],
+    "pagesUsing": [
+      "/avantages-des-services-bancaires-rbc/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-11-05"
   },
   "reuseGuidance": "Use once at the top of interior pages. Do not use for in-page jump links (anchor-nav) or section navigation (section-nav)."
 }
