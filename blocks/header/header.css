@@ -11,6 +11,7 @@ header .nav-wrapper {
 header nav {
   box-sizing: border-box;
   width: 100%;
+  background-color: var(--brand-blue);
 }
 
 header nav ul {
@@ -40,6 +41,31 @@ header .nav-main-inner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 15px;
+}
+
+header .nav-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* skip link: off-screen until focused */
+header .nav-skip:any-link {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+  z-index: 300;
+  padding: 4px 8px;
+  background-color: var(--background-color);
+  color: var(--link-color);
+  font-size: 14px;
+}
+
+header .nav-skip:focus {
+  left: 0;
 }
 
 /* row 0: line-of-business utility bar */
@@ -274,7 +300,7 @@ header .nav-search-backdrop {
   header .nav-lob > li > a:hover,
   header .nav-utility-link:hover {
     color: var(--background-color);
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   header .nav-lob .nav-dropdown {
@@ -289,8 +315,6 @@ header .nav-search-backdrop {
   }
 
   header .nav-utility-link:any-link {
-    display: inline-flex;
-    align-items: center;
     color: var(--background-color);
     font-size: 12px;
     font-weight: 400;
@@ -299,6 +323,8 @@ header .nav-search-backdrop {
 
   header .nav-utility-link::before {
     content: '';
+    display: inline-block;
+    vertical-align: -1px;
     width: 10px;
     height: 10px;
     margin-right: 7px;
@@ -333,41 +359,36 @@ header .nav-search-backdrop {
   }
 
   header .nav-search-trigger {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    border-bottom: 1px solid var(--background-color);
     padding: 0 0 5px;
     color: var(--background-color);
-  }
-
-  header .nav-search-trigger img {
-    width: 24px;
-    height: 25px;
+    text-align: left;
   }
 
   header .nav-search-label {
+    display: inline;
+    border-bottom: 1px solid var(--background-color);
+    padding-bottom: 8px;
     font-size: 20px;
     font-weight: 300;
     line-height: 30px;
   }
 
+  header .nav-search-label img {
+    width: 24px;
+    height: 25px;
+    margin-right: 14px;
+    vertical-align: -6px;
+  }
+
   header .nav-tool-link:any-link {
-    display: inline-flex;
-    align-items: center;
+    position: relative;
+    display: inline-block;
     padding: 0 15px 0 16px;
+    background: url('./ui-chevron-right-white.svg') right center / 7px 12px no-repeat;
     color: var(--background-color);
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
-  }
-
-  header .nav-tool-link::after {
-    content: '';
-    width: 7px;
-    height: 12px;
-    margin-left: 10px;
-    background: url('./ui-chevron-right-white.svg') center / contain no-repeat;
   }
 
   header .nav-tool-link:hover {
@@ -376,7 +397,7 @@ header .nav-search-backdrop {
   }
 
   header .nav-tools .nav-has-dropdown {
-    margin: 0 30px 0 15px;
+    margin: 0 30px;
   }
 
   header .nav-tools .nav-dropdown-trigger {
@@ -484,21 +505,16 @@ header .nav-search-backdrop {
     margin-left: 0;
   }
 
-  header .nav-item-toggle > a::before {
+  header .nav-item-toggle::before {
     content: '';
-    position: absolute;
-    top: 15px;
-    left: 0;
     width: 1px;
     height: 30px;
     background-color: #e0e0e0;
   }
 
   header .nav-item-toggle > a:any-link {
-    position: relative;
-    display: flex;
-    align-self: stretch;
-    align-items: center;
+    display: block;
+    height: 24px;
     padding: 0 15px;
   }
 
@@ -514,14 +530,16 @@ header .nav-search-backdrop {
 
   header .nav-panel {
     position: absolute;
-    top: 59px;
-    left: 50%;
+    top: 60px;
+    right: 0;
+    left: 0;
     z-index: 4;
     box-sizing: border-box;
-    width: min(1230px, 100%);
+    width: 1230px;
+    max-width: 100%;
+    margin: -1px auto 0;
     border: 1px solid #dedfe0;
     background-color: var(--background-color);
-    transform: translateX(-50%);
   }
 
   header .nav-item.is-open > .nav-panel {
@@ -569,6 +587,18 @@ header .nav-search-backdrop {
   header .nav-panel a:hover {
     color: var(--link-hover-color);
     text-decoration: underline;
+  }
+
+  header .nav-panel-note {
+    margin: 30px 0 0;
+    color: var(--dark-color);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 21px;
+  }
+
+  header .nav-panel-note sup {
+    font-size: 7.7px;
   }
 
   header .nav-promo {

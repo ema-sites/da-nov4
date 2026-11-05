@@ -42,6 +42,7 @@ body.appear {
 
 header {
   height: var(--nav-height);
+  background-color: var(--brand-blue);
 }
 
 header .header,

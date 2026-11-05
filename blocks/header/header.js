@@ -88,7 +88,7 @@ function buildColumn(li) {
   [...li.children].forEach((child) => {
     if (child.tagName === 'P' && child.querySelector('strong') && !child.querySelector('a')) {
       child.className = 'nav-panel-title';
-      child.textContent = child.textContent.trim();
+      child.querySelectorAll('strong').forEach((s) => s.replaceWith(...s.childNodes));
     } else if (child.tagName === 'UL') {
       child.className = 'nav-panel-links';
     }
@@ -155,7 +155,10 @@ function buildMainNav(section, nav, header) {
     if (isTabbed(sub)) {
       panel = buildTabbedPanel(sub);
     } else {
-      panel = el('div', 'nav-panel', el('div', 'nav-panel-inner', buildGrid(sub)));
+      // paragraphs after the column list are panel-wide footnotes
+      const notes = [...li.querySelectorAll(':scope > p')];
+      notes.forEach((p) => { p.className = 'nav-panel-note'; });
+      panel = el('div', 'nav-panel', el('div', 'nav-panel-inner', buildGrid(sub), ...notes));
     }
     sub.remove();
     li.append(panel);
@@ -242,11 +245,11 @@ function buildBrand(section, nav) {
       } else if (a && a.querySelector('img')) {
         // link with an icon -> search trigger
         searchAction = a.getAttribute('href') || searchAction;
-        const btn = el('button', 'nav-search-trigger', ...a.childNodes);
+        const label = el('span', 'nav-search-label', ...a.childNodes);
+        const btn = el('button', 'nav-search-trigger', label);
         btn.type = 'button';
         btn.setAttribute('aria-expanded', 'false');
         btn.setAttribute('aria-label', 'Open search dialog');
-        [...btn.childNodes].forEach((n) => { if (n.nodeType === Node.TEXT_NODE && n.textContent.trim()) n.replaceWith(el('span', 'nav-search-label', n.textContent.trim())); });
         li.replaceChildren(btn);
         li.classList.add('nav-tool-search');
       } else if (li.querySelector(':scope > strong > a')) {
@@ -276,14 +279,29 @@ function buildUtility(section, nav) {
       if (!activeSet && (path === here || (here === '/' && /\/personal$/.test(path)))) {
         li.classList.add('is-active');
         a.setAttribute('aria-current', 'page');
+        a.prepend(el('span', 'nav-sr-only', 'You are in:'));
         activeSet = true;
       }
     });
-    if (!activeSet && list.querySelector('li > a')) list.querySelector('li').classList.add('is-active');
+    const first = list.querySelector('li > a');
+    if (!activeSet && first) {
+      first.parentElement.classList.add('is-active');
+      first.prepend(el('span', 'nav-sr-only', 'You are in:'));
+    }
+  }
+  // an in-page link (#...) is the skip link; other paragraph links sit on the right
+  const skip = [...section.querySelectorAll(':scope > p a')].find((a) => a.getAttribute('href')?.startsWith('#'));
+  if (skip) {
+    skip.className = 'nav-skip';
+    const target = skip.getAttribute('href').slice(1);
+    const main = document.querySelector('main');
+    if (main && target && !document.getElementById(target)) main.id = target;
+    nav.prepend(skip);
   }
   const extra = [...section.querySelectorAll(':scope > p a')];
   extra.forEach((a) => { a.className = 'nav-utility-link'; });
-  return el('div', 'nav-utility', el('div', 'nav-utility-inner', list, ...extra));
+  const extraWrap = extra.length ? el('div', 'nav-utility-extra', ...extra) : null;
+  return el('div', 'nav-utility', el('div', 'nav-utility-inner', list, extraWrap));
 }
 
 /**
