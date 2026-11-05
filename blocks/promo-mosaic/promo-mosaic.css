@@ -1,7 +1,17 @@
 /* promo-mosaic: bento grid of trust tiles (values from rbcroyalbank.com #bento-section .bento-box) */
 
+/* source .bento-box: margin 15px 0 0 (mobile glider), 30px 0 0 (desktop); no bottom margin */
 .promo-mosaic {
-  margin: 30px 0;
+  margin: 15px 0 0;
+}
+
+/* trailing CTA under the grid: source wrapper margin 30px 0 0, so the section padding is the only space below */
+main .promo-mosaic-wrapper + .default-content-wrapper > p.button-wrapper:first-child {
+  margin-top: 30px;
+}
+
+main .promo-mosaic-wrapper + .default-content-wrapper:last-child > p.button-wrapper:last-child {
+  margin-bottom: 0;
 }
 
 /* mobile: horizontal swipe track (source: glider, 320px cards, 16px apart) */
@@ -105,6 +115,10 @@ main .promo-mosaic .promo-mosaic-grid .promo-mosaic-tile:nth-child(even) a:any-l
 }
 
 @media (width >= 900px) {
+  .promo-mosaic {
+    margin-top: 30px;
+  }
+
   .promo-mosaic .promo-mosaic-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

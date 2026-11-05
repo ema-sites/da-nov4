@@ -158,20 +158,24 @@
   border-radius: 8px;
 }
 
+/* source .top: flex row, 30px star + 8px gap + score; the star sits out of flow so the
+   authored space after it collapses at line start instead of pushing the score right */
 .columns-media.banner .columns-media-rating .columns-media-rating-score {
+  position: relative;
   grid-row: 2;
+  padding-left: 38px;
   font-size: 24px;
   font-weight: 500;
   line-height: 32px;
 }
 
 .columns-media.banner .columns-media-rating-score img {
-  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 30px;
   height: 30px;
-  margin-right: 8px;
   object-fit: contain;
-  vertical-align: top;
 }
 
 .columns-media.banner .columns-media-rating-score a:any-link:not(:has(img)) {
