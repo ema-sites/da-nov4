@@ -1,70 +1,203 @@
-/* promo-mosaic: structural layout only; colours and type come from the design pass */
+/* promo-mosaic: bento grid of trust tiles (values from rbcroyalbank.com #bento-section .bento-box) */
+
+.promo-mosaic {
+  margin: 30px 0;
+}
+
+/* mobile: horizontal swipe track (source: glider, 320px cards, 16px apart) */
 .promo-mosaic .promo-mosaic-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+  display: flex;
+  gap: 16px;
+  margin-right: calc(-1 * var(--content-gutter));
+  padding: 7.5px var(--content-gutter) 30px 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: var(--brand-yellow) #b3b3b3;
+  scrollbar-width: thin;
 }
 
 .promo-mosaic .promo-mosaic-tile {
+  box-sizing: border-box;
   display: flex;
+  flex: 0 0 320px;
   flex-direction: column;
-  overflow: hidden;
   min-width: 0;
+  min-height: 448px;
+  padding: 24px;
+  border-radius: 8px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  text-align: start;
 }
 
-.promo-mosaic .promo-mosaic-tile-body {
-  padding: 24px;
+/* tile colours alternate: light grey / RBC blue gradient */
+.promo-mosaic .promo-mosaic-tile:nth-child(odd) {
+  border: 1px solid #b3b3b3;
+  background-color: #f5f7f9;
+  color: var(--text-color);
+}
+
+.promo-mosaic .promo-mosaic-tile:nth-child(even) {
+  background-image: linear-gradient(#006ac3 0%, #008bff 100%);
+  color: var(--background-color);
+}
+
+.promo-mosaic .promo-mosaic-grid .promo-mosaic-tile:nth-child(odd) :is(h3, p) {
+  color: var(--text-color);
+}
+
+.promo-mosaic .promo-mosaic-grid .promo-mosaic-tile:nth-child(even) :is(h3, p) {
+  color: var(--background-color);
+}
+
+main .promo-mosaic .promo-mosaic-grid .promo-mosaic-tile:nth-child(odd) a:any-link {
+  color: var(--link-color);
+}
+
+main .promo-mosaic .promo-mosaic-grid .promo-mosaic-tile:nth-child(even) a:any-link {
+  color: var(--background-color);
 }
 
 .promo-mosaic .promo-mosaic-tile-media {
-  margin-top: auto;
+  line-height: 0;
 }
 
-.promo-mosaic .promo-mosaic-tile-media picture,
+.promo-mosaic .promo-mosaic-tile-media p {
+  margin: 0;
+}
+
+.promo-mosaic .promo-mosaic-tile-media picture {
+  display: inline-block;
+}
+
 .promo-mosaic .promo-mosaic-tile-media img {
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: 172px;
+  max-height: 100px;
+}
+
+.promo-mosaic .promo-mosaic-tile-body h3 {
+  margin: 25px 0 15px;
+  font-size: 30px;
+  line-height: 38px;
+}
+
+.promo-mosaic .promo-mosaic-tile-body > :first-child {
+  margin-top: 0;
+}
+
+.promo-mosaic .promo-mosaic-tile-media + .promo-mosaic-tile-body h3:first-child {
+  margin-top: 25px;
+}
+
+.promo-mosaic .promo-mosaic-tile-body p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.promo-mosaic .promo-mosaic-tile-body p + p {
+  margin-top: 15px;
 }
 
 @media (width >= 900px) {
   .promo-mosaic .promo-mosaic-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-flow: row dense;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px;
+    margin-right: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .promo-mosaic .promo-mosaic-tile {
+    min-height: 0;
+    padding: 30px;
   }
 
   .promo-mosaic .promo-mosaic-feature {
-    grid-column: 1;
-    grid-row: 1 / span 3;
+    grid-column: span 2;
   }
 
-  .promo-mosaic .promo-mosaic-tile:not(.promo-mosaic-feature) {
-    grid-column: 2;
+  .promo-mosaic .promo-mosaic-tile-body h3 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .promo-mosaic .promo-mosaic-tile-media + .promo-mosaic-tile-body h3:first-child {
+    margin-top: 20px;
+  }
+
+  .promo-mosaic .promo-mosaic-tile-body p {
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  /* feature tile: illustration on a white panel beside the copy */
+  .promo-mosaic .promo-mosaic-feature.promo-mosaic-has-media {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+  }
+
+  .promo-mosaic .promo-mosaic-feature .promo-mosaic-tile-media {
+    box-sizing: border-box;
+    padding: 67px 51px;
+    border-radius: 8px;
+    background-color: var(--background-color);
+  }
+
+  .promo-mosaic .promo-mosaic-feature .promo-mosaic-tile-media picture {
+    display: block;
+  }
+
+  .promo-mosaic .promo-mosaic-feature .promo-mosaic-tile-media img {
+    width: 100%;
+    max-width: none;
+    max-height: none;
+  }
+
+  .promo-mosaic .promo-mosaic-feature .promo-mosaic-tile-body {
+    align-self: center;
+  }
+
+  .promo-mosaic .promo-mosaic-feature .promo-mosaic-tile-media + .promo-mosaic-tile-body h3:first-child {
+    margin-top: 0;
+  }
+
+  /* source gives the 3rd and 4th tiles a larger image-to-heading gap */
+  .promo-mosaic .promo-mosaic-tile:nth-child(3) .promo-mosaic-tile-media + .promo-mosaic-tile-body h3:first-child,
+  .promo-mosaic .promo-mosaic-tile:nth-child(4) .promo-mosaic-tile-media + .promo-mosaic-tile-body h3:first-child {
+    margin-top: 30px;
   }
 
   .promo-mosaic.promo-mosaic-single .promo-mosaic-grid {
     grid-template-columns: 1fr;
   }
 
+  .promo-mosaic.promo-mosaic-single .promo-mosaic-feature {
+    grid-column: auto;
+  }
+
   /* mirrored: feature tile on the right */
   .promo-mosaic.mirrored .promo-mosaic-feature {
-    grid-column: 2;
+    grid-column: 2 / span 2;
   }
 
-  .promo-mosaic.mirrored .promo-mosaic-tile:not(.promo-mosaic-feature) {
-    grid-column: 1;
+  .promo-mosaic.mirrored .promo-mosaic-feature + .promo-mosaic-tile {
+    grid-area: 1 / 1;
   }
 
-  /* alt: two equal columns, tiles flow naturally */
-  .promo-mosaic.alt .promo-mosaic-feature,
-  .promo-mosaic.alt .promo-mosaic-tile:not(.promo-mosaic-feature) {
+  /* alt: equal tiles */
+  .promo-mosaic.alt .promo-mosaic-feature {
     grid-column: auto;
-    grid-row: auto;
   }
-}
 
-/* colour hooks (filled in by the design pass) */
-.promo-mosaic.light .promo-mosaic-tile,
-.promo-mosaic.orange-light .promo-mosaic-tile {
-  background-color: transparent;
+  .promo-mosaic.alt .promo-mosaic-feature.promo-mosaic-has-media {
+    display: flex;
+  }
 }

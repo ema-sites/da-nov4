@@ -36,16 +36,18 @@ export default function decorate(block) {
     const body = document.createElement('div');
     body.className = 'promo-mosaic-tile-body';
 
+    // keep the authored cell order (media first when the image cell comes first)
+    const parts = [];
     cells.forEach((cell) => {
-      if (isImageOnly(cell)) media.append(...cell.childNodes);
-      else body.append(...cell.childNodes);
+      const target = isImageOnly(cell) ? media : body;
+      target.append(...cell.childNodes);
+      if (!parts.includes(target)) parts.push(target);
     });
 
-    if (body.childNodes.length) tile.append(body);
-    if (media.childNodes.length) {
-      tile.append(media);
-      tile.classList.add('promo-mosaic-has-media');
-    }
+    parts.forEach((part) => {
+      if (part.childNodes.length) tile.append(part);
+    });
+    if (media.childNodes.length) tile.classList.add('promo-mosaic-has-media');
     grid.append(tile);
   });
 
