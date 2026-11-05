@@ -60,6 +60,75 @@
   inset: 0;
 }
 
+/* image-top: RBC "My Money Matters" article teasers (values from source computed styles) */
+.cards-article.image-top {
+  margin: clamp(15px, calc(2.6738vw - 2.0856px), 30px) 0;
+}
+
+.cards-article.image-top > ul {
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.cards-article.image-top > ul > li {
+  border: 1px solid #c4c8cc;
+  background-color: var(--background-color);
+}
+
+/* below 480px the photo sits inside the card padding */
+.cards-article.image-top .cards-article-card-image {
+  padding: 15px 15px 0;
+}
+
+.cards-article.image-top > ul > li img {
+  display: block;
+  height: 150px;
+  aspect-ratio: auto;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.cards-article.image-top .cards-article-card-body {
+  margin: 0;
+  padding: 15px;
+}
+
+.cards-article.image-top .cards-article-card-body h3 {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-m);
+  font-weight: var(--heading-font-weight);
+  line-height: 26px;
+}
+
+.cards-article.image-top .cards-article-card-body h3 a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards-article.image-top > ul > li:hover h3 a:any-link {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+@media (width >= 480px) {
+  .cards-article.image-top .cards-article-card-image {
+    padding: 0;
+  }
+}
+
+@media (width >= 640px) {
+  .cards-article.image-top > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(15px, calc(2.6738vw - 2.0856px), 30px);
+  }
+
+  .cards-article.image-top .cards-article-card-body {
+    padding: clamp(15px, calc(9.3048px + 0.8913vw), 20px);
+  }
+}
+
 /* list-rows: one article per row, image beside text */
 .cards-article.list-rows > ul {
   grid-template-columns: 1fr;
