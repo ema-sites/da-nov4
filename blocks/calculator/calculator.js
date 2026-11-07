@@ -35,6 +35,17 @@ function isButtonRow(cells) {
   return links.length === 1 && links[0].textContent.trim() === filled[0].textContent.trim();
 }
 
+/* A plain-text submit label authored without a link (e.g. "Get Results"), right after fields. */
+function isTextButtonRow(cells) {
+  const filled = cells.filter((c) => c.textContent.trim() || c.querySelector('picture'));
+  if (filled.length !== 1) return false;
+  const [cell] = filled;
+  const text = cell.textContent.trim();
+  if (!text || text.length > 40) return false;
+  const els = [...cell.querySelectorAll('*')];
+  return els.every((el) => el.tagName === 'P' && !el.children.length) && els.length <= 1;
+}
+
 function buildField(cells, index) {
   const [labelCell, specCell, helpCell] = cells;
   const labelText = labelCell.textContent.trim();
@@ -170,7 +181,7 @@ export default function decorate(block) {
     if (isButtonRow(cells)) {
       const link = row.querySelector('a');
       const href = link.getAttribute('href') || '';
-      if (!href || href === '#' || href.startsWith('#calculate')) {
+      if (!href || href === '#' || href.startsWith('#calculate') || /^javascript:/i.test(href)) {
         const button = document.createElement('button');
         button.type = 'submit';
         button.className = 'button';
@@ -180,6 +191,15 @@ export default function decorate(block) {
         link.classList.add('button');
         actions.append(link);
       }
+      return;
+    }
+    if (fieldIndex && !actions.children.length && !after.childNodes.length
+      && isTextButtonRow(cells)) {
+      const button = document.createElement('button');
+      button.type = 'submit';
+      button.className = 'button';
+      button.textContent = row.textContent.trim();
+      actions.append(button);
       return;
     }
     const pictureOnly = cells.every((c) => !c.textContent.trim());

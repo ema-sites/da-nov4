@@ -1,49 +1,124 @@
+/* calculator: RBC calculators (labelled inputs with $/% add-ons, submit button, notes) */
 .calculator {
+  --calculator-pad-x: 0;
+  --calculator-pad-y: 0;
+
   display: grid;
   gap: 24px;
+  color: var(--text-color);
+}
+
+/* panel padding sits on the children (the source pads an inner wrapper) */
+.calculator > * {
+  padding-inline: var(--calculator-pad-x);
+}
+
+.calculator > :first-child {
+  padding-top: var(--calculator-pad-y);
+}
+
+.calculator > :last-child {
+  padding-bottom: var(--calculator-pad-y);
 }
 
 .calculator .calculator-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .calculator .calculator-fields {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px 30px;
 }
 
 .calculator .calculator-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-end;
   min-width: 0;
 }
 
-.calculator .calculator-required::before {
-  content: '* ';
+.calculator .calculator-field > label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+.calculator .calculator-required::after {
+  content: ' *';
+  color: rgb(189 0 0);
+}
+
+/* importer placeholder for the source's hidden manual-entry input */
+.calculator .calculator-field:has(input[data-label="..."]) {
+  display: none;
 }
 
 .calculator .calculator-control {
   display: flex;
   align-items: stretch;
+  align-self: stretch;
 }
 
-.calculator .calculator-control input,
+.calculator .calculator-control input:not([type="range"], [type="checkbox"], [type="radio"]),
 .calculator .calculator-control select {
   flex: 1 1 auto;
+  box-sizing: border-box;
   min-width: 0;
+  height: 50px;
+  margin: 0;
+  border: 1px solid var(--dark-color);
+  border-radius: 0;
+  padding: 0 10px;
+  background-color: var(--background-color);
+  color: var(--text-color);
   font: inherit;
+  font-weight: 400;
+}
+
+.calculator .calculator-control select {
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23006ac3' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+.calculator .calculator-control input[type="range"] {
+  flex: 1 1 auto;
+  min-width: 0;
+  accent-color: var(--brand-blue);
 }
 
 .calculator .calculator-prefix,
 .calculator .calculator-suffix {
   display: flex;
   align-items: center;
-  flex: 0 0 auto;
-  padding: 0 12px;
+  justify-content: center;
+  flex: 0 0 50px;
+  box-sizing: border-box;
+  min-width: 50px;
+  padding: 0 10px;
+  border: 1px solid var(--dark-color);
+  background-color: #eee;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+.calculator .calculator-prefix {
+  border-right: 0;
+}
+
+.calculator .calculator-suffix {
+  border-left: 0;
 }
 
 .calculator .calculator-choices {
@@ -55,10 +130,16 @@
   border: 0;
 }
 
+.calculator .calculator-choices legend {
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
 .calculator .calculator-choices label {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-weight: 300;
 }
 
 .calculator .calculator-actions {
@@ -66,6 +147,15 @@
   flex-wrap: wrap;
   gap: 16px;
   align-items: center;
+}
+
+/* RBC grey "ghost" submit button */
+.calculator .calculator-actions button.button,
+main .calculator .calculator-actions a.button:any-link {
+  background-color: #eee;
+  box-shadow: inset 0 0 0 1px var(--dark-color);
+  color: var(--dark-color);
+  font-weight: 400;
 }
 
 .calculator .calculator-result[hidden] {
@@ -79,27 +169,357 @@
 }
 
 /* intro: centered entry panel without inline fields */
-.calculator.intro,
-.calculator.calculator-no-fields {
-  text-align: center;
-}
-
-.calculator.intro .calculator-actions,
-.calculator.calculator-no-fields .calculator-actions {
+.calculator.intro .calculator-actions {
   justify-content: center;
 }
 
+/* default + alt: inline row of fields with the submit button in the last column */
+.calculator:is([class="calculator block"], .alt) .calculator-actions button.button {
+  min-height: 50px;
+  background-color: var(--brand-yellow);
+  box-shadow: inset 0 0 0 1px rgb(232 207 0);
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* grey: rewards spend estimator (slider + points summary) */
+.calculator.grey {
+  --calculator-pad-x: 24px;
+  --calculator-pad-y: 24px;
+
+  gap: 0;
+}
+
+.calculator.grey > * {
+  background-color: var(--background-color);
+}
+
+.calculator.grey > .calculator-form {
+  padding-block: 24px;
+}
+
+.calculator:is(.grey, .blue-grey-3, .image-grey) a[href^="#"] {
+  font-size: 12px;
+}
+
+.calculator:is(.grey, .blue-grey-3, .image-grey) :is(p, h3, label, strong) {
+  color: rgb(0 0 0);
+}
+
+.calculator:is(.grey, .blue-grey-3, .image-grey) .calculator-intro p,
+.calculator:is(.grey, .blue-grey-3, .image-grey) .calculator-field > label {
+  margin: 0 0 5px;
+  font-weight: 400;
+}
+
+.calculator.grey .calculator-notes h3 ~ p:has(+ h3) {
+  font-weight: 500;
+}
+
+.calculator.grey .calculator-intro > p:first-child {
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.calculator:is(.grey, .blue-grey-3, .image-grey) .calculator-notes > p:first-child {
+  font-weight: 400;
+  color: rgb(111 111 111);
+}
+
+.calculator.grey .calculator-notes > h3:first-of-type {
+  margin: 0 0 10px;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.calculator.grey .calculator-notes strong {
+  font-weight: 700;
+}
+
+.calculator.grey .calculator-notes img {
+  display: block;
+  width: 100%;
+  height: 237px;
+  object-fit: cover;
+}
+
+.calculator.intro {
+  --calculator-pad-x: 20px;
+  --calculator-pad-y: 21px;
+
+  border: 1px solid rgb(196 200 204);
+  background-color: var(--background-color);
+  text-align: center;
+}
+
+.calculator.intro .calculator-intro > p:first-child {
+  margin: 15px 0;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+}
+
+.calculator.intro .calculator-intro a:any-link {
+  font-weight: 400;
+}
+
+/* blue-grey-3: spend sliders with a points summary */
+.calculator.blue-grey-3 .calculator-notes > p:not(:first-child) {
+  font-weight: 400;
+}
+
+.calculator.blue-grey-3 .calculator-notes h3:first-of-type {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+/* alt-2: centred promo slides */
+.calculator.alt-2 :is(h2, h3) {
+  font-size: 36px;
+  line-height: 44px;
+}
+
+.calculator.alt-2 .calculator-intro p > a:only-child {
+  position: relative;
+  display: inline-block;
+  padding-left: 16px;
+}
+
+.calculator.alt-2 .calculator-intro p > a:only-child::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid currentcolor;
+  border-right: 1px solid currentcolor;
+  transform: rotate(45deg);
+}
+
+/* blue-grey-2: icon + text link columns */
+.calculator.blue-grey-2 {
+  max-width: 780px;
+  padding-bottom: 15px;
+}
+
+.calculator.blue-grey-2 :is(h2, h3, h4, h5, h6) {
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.calculator.blue-grey-2 :is(.calculator-intro, .calculator-notes) img {
+  object-fit: contain;
+}
+
+/* grey-2: compact travel search with small grey labels */
+.calculator.grey-2 .calculator-field > label {
+  font-size: 11px;
+  line-height: 12px;
+  color: rgb(111 111 111);
+}
+
+/* grey-3: bordered loan form (two columns of fields, results to the right) */
+.calculator.grey-3 {
+  --calculator-pad-x: 15px;
+  --calculator-pad-y: 15px;
+
+  margin-top: 15px;
+  border: 1px solid rgb(196 200 204);
+  background-color: var(--background-color);
+}
+
+.calculator.grey-3 .calculator-required::after,
+.calculator.banner .calculator-required::after {
+  content: none;
+}
+
+.calculator.grey-3 .calculator-actions {
+  justify-content: center;
+}
+
+/* banner: light blue loan finder panel */
+.calculator.banner {
+  --calculator-pad-x: 40px;
+  --calculator-pad-y: 40px;
+
+  gap: 0;
+  border-radius: 8px;
+  background-color: rgb(237 247 252);
+}
+
+.calculator.banner .calculator-intro > p:first-child {
+  margin: 0 0 10px;
+  font-family: var(--heading-font-family);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 35px;
+}
+
+.calculator.banner .calculator-fields {
+  row-gap: 30px;
+}
+
+.calculator.banner .calculator-actions .button {
+  width: 100%;
+  min-height: 50px;
+  border-color: var(--brand-blue);
+  padding: 16px;
+  background-color: var(--background-color);
+  box-shadow: inset 0 0 0 2px var(--brand-blue);
+  color: var(--brand-blue);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* light: grey retirement-savings panel */
+.calculator.light {
+  --calculator-pad-x: 15px;
+  --calculator-pad-y: 60px;
+
+  background-color: #eee;
+}
+
+.calculator.light .calculator-field > label {
+  margin-bottom: 15px;
+}
+
+.calculator.light .calculator-suffix {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.calculator.grey .calculator-notes p > a:only-child:not([href^="#"]) {
+  display: inline-block;
+  padding-top: 8px;
+}
+
 @media (width >= 900px) {
-  /* banner: intro beside the form */
-  .calculator.banner,
-  .calculator.banner-2 {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    align-items: center;
+  .calculator .calculator-fields {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
-  .calculator.banner .calculator-notes,
+  .calculator .calculator-field > label {
+    margin-bottom: 10px;
+  }
+
+  .calculator.light .calculator-field > label {
+    margin-bottom: 15px;
+  }
+
+  /* default + alt: three equal columns, button in the third */
+  .calculator:is([class="calculator block"], .alt) {
+    --calculator-pad-x: 15px;
+
+    max-width: 680px;
+    margin: 30px 0;
+  }
+
+  .calculator:is([class="calculator block"], .alt) .calculator-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+    gap: 20px 30px;
+  }
+
+  .calculator:is([class="calculator block"], .alt) .calculator-fields {
+    display: contents;
+  }
+
+  .calculator:is([class="calculator block"], .alt) .calculator-actions {
+    align-self: start;
+    margin-top: 29px;
+  }
+
+  /* grey: two panels side by side */
+  .calculator.grey .calculator-intro p,
+  .calculator.grey .calculator-field > label {
+    margin-bottom: 10px;
+  }
+
+  .calculator.grey .calculator-intro > p:first-child {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  /* grey-3: 2 x 3 field grid filled column by column */
+  .calculator.grey-3 {
+    --calculator-pad-x: 60px;
+    --calculator-pad-y: 60px;
+
+    margin-top: 30px;
+  }
+
+  .calculator.grey-3 .calculator-form {
+    max-width: 673px;
+  }
+
+  .calculator.grey-3 .calculator-fields {
+    grid-template-columns: minmax(0, 380fr) minmax(0, 263fr);
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+  }
+
+  .calculator.grey-3 .calculator-actions {
+    justify-content: flex-end;
+  }
+
+  /* banner: heading on top, fields and button in one row */
+  .calculator.banner .calculator-intro > p:first-child {
+    margin-bottom: 15px;
+    line-height: 36px;
+  }
+
+  .calculator.banner .calculator-intro {
+    max-width: 878px;
+  }
+
+  .calculator.banner .calculator-form {
+    display: grid;
+    grid-template-columns: 246px 246px auto;
+    justify-content: start;
+    align-items: end;
+    gap: 30px;
+  }
+
+  .calculator.banner .calculator-fields {
+    display: contents;
+  }
+
+  .calculator.banner .calculator-actions .button {
+    width: auto;
+  }
+
+  /* banner-2: rates table beside the mortgage form */
+  .calculator.banner-2 {
+    grid-template-columns: minmax(0, 628fr) minmax(0, 428fr);
+    align-items: start;
+    column-gap: 72px;
+  }
+
   .calculator.banner-2 .calculator-notes {
     grid-column: 1 / -1;
+  }
+
+  .calculator.light {
+    --calculator-pad-x: 135px;
+  }
+
+  .calculator.blue-grey-2 {
+    padding-bottom: 30px;
+  }
+
+  .calculator.blue-grey-2 :is(h2, h3, h4, h5, h6) {
+    font-size: 18px;
+    line-height: 28px;
   }
 
   /* image / media: illustration column beside content */

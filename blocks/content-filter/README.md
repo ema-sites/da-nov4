@@ -6,7 +6,7 @@ Custom **custom** block. Purpose: Filter or audience toggle that switches which 
 
 Model: `standalone`
 
-Single block table. Content: One row per filter control. Plain row: cell 1 = label (optional icon), cell 2 = optional filter key matching a section metadata `filter` value. Row with a link = a navigating chip. Row with a list in a cell = a dropdown (cell 1 = label, list items = options; linked items add a Go button, bold text sets its label). Toolbar: plain-text rows (e.g. result count) render as info.
+Single block table. Content: One row per filter control. Plain row: cell 1 = label (optional icon), cell 2 = optional filter key matching a section metadata `filter` value. Row with a link = a navigating chip. Row with a list in a cell = a dropdown (cell 1 = label, list items = options; linked items add a Go button, bold text sets its label). Rows with a heading, or text ending in ":", render as intro text. In toolbar and dropdown blocks, plain-text rows render as intro text (e.g. title, result count), and a plain row after a dropdown labels its action button. Without sections tagged by a `filter` value, buttons and action buttons scroll to the heading matching their key or label (unmatched entries are disabled in anchor bars).
 
 ## Supported variations
 

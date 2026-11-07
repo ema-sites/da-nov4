@@ -35,12 +35,13 @@
   vertical-align: middle;
 }
 
-.table-striped td {
+/* row labels are plain cells in most source tables (263 of 356): body weight */
+.table-striped td,
+.table-striped tbody th {
   font-weight: var(--body-font-weight);
 }
 
-.table-striped thead th,
-.table-striped tbody th {
+.table-striped thead th {
   font-weight: 500;
 }
 
@@ -115,6 +116,123 @@
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M20 .68L19.32 0 10 9.32.68 0 0 .68 9.32 10 0 19.32l.68.68L10 10.68 19.32 20l.68-.68L10.68 10 20 .68z'/%3E%3C/svg%3E");
 }
 
+/* alt: card comparison columns (source: #section-compare table.cards-table) */
+.table-striped.alt th,
+.table-striped.alt td {
+  border: 1px solid rgb(215 215 215);
+}
+
+.table-striped.alt thead tr {
+  border-bottom: 2px solid rgb(215 215 215);
+}
+
+.table-striped.alt :where(thead) th {
+  padding: 30px 15px;
+  text-align: center;
+  vertical-align: top;
+  font-weight: 500;
+}
+
+.table-striped.alt :where(thead) th p {
+  margin: 0 0 15px;
+}
+
+/* grey-light: two-column before/after comparison (source: #comparison-table table.table-striped) */
+.table-striped.grey-light table {
+  min-width: 580px;
+  border-bottom: 2px solid var(--text-color);
+}
+
+.table-striped.grey-light thead tr {
+  border-bottom: 2px solid var(--text-color);
+}
+
+.table-striped.grey-light tbody tr {
+  border-bottom: 1px solid rgb(179 179 179);
+}
+
+.table-striped.grey-light tbody tr:last-child {
+  border-bottom: 0;
+}
+
+.table-striped.grey-light th,
+.table-striped.grey-light td {
+  width: 50%;
+  padding: 20px;
+  vertical-align: top;
+  font-weight: var(--body-font-weight);
+}
+
+.table-striped.grey-light thead th {
+  padding: 15px;
+  background-color: var(--background-color);
+}
+
+.table-striped.grey-light thead h2 {
+  margin: 0;
+  font-size: var(--heading-font-size-m);
+  font-weight: var(--heading-font-weight);
+  line-height: 27px;
+}
+
+.table-striped.grey-light tbody tr:nth-child(odd) > * {
+  background-color: var(--light-color);
+}
+
+.table-striped.grey-light tbody tr:nth-child(even) > * {
+  background-color: var(--background-color);
+}
+
+.table-striped.grey-light th p,
+.table-striped.grey-light td p {
+  margin: 0 0 15px;
+}
+
+.table-striped.grey-light th p + p,
+.table-striped.grey-light td p + p {
+  margin-top: 0;
+}
+
+.table-striped.grey-light th > :last-child,
+.table-striped.grey-light td > :last-child {
+  margin-bottom: 0;
+}
+
+/* cell label (source p.h5) */
+.table-striped.grey-light tbody p:first-child {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.table-striped.grey-light strong {
+  font-weight: 500;
+}
+
+/* source ul.disc-list.mar-l-hlf: blue dot bullets */
+.table-striped.grey-light th ul,
+.table-striped.grey-light td ul {
+  margin-left: 15px;
+}
+
+.table-striped.grey-light th li,
+.table-striped.grey-light td li {
+  position: relative;
+  padding-left: 15px;
+}
+
+.table-striped.grey-light th li::before,
+.table-striped.grey-light td li::before {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--brand-blue);
+}
+
 /* collapsible */
 .table-striped .table-striped-summary {
   padding: 12px 0;
@@ -124,7 +242,12 @@
 }
 
 @media (width >= 900px) {
-  .table-striped tbody th:not([colspan]) {
-    width: 40%;
+  .table-striped.grey-light thead h2 {
+    line-height: 32px;
+  }
+
+  .table-striped.grey-light tbody p:first-child {
+    font-size: 18px;
+    line-height: 28px;
   }
 }
