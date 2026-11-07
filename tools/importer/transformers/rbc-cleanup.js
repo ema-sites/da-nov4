@@ -38,6 +38,9 @@ const BEFORE_SELECTORS = [
   // Tracking pixels and helper nodes
   '[id^="batBeacon"]',
   '.high-contrast-test',
+  // Salesforce/Evergage page-view pixels (img title="blank image")
+  'img[src*="collect.rbcroyalbank.com"]',
+  'img[src*="collect.igodigital.com"]',
   'body > div.hide',
   // Mobile-only duplicate of the bento grid (desktop .bento-box is the block)
   '#bento-section .glider-wpr',

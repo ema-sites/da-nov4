@@ -4,6 +4,7 @@
    - Same-site links to anything not migrated (PDFs, the My Money Matters blog, tools, pages that are
      404 on RBC) become absolute https://www.rbcroyalbank.com URLs, so they never 404 on the new site.
    Redirects are looked up on the live site once and cached in migration-work/link-resolve-cache.json.
+   - Root-relative media: /media-da/ images become page-relative; other files (videos, captions) the origin.
    Also writes migration-work/redirects.json (old RBC path → migrated path) for the redirects sheet.
    Usage: node tools/importer/scripts/rewrite-links.cjs <repoRoot> [--dry] */
 const fs = require('fs');
@@ -133,9 +134,17 @@ walk(content);
       }
       return `href="${next.replace(/&/g, '&amp;')}"`;
     });
-    if (out !== html) {
+    // media: local /media-da/ images become page-relative (DA resolves relative paths, not root ones);
+    // other root-relative media (videos, captions) live on the origin
+    const depth = path.relative(content, f).split(path.sep).length - 1;
+    const finalOut = out.replace(/src="(\/[^"]+)"/g, (whole, src) => {
+      if (src.startsWith('//')) return whole;
+      if (src.startsWith('/media-da/')) return `src="${'../'.repeat(depth)}${src.slice(1)}"`;
+      return `src="${HOST}${src}"`;
+    });
+    if (finalOut !== html) {
       stats.changed += 1;
-      if (!dry) fs.writeFileSync(f, out);
+      if (!dry) fs.writeFileSync(f, finalOut);
     }
   });
   // every migrated page's original address (e.g. /credit-cards/travel.html) redirects to its new path
