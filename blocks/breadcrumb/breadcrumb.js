@@ -5,6 +5,9 @@
  * covers trails that end on a linked item (no current-page label).
  */
 
+// source: ui-breadcrumb-chevron.svg (4x8), inlined so no extra request
+const CHEVRON = `<img src="data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="4" height="8" fill="none"><path fill="#6F6F6F" stroke="#B3B3B3" d="M3.95 3.933.446 7.375.05 7.004l3.12-3.066-3.114-2.93L.44.624l3.51 3.308z"/></svg>')}" alt="" width="4" height="8">`;
+
 function collectItems(block) {
   const items = [];
   const lis = block.querySelectorAll('li');
@@ -52,6 +55,7 @@ export default function decorate(block) {
     const sep = document.createElement('span');
     sep.className = 'breadcrumb-separator';
     sep.setAttribute('aria-hidden', 'true');
+    sep.innerHTML = CHEVRON;
     li.append(sep);
     ol.append(li);
   });

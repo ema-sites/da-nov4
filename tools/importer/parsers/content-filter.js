@@ -49,14 +49,50 @@ const BLOCK_TAGS = new Set(['P', 'DIV', 'SECTION', 'ARTICLE', 'ASIDE', 'HEADER',
 
 const KEEP_INLINE = new Set(['A', 'STRONG', 'B', 'EM', 'I', 'U', 'SUP', 'SUB', 'BR', 'CODE', 'S', 'DEL', 'SMALL']);
 
-/** First url() of an inline background / background-image style. */
+const BG_HOLDER_RE = /(banner|hero|bg|img|image|photo|picture|background)/i;
+
+const BG_ATTR_SEL = '[style*="url("], [data-bg], [data-background], [data-bg-src], [data-img], [data-img-defer], [data-image], [data-bg-img]';
+
+/**
+ * Background image of one element: the first url() of an inline background /
+ * background-image style, then data-bg* / data-img attributes (RBC's script
+ * turns data-img into the background; below the fold it waits in
+ * data-img-defer until scrolled into view), then, on the live DOM, the
+ * computed background-image of a text-free image holder (class like *-img,
+ * bg, banner). Computed SVG backgrounds and UI glyphs (icons, energy lines)
+ * are decorative and ignored. URLs may be relative: makeImg resolves them.
+ */
 function bgUrl(el) {
   if (!el || !el.getAttribute) return '';
   const st = el.getAttribute('style') || '';
   const m = st.match(/background(?:-image)?\s*:[^;]*?url\(\s*(['"]?)(.*?)\1\s*\)/i);
   if (m && m[2] && !m[2].startsWith('data:')) return m[2];
   const data = el.getAttribute('data-bg') || el.getAttribute('data-background') || el.getAttribute('data-bg-src') || '';
-  return data && !data.startsWith('data:') ? data : '';
+  if (data && !data.startsWith('data:')) return data;
+  const img = el.getAttribute('data-img') || el.getAttribute('data-img-defer') || el.getAttribute('data-image') || el.getAttribute('data-bg-img') || '';
+  if (img && !img.startsWith('data:') && /\.(jpe?g|png|webp|gif|avif|svg)(\?|#|$)/i.test(img) && !isDecorativeSrc(img)) return img;
+  if (BG_HOLDER_RE.test(typeof el.className === 'string' ? el.className : '') && !cleanText(el.textContent) && !(el.querySelector && el.querySelector('img'))) {
+    try {
+      const win = el.ownerDocument && el.ownerDocument.defaultView;
+      if (win && win.getComputedStyle && el.isConnected) {
+        const c = (win.getComputedStyle(el).backgroundImage || '').match(/url\(\s*(['"]?)(.*?)\1\s*\)/i);
+        if (c && c[2] && !c[2].startsWith('data:') && !/\.svg(\?|#|$)/i.test(c[2]) && !isDecorativeSrc(c[2])) return c[2];
+      }
+    } catch (e) { /* no computed styles */ }
+  }
+  return '';
+}
+
+const MOBILE_BG_SEL = '.mobile-only, .show-mobile, .visible-xs, .mob-only, .hidden-md, .hidden-lg, .desktop-hidden, .banner-img-mobile, [class*="img-mobile"], [class*="mobile-img"], [class*="bg-mobile"], [class*="mobile-bg"]';
+
+/** A background holder only shown on small screens (the desktop copy carries the image). */
+function isMobileBg(n) {
+  if (!n || !n.matches) return false;
+  if (n.matches(MOBILE_BG_SEL)) return true;
+  try {
+    const win = n.ownerDocument && n.ownerDocument.defaultView;
+    return !!(win && win.getComputedStyle && n.isConnected && win.getComputedStyle(n).display === 'none');
+  } catch (e) { return false; }
 }
 
 function imgSrc(img) {
@@ -74,9 +110,47 @@ function imgSrc(img) {
   return src && !src.startsWith('data:') ? src : '';
 }
 
-/** New <img>; SVGs get a "#icon" fragment so html2md keeps them as real images. */
-function makeImg(document, src, alt) {
-  if (!src) return null;
+const LOCAL_HOST_RE = /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/i;
+
+/**
+ * URL of the source page, used to resolve relative image paths. The document
+ * base (honours <base href>) or live location wins; behind a local proxy
+ * (localhost) fall back to the page's canonical / og:url.
+ */
+function pageUrl(document) {
+  const candidates = [document.baseURI];
+  try { candidates.push(document.defaultView && document.defaultView.location && document.defaultView.location.href); } catch (e) { /* no window */ }
+  const canon = document.querySelector('link[rel="canonical"][href], meta[property="og:url"][content]');
+  if (canon) candidates.push(canon.getAttribute('href') || canon.getAttribute('content'));
+  const ok = candidates.filter(Boolean).map((c) => { try { return new URL(c); } catch (e) { return null; } })
+    .filter((u) => u && /^https?:$/.test(u.protocol));
+  const remote = ok.find((u) => !LOCAL_HOST_RE.test(u.hostname));
+  return (remote || ok[0] || { href: '' }).href;
+}
+
+/**
+ * Absolute URL against the source page; proxied localhost URLs get the page
+ * origin. The importer's adjustImageUrls drops any <img> whose src is relative
+ * without ./ / or ../ (e.g. "_assets-custom/x.jpg"), so every image is resolved here.
+ */
+function absolute(src, document) {
+  if (!src || /^(data|blob):/i.test(src)) return src;
+  const base = pageUrl(document);
+  try {
+    const u = new URL(src, base || undefined);
+    const page = base ? new URL(base) : null;
+    if (page && LOCAL_HOST_RE.test(u.hostname) && !LOCAL_HOST_RE.test(page.hostname)) {
+      u.searchParams.delete('host');
+      return `${page.origin}${u.pathname}${u.search}${u.hash}`;
+    }
+    return u.href;
+  } catch (e) { return src; }
+}
+
+/** New <img> (absolute src); SVGs get a "#icon" fragment so html2md keeps them as real images. */
+function makeImg(document, rawSrc, alt) {
+  if (!rawSrc) return null;
+  const src = absolute(rawSrc, document);
   const img = document.createElement('img');
   img.src = /\.svg(\?.*)?$/i.test(src) && !src.includes('#') ? `${src}#icon` : src;
   img.alt = cleanText(alt || '');
@@ -93,11 +167,27 @@ function cloneImg(document, img) {
   return makeImg(document, imgSrc(img), img.getAttribute('alt') || img.getAttribute('title') || '');
 }
 
+// hidden widget UI: compare-tray toggles ("Compare"/"Added"), hidden text placeholders
+const HIDDEN_UI_SEL = 'p[hidden], span[hidden], a[hidden], img[hidden], .btn-compare, .compare-card-button';
+
 function isHidden(el) {
   if (!el.matches) return false;
   // tooltip triggers wrap a visible term: keep the term
   if (el.matches('button.tooltip-trigger') && cleanText(el.textContent)) return false;
-  return el.matches(HIDDEN_SEL);
+  if (el.matches(HIDDEN_SEL) || el.matches(HIDDEN_UI_SEL)) return true;
+  // unfilled JS template output
+  return el.childElementCount <= 1 && cleanText(el.textContent) === 'undefined';
+}
+
+/** Struck-through text (old prices): <s>/<del>, strike classes, inline or computed line-through. */
+function isStruck(el) {
+  if (/^(S|DEL|STRIKE)$/.test(el.tagName)) return true;
+  if (/(^|\s)(strike|strikethrough|strike-through|line-through|text-strike|text-line-through)(\s|$)/i.test(typeof el.className === 'string' ? el.className : '')) return true;
+  if (/text-decoration(?:-line)?\s*:[^;]*line-through/i.test(el.getAttribute('style') || '')) return true;
+  try {
+    const win = el.ownerDocument && el.ownerDocument.defaultView;
+    return !!(win && win.getComputedStyle && el.isConnected && /line-through/.test(win.getComputedStyle(el).textDecorationLine || ''));
+  } catch (e) { return false; }
 }
 
 /** Fix RBC footnote/legal links: javascript:/empty href + data-target -> #anchor. */
@@ -112,7 +202,8 @@ function fixHref(a) {
 function appendInline(document, node, out) {
   [...node.childNodes].forEach((child) => {
     if (child.nodeType === 3) {
-      const t = child.textContent.replace(/[\s ]+/g, ' ');
+      // collapse whitespace but keep non-breaking spaces ("1\u00a0500\u00a0$")
+      const t = child.textContent.replace(/[^\S\u00a0]+/g, ' ');
       if (t) out.append(document.createTextNode(t));
       return;
     }
@@ -139,7 +230,8 @@ function appendInline(document, node, out) {
     if (tag === 'BR') { out.append(document.createElement('br')); return; }
     if (tag === 'A') {
       const href = fixHref(child);
-      if (!href || /^javascript:/i.test(href)) { appendInline(document, child, out); return; }
+      // javascript: and bare "#" links (modal openers such as an "Offer" pill) keep only their text
+      if (!href || href === '#' || /^javascript:/i.test(href)) { appendInline(document, child, out); return; }
       const a = document.createElement('a');
       a.setAttribute('href', href);
       const cls = [...child.classList].filter((c) => ['btn', 'primary', 'secondary'].includes(c));
@@ -147,6 +239,12 @@ function appendInline(document, node, out) {
       if (child.getAttribute('title')) a.title = child.getAttribute('title');
       appendInline(document, child, a);
       if (cleanText(a.textContent) || a.querySelector('img')) out.append(a);
+      return;
+    }
+    if (tag !== 'A' && isStruck(child)) {
+      const del = document.createElement('del');
+      appendInline(document, child, del);
+      if (cleanText(del.textContent)) out.append(del);
       return;
     }
     if (tag === 'SPAN' && (/(^|\s)(bold|text-bold|font-bold|fw-bold|roboto-bold|rbc-bold|semibold|fw-[5-9]00)(\s|$)/.test(child.className || '')
@@ -181,7 +279,7 @@ function trimNode(el) {
 
 function hasContent(el) {
   return !!(el && (cleanText(el.textContent) || (el.querySelector && el.querySelector('img'))
-    || (el.nodeType === 1 && bgUrl(el)) || (el.querySelector && [...el.querySelectorAll('[style*="url("]')].some((n) => bgUrl(n)))));
+    || (el.nodeType === 1 && bgUrl(el)) || (el.querySelector && [...el.querySelectorAll(BG_ATTR_SEL)].some((n) => bgUrl(n)))));
 }
 
 function inlineEl(document, tag, src) {
@@ -201,7 +299,21 @@ function headingTag(el) {
 
 function buildList(document, list) {
   const out = document.createElement(list.tagName === 'OL' ? 'ol' : 'ul');
-  [...list.children].forEach((li) => {
+  // invalid markup: loose text / inline runs straight inside the list (an offer line
+  // "Get up to <strong>70,000 points</strong><sup>1</sup> ...") become one item each
+  const kids = [];
+  let run = null;
+  [...list.childNodes].forEach((n) => {
+    const inline = (n.nodeType === 3 && n.textContent.trim()) || (n.nodeType === 1 && n.tagName !== 'LI' && !isBlockish(n) && !isHidden(n));
+    if (inline || (run && n.nodeType === 3)) {
+      if (!run) { run = document.createElement('span'); kids.push(run); }
+      run.append(n.cloneNode(true));
+      return;
+    }
+    run = null;
+    if (n.nodeType === 1) kids.push(n);
+  });
+  kids.forEach((li) => {
     if (isHidden(li)) return;
     if (li.tagName !== 'LI') {
       // invalid markup: <p>/<div> straight inside a list, e.g. a "View more" toggle
@@ -302,6 +414,7 @@ function buildTable(document, table) {
 function toBlocks(document, root, opts = {}) {
   const out = [];
   const skip = opts.skip || [];
+  const seenBg = new Set(); // a holder and its child often repeat the same background
   let para = null;
   const flush = () => {
     if (para) { trimNode(para); if (hasContent(para)) out.push(para); }
@@ -319,7 +432,7 @@ function toBlocks(document, root, opts = {}) {
       if (n.nodeType === 3) {
         if (!n.textContent.trim() && !para) return;
         if (!para) para = document.createElement('p');
-        para.append(document.createTextNode(n.textContent.replace(/[\s ]+/g, ' ')));
+        para.append(document.createTextNode(n.textContent.replace(/[^\S\u00a0]+/g, ' ')));
         return;
       }
       if (n.nodeType === 1 && !skip.includes(n) && n.matches(TOGGLE_LIKE)) {
@@ -340,8 +453,8 @@ function toBlocks(document, root, opts = {}) {
         return;
       }
       const tag = n.tagName;
-      const bg = bgUrl(n);
-      if (bg && !opts.noBg) addImg(makeImg(document, bg, n.getAttribute('aria-label') || ''));
+      const bg = opts.noBg || isMobileBg(n) ? '' : bgUrl(n);
+      if (bg && !seenBg.has(bg)) { seenBg.add(bg); addImg(makeImg(document, bg, n.getAttribute('aria-label') || '')); }
       const h = headingTag(n);
       if (h) {
         flush();
@@ -407,7 +520,7 @@ function toBlocks(document, root, opts = {}) {
         walk(n);
         flush();
         const target = out.slice(start).find((b) => /^(H[1-6]|P)$/.test(b.tagName) && cleanText(b.textContent) && !b.querySelector('a'));
-        if (target && href && !/^javascript:/i.test(href)) {
+        if (target && href && href !== '#' && !/^javascript:/i.test(href)) {
           const a = document.createElement('a');
           a.setAttribute('href', href);
           a.append(...target.childNodes);
@@ -427,7 +540,7 @@ function toBlocks(document, root, opts = {}) {
       appendInline(document, holder, para);
     });
   };
-  if (root.nodeType === 1 && bgUrl(root) && !opts.noBg && !opts.noRootBg) addImg(makeImg(document, bgUrl(root), ''));
+  if (root.nodeType === 1 && bgUrl(root) && !opts.noBg && !opts.noRootBg) { seenBg.add(bgUrl(root)); addImg(makeImg(document, bgUrl(root), '')); }
   walk(root);
   flush();
   return splitLinkParas(document, out);

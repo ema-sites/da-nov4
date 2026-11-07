@@ -142,7 +142,9 @@ walk(content);
       if (src.startsWith('//')) return whole;
       if (src.startsWith('/media-da/')) return `src="${'../'.repeat(depth)}${src.slice(1)}"`;
       return `src="${HOST}${src}"`;
-    });
+    })
+      // non-breaking spaces: rbc-cleanup protects them through html2md as U+E0A0
+      .replace(/\uE0A0/g, '&nbsp;');
     if (finalOut !== html) {
       stats.changed += 1;
       if (!dry) fs.writeFileSync(f, finalOut);

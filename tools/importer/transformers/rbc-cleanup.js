@@ -322,6 +322,86 @@ function removeMobileTwins(element) {
   });
 }
 
+/**
+ * Non-breaking spaces ("1\u00a0500\u00a0$", "Visa\u00a0Infinite") keep amounts and
+ * names from wrapping. html2md turns every U+00A0 into a plain space (its
+ * paragraph/inline review rewrites &nbsp;, and markdown serialisation drops the
+ * rest), so the ones between two visible characters are swapped for a private-use
+ * placeholder that survives html2md + md2da; tools/importer/scripts/rewrite-links.cjs
+ * (run after every import) turns it back into &nbsp;. Leading/trailing and
+ * NBSP-only runs (spacer paragraphs) stay ordinary whitespace.
+ */
+const NBSP_PLACEHOLDER = '\uE0A0';
+
+function protectNbsp(element) {
+  const document = element.ownerDocument;
+  const walker = document.createTreeWalker(element, 4 /* NodeFilter.SHOW_TEXT */);
+  const nodes = [];
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) if (n.nodeValue.includes('\u00a0')) nodes.push(n);
+  nodes.forEach((n) => {
+    n.nodeValue = n.nodeValue.replace(/([^\s])(\u00a0+)(?=[^\s])/g, (m, c, run) => c + NBSP_PLACEHOLDER.repeat(run.length));
+  });
+}
+
+const MOBILE_BG = '.mobile-only, .show-mobile, .visible-xs, .mob-only, .hidden-md, .hidden-lg, .desktop-hidden, .banner-img-mobile, [class*="img-mobile"], [class*="mobile-img"], [class*="bg-mobile"], [class*="mobile-bg"]';
+
+/**
+ * Backgrounds left in default content become <img> via the importer's
+ * transformBackgroundImages, whose src keeps the CSS value verbatim; its
+ * adjustImageUrls then deletes any src that is relative without ./ / or ../
+ * (RBC writes url("_assets-custom/...")). Resolve them against the page, and
+ * drop mobile copies / a child repeating its ancestor's image.
+ */
+function absolutizeBackgrounds(element, payload) {
+  const document = element.ownerDocument;
+  const ATTR = 'data-rbc-bg';
+  // snapshot imports run on about:blank: resolve against the source page URL
+  const canon = document.querySelector('link[rel="canonical"][href]');
+  const base = [payload && payload.params && payload.params.originalURL, payload && payload.url,
+    canon && canon.getAttribute('href'), document.baseURI]
+    .find((u) => /^https?:/i.test(u || '') && !/^https?:\/\/(localhost|127\.0\.0\.1)[:/]/i.test(u)) || document.baseURI;
+  element.querySelectorAll('[style*="background"]').forEach((el) => {
+    const m = (el.style.backgroundImage || '').match(/url\((['"]?)(.*?)\1\)/);
+    if (!m || !m[2] || m[2].startsWith('data:')) return;
+    let abs;
+    try { abs = new URL(m[2], base).href; } catch (e) { return; }
+    const parentBg = el.parentElement && el.parentElement.closest(`[${ATTR}]`);
+    if (el.matches(MOBILE_BG) || (parentBg && parentBg.getAttribute(ATTR) === abs)) {
+      el.style.removeProperty('background-image');
+      return;
+    }
+    // rewrite the attribute text: Chrome keeps the old value when the CSSOM
+    // setter gets an equivalent url() (it compares resolved URLs)
+    if (abs !== m[2]) el.setAttribute('style', (el.getAttribute('style') || '').split(m[2]).join(abs));
+    el.setAttribute(ATTR, abs);
+  });
+  element.querySelectorAll(`[${ATTR}]`).forEach((el) => el.removeAttribute(ATTR));
+}
+
+/**
+ * Links left with href "#" / "" (modal openers such as the "Offer" pill, JS-wired
+ * card links) lead nowhere once migrated: footnote triggers get their
+ * data-target anchor, the rest keep only their content.
+ */
+function fixDeadLinks(element) {
+  element.querySelectorAll('a[href="#"], a[href=""]').forEach((a) => {
+    const target = a.getAttribute('data-target') || '';
+    if (/^#[\w-]+$/.test(target)) { a.setAttribute('href', target); return; }
+    a.replaceWith(...a.childNodes);
+  });
+}
+
+/** CSS strike-through (old prices: <span style="text-decoration: line-through">$48</span>) -> <del>. */
+function markStrikethrough(element) {
+  const document = element.ownerDocument;
+  element.querySelectorAll('span[style*="line-through"], span.strike, span.strikethrough, span.line-through, font[style*="line-through"]').forEach((el) => {
+    if (el.closest('del, s, strike')) return;
+    const del = document.createElement('del');
+    del.append(...el.childNodes);
+    el.replaceWith(del);
+  });
+}
+
 export default function transform(hookName, element, payload) {
   if (hookName === 'beforeTransform') {
     WebImporter.DOMUtils.remove(element, BEFORE_SELECTORS);
@@ -329,6 +409,7 @@ export default function transform(hookName, element, payload) {
     removeMobileTableCopies(element);
     removeMobileTwins(element);
     removeStickyTitleBars(element);
+    markStrikethrough(element);
     element.querySelectorAll('table').forEach((t) => t.setAttribute(SRC_TABLE_ATTR, ''));
   }
 
@@ -355,11 +436,14 @@ export default function transform(hookName, element, payload) {
         el.style.removeProperty('background-image');
       }
     });
+    absolutizeBackgrounds(element, payload);
+    fixDeadLinks(element);
     element.querySelectorAll('*').forEach((el) => {
       TRACKING_ATTRS.forEach((attr) => {
         if (el.hasAttribute(attr)) el.removeAttribute(attr);
       });
     });
     wrapLooseInline(element);
+    protectNbsp(element);
   }
 }

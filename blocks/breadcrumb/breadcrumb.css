@@ -1,15 +1,26 @@
-/* breadcrumb: values from rbcroyalbank.com nav.breadcrumb-wpr (see migration-work/breadcrumb-extracted.css) */
+/* breadcrumb: values from rbcroyalbank.com nav#breadcrumb-wpr (migration-work/design/breadcrumb) */
 
-/* mobile: full-bleed grey bar, trail collapsed to "..." > ancestors */
+/* the bar runs edge to edge; the trail itself lines up with the content column */
+main > .section > .breadcrumb-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+/* mobile: grey bar, current page hidden; long trails collapse home to "..." */
 .breadcrumb {
-  margin: 0 calc(-1 * var(--content-gutter));
-  padding: 8px var(--content-gutter);
+  padding: 10px 0 0;
   background-color: #f3f4f5;
+  color: var(--link-color);
 }
 
 .breadcrumb .breadcrumb-list {
-  margin: 0;
-  padding: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: var(--content-max-width);
+  min-height: 40px;
+  margin: 0 auto;
+  padding: 0 var(--content-gutter);
   list-style: none;
   white-space: nowrap;
   overflow-x: auto;
@@ -17,13 +28,18 @@
 }
 
 .breadcrumb .breadcrumb-item {
-  display: inline-block;
+  display: flex;
+  flex: none;
+  align-items: center;
   margin: 0;
   padding: 0;
+  font-size: var(--body-font-size-xs);
+  line-height: 18px;
 }
 
 .breadcrumb .breadcrumb-item > a,
-.breadcrumb .breadcrumb-item > span {
+.breadcrumb .breadcrumb-item > span:not(.breadcrumb-separator) {
+  display: inline;
   font-size: var(--body-font-size-xs);
   line-height: 18px;
   white-space: nowrap;
@@ -40,20 +56,21 @@
   text-decoration: underline;
 }
 
-.breadcrumb .breadcrumb-item > span {
+.breadcrumb .breadcrumb-item > span:not(.breadcrumb-separator) {
   color: #000;
   font-weight: 300;
 }
 
-/* chevron separator (source: ui-breadcrumb-chevron.svg, 4x8, margin 7px 8px 8px) */
-.breadcrumb .breadcrumb-separator::before {
-  content: '';
-  display: inline-block;
+/* chevron separator (source: ui-breadcrumb-chevron.svg, 4x8, 8px either side) */
+.breadcrumb .breadcrumb-separator {
+  display: flex;
+  margin: 0 8px;
+}
+
+.breadcrumb .breadcrumb-separator img {
+  display: block;
   width: 4px;
   height: 8px;
-  margin: 7px 8px 8px;
-  vertical-align: middle;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='8' fill='none'%3E%3Cpath fill='%236F6F6F' stroke='%23B3B3B3' d='M3.95 3.933.446 7.375.05 7.004l3.12-3.066-3.114-2.93L.44.624l3.51 3.308z'/%3E%3C/svg%3E") no-repeat center / 4px 8px;
 }
 
 /* mobile: the current page and the chevron leading to it are hidden */
@@ -63,14 +80,13 @@
   display: none;
 }
 
-/* mobile: home crumb collapses to "..." (label kept for screen readers) */
-.breadcrumb .breadcrumb-item:first-child:not(:last-child) > a {
-  display: inline-block;
+/* mobile: on trails of 3+ the home crumb collapses to "..." (label kept for screen readers) */
+.breadcrumb .breadcrumb-item:first-child:not(:nth-last-child(-n + 2)) > a {
   font-size: 0;
   line-height: 0;
 }
 
-.breadcrumb .breadcrumb-item:first-child:not(:last-child) > a::before {
+.breadcrumb .breadcrumb-item:first-child:not(:nth-last-child(-n + 2)) > a::before {
   content: '...' / '';
   font-size: var(--body-font-size-xs);
   line-height: 18px;
@@ -78,31 +94,31 @@
 
 @media (width >= 768px) {
   .breadcrumb {
-    margin: 0;
-    padding: 8px 0;
     background-color: transparent;
   }
 
   .breadcrumb .breadcrumb-list {
+    flex-wrap: wrap;
+    min-height: 41px;
     white-space: normal;
     overflow-x: visible;
   }
 
   .breadcrumb .breadcrumb-item:last-child:not(:only-child) {
-    display: inline-block;
+    display: flex;
   }
 
   .breadcrumb .breadcrumb-item:nth-last-child(2) > .breadcrumb-separator,
   .breadcrumb.alt .breadcrumb-item:last-child > .breadcrumb-separator {
-    display: inline;
+    display: flex;
   }
 
-  .breadcrumb .breadcrumb-item:first-child:not(:last-child) > a {
+  .breadcrumb .breadcrumb-item:first-child:not(:nth-last-child(-n + 2)) > a {
     font-size: var(--body-font-size-xs);
     line-height: 18px;
   }
 
-  .breadcrumb .breadcrumb-item:first-child:not(:last-child) > a::before {
+  .breadcrumb .breadcrumb-item:first-child:not(:nth-last-child(-n + 2)) > a::before {
     content: none;
   }
 }

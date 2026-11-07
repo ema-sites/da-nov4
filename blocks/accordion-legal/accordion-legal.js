@@ -42,6 +42,26 @@ function dedupeLabel(text) {
   return t;
 }
 
+/**
+ * Split a show/hide label pair imported as one string ("查看法律免责声明隐藏法律免责声明",
+ * "View Legal DisclaimersHide Legal Disclaimers"): both halves end in the same phrase.
+ * Returns [show, hide] or null.
+ */
+function splitToggleLabels(text) {
+  let best = null;
+  for (let i = 1; i < text.length; i += 1) {
+    const a = text.slice(0, i);
+    const b = text.slice(i);
+    let k = 0;
+    while (k < a.length && k < b.length && a[a.length - 1 - k] === b[b.length - 1 - k]) k += 1;
+    const shorter = Math.min(a.length, b.length);
+    if (a !== b && k >= 4 && k * 2 >= shorter && k < shorter && (!best || k > best.k)) {
+      best = { k, labels: [a.trim(), b.trim()] };
+    }
+  }
+  return best ? best.labels : null;
+}
+
 /** Element/text nodes of a cell, with loose inline runs wrapped in <p>. */
 function cellBlocks(cell) {
   const blocks = [];
@@ -133,9 +153,20 @@ export default function decorate(block) {
   button.className = 'accordion-legal-toggle';
   button.setAttribute('aria-expanded', 'false');
   const labelText = labelCell ? dedupeLabel(labelCell.textContent) : '';
-  const label = document.createElement('span');
-  label.textContent = labelText || 'Legal disclaimers';
-  button.append(label);
+  const pair = splitToggleLabels(labelText);
+  if (pair) {
+    // source swaps the label on toggle; CSS shows the one matching aria-expanded
+    pair.forEach((text, i) => {
+      const span = document.createElement('span');
+      span.className = i ? 'accordion-legal-label-hide' : 'accordion-legal-label-show';
+      span.textContent = text;
+      button.append(span);
+    });
+  } else {
+    const label = document.createElement('span');
+    label.textContent = labelText || 'Legal disclaimers';
+    button.append(label);
+  }
 
   const summary = document.createElement('div');
   summary.className = 'accordion-legal-summary';
