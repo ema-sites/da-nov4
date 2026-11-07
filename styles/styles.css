@@ -157,6 +157,15 @@ a:hover {
   text-decoration: underline;
 }
 
+a:focus-visible {
+  outline: 1px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+sup a:any-link {
+  text-decoration: none;
+}
+
 /* footnote links: imported as <a><sup>1</sup></a>, RBC renders <sup><a> at 8.8px raised */
 main a:has(> sup:only-child) {
   font-size: 0.55em;
@@ -167,15 +176,6 @@ main a:has(> sup:only-child) {
 main a > sup:only-child {
   font-size: inherit;
   vertical-align: baseline;
-}
-
-a:focus-visible {
-  outline: 1px solid var(--link-color);
-  outline-offset: 2px;
-}
-
-sup a:any-link {
-  text-decoration: none;
 }
 
 /* buttons: RBC primary (strong) and outline (em) styles */
