@@ -167,13 +167,13 @@ sup a:any-link {
 }
 
 /* footnote links: imported as <a><sup>1</sup></a>, RBC renders <sup><a> at 8.8px raised */
-main a:has(> sup:only-child) {
+main a.footnote-link {
   font-size: 0.55em;
   line-height: 0;
   vertical-align: super;
 }
 
-main a > sup:only-child {
+main a.footnote-link > sup {
   font-size: inherit;
   vertical-align: baseline;
 }

@@ -14,12 +14,21 @@ function optimizeImages(block) {
  * next sub-heading.
  */
 function buildAccordion(cell) {
-  const headings = [...cell.querySelectorAll(':scope > h3, :scope > h4, :scope > h5, :scope > h6')];
+  // item titles are authored either as sub-headings or as bold-only paragraphs;
+  // when bold paragraphs are used, sub-headings stay inside the item bodies
+  const boldTitles = [...cell.querySelectorAll(':scope > p')].filter((p) => {
+    const strong = p.querySelector(':scope > strong:only-child');
+    return strong && p.textContent.trim() === strong.textContent.trim();
+  });
+  const headings = boldTitles.length
+    ? boldTitles
+    : [...cell.querySelectorAll(':scope > h3, :scope > h4, :scope > h5, :scope > h6')];
   headings.forEach((heading) => {
     const details = document.createElement('details');
     details.className = 'columns-resources-item';
     const summary = document.createElement('summary');
-    summary.append(...heading.childNodes);
+    const title = boldTitles.length ? heading.querySelector('strong') : heading;
+    summary.append(...title.childNodes);
     details.append(summary);
     const body = document.createElement('div');
     body.className = 'columns-resources-item-body';
@@ -72,6 +81,13 @@ export default function decorate(block) {
   const rows = [...block.children].filter((row) => row.children.length);
   if (!rows.length) return;
 
+  // an unstyled block of three or more panels that each open with an h2 is the
+  // homepage "products / customer service / community" layout
+  const variants = [...block.classList].filter((c) => !['columns-resources', 'block'].includes(c));
+  const panelRows = rows.every((row) => row.children.length >= 3
+    && [...row.children].every((cell) => cell.firstElementChild?.tagName === 'H2'));
+  if (!variants.length && panelRows) block.classList.add('feature-panels');
+
   rows.forEach((row) => {
     row.classList.add('columns-resources-row');
     const cells = [...row.children].filter((cell) => {
@@ -85,13 +101,27 @@ export default function decorate(block) {
 
     const [lead, ...rest] = cells;
     if (block.classList.contains('feature-panels')) {
-      // every cell is an equal feature panel
-      cells.forEach(decorateCard);
+      // cells that open with an h2 are feature panels; when only some do, the
+      // others are plain lead copy beside them
+      const opensWithH2 = (cell) => cell.firstElementChild?.tagName === 'H2';
+      const mixed = cells.some(opensWithH2) && !cells.every(opensWithH2);
+      cells.forEach((cell) => {
+        if (mixed && !opensWithH2(cell)) cell.classList.add('columns-resources-lead');
+        else decorateCard(cell);
+      });
       return;
     }
     lead.classList.add('columns-resources-lead');
     if (block.classList.contains('accordion')) buildAccordion(lead);
     rest.forEach(decorateCard);
+    // the same heading authored in both columns is the mobile and desktop copy of one title
+    const leadHeading = lead.querySelector(':scope > h2');
+    const cardHeading = rest[0]?.querySelector(':scope > h2');
+    if (leadHeading && cardHeading
+      && leadHeading.textContent.trim() === cardHeading.textContent.trim()) {
+      leadHeading.classList.add('columns-resources-mobile-heading');
+      cardHeading.classList.add('columns-resources-desktop-heading');
+    }
   });
 
   optimizeImages(block);

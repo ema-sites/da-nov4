@@ -172,6 +172,18 @@ function decorateSectionMetadata(main) {
 }
 
 /**
+ * Marks footnote links: authored as <a><sup>1</sup></a> (RBC renders <sup><a>), i.e. a link whose
+ * whole text is one superscript. CSS can't tell these from "Caption<sup>**</sup>" links.
+ * @param {HTMLElement} main The main container element
+ */
+function decorateFootnoteLinks(main) {
+  main.querySelectorAll('a > sup:only-child').forEach((sup) => {
+    const a = sup.parentElement;
+    if (a.textContent.trim() === sup.textContent.trim()) a.classList.add('footnote-link');
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -183,6 +195,7 @@ export function decorateMain(main) {
   decorateSectionMetadata(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateFootnoteLinks(main);
 }
 
 /**

@@ -38,16 +38,31 @@ function splitTrailingIllustration(cell) {
 }
 
 /**
+ * image: each cell's picture-only paragraphs form one strip of overlapping badges above
+ * the caption, so they are grouped rather than read as a logo beside its caption.
+ */
+function groupBadges(cell) {
+  const pics = [...cell.children].filter((el) => el.tagName === 'P' && isPictureOnly(el));
+  if (!pics.length) return;
+  const badges = document.createElement('div');
+  badges.className = 'columns-feature-row-badges';
+  pics[0].before(badges);
+  badges.append(...pics);
+}
+
+/**
  * Each row: label cell, then one or more content cells.
  * - picture-only cells are illustrations (explainer) or award logos
  * - a cell starting with a picture followed by text is a media item (logo beside its caption)
  */
 export default function decorate(block) {
   let maxCols = 1;
+  const badgeGallery = block.classList.contains('image');
   [...block.children].forEach((row) => {
     row.classList.add('columns-feature-row-row');
     [...row.children].forEach((cell) => {
       if (isEmpty(cell)) cell.remove();
+      else if (badgeGallery) groupBadges(cell);
       else if (!isPictureOnly(cell)) splitTrailingIllustration(cell);
     });
     const cells = [...row.children];

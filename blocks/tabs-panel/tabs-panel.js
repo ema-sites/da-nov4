@@ -117,17 +117,69 @@ function decorateCards(content) {
 }
 
 /**
+ * Groups inside a panel: each h4 and the content after it (up to the next h4)
+ * becomes a group, so two or more h4 sections can sit side by side as boxes.
+ * @param {Element} content
+ */
+function decorateGroups(content) {
+  const nodes = [...content.children];
+  const starts = nodes.filter((n) => n.tagName === 'H4');
+  if (starts.length < 2) return;
+  const first = nodes.indexOf(starts[0]);
+  const groups = starts.map((start, i) => {
+    const end = i + 1 < starts.length ? nodes.indexOf(starts[i + 1]) : nodes.length;
+    return wrap('tabs-panel-group', nodes.slice(nodes.indexOf(start), end));
+  });
+  content.classList.add('tabs-panel-has-groups');
+  content.replaceChildren(...nodes.slice(0, first), wrap('tabs-panel-groups', groups));
+}
+
+/**
+ * Collapsible tables: a bold-only paragraph directly followed by a table becomes
+ * a toggle button that shows and hides the table (source collapsible rate tables).
+ * @param {Element} content
+ * @param {string} prefix
+ */
+function decorateCollapsibles(content, prefix) {
+  [...content.querySelectorAll(':scope > p')].forEach((p, i) => {
+    const table = p.nextElementSibling;
+    if (table?.tagName !== 'TABLE' || !onlyChild(p, 'strong')) return;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'tabs-panel-toggle';
+    button.setAttribute('aria-expanded', 'false');
+    button.append(...p.firstElementChild.childNodes);
+    const region = wrap('tabs-panel-collapse', [table]);
+    region.id = `${prefix}-collapse-${i + 1}`;
+    region.hidden = true;
+    button.setAttribute('aria-controls', region.id);
+    button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(open));
+      region.hidden = !open;
+    });
+    const item = wrap('tabs-panel-collapsible', [button, region]);
+    p.replaceWith(item);
+  });
+}
+
+// looks whose tab list sits beside the panel; every other look puts the tabs above it
+const VERTICAL_LOOKS = ['grey', 'horizontal-8'];
+
+/**
  * Tabs: one row per tab. First cell = tab label; remaining cells = panel content.
  * Two or more content cells are laid out as panel columns. Rows without a label
  * are appended to the previous panel; empty rows are skipped.
- * Layout: vertical tab list by default; any `horizontal*` option puts tabs on top.
+ * Layout: tabs above the panel; the VERTICAL_LOOKS put the tab list beside it.
  * @param {Element} block
  */
 export default function decorate(block) {
   instance += 1;
   const prefix = `tabs-panel-${instance}`;
-  const horizontal = [...block.classList].some((c) => c.startsWith('horizontal'));
+  const looks = [...block.classList].filter((c) => !['tabs-panel', 'block'].includes(c));
+  const horizontal = !looks.some((c) => VERTICAL_LOOKS.includes(c));
   block.classList.add(horizontal ? 'tabs-panel-horizontal' : 'tabs-panel-vertical');
+  if (!looks.length) block.classList.add('tabs-panel-default');
 
   const tablist = document.createElement('div');
   tablist.className = 'tabs-panel-list';
@@ -191,6 +243,8 @@ export default function decorate(block) {
     } else if (filled.length === 1) {
       content.append(...filled[0].childNodes);
       decorateCards(content);
+      if (!looks.length) decorateGroups(content);
+      if (block.classList.contains('alt')) decorateCollapsibles(content, `${prefix}-${id}`);
     }
     panel.append(content);
 
