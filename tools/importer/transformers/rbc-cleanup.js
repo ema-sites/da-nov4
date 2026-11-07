@@ -91,6 +91,10 @@ const TABLE_CELL_JUNK = '.tablesaw-cell-label, .tablesaw-checkbox, .sr-only, .of
 
 // Final cleanup after parsers have run.
 const AFTER_SELECTORS = [
+  // Embedded app shells (e.g. the Angular calculator) carry a stray
+  // <base href="./"> inside <body>; html2md (hast-util-to-mdast) freezes it as
+  // the link base and `new URL(href, './')` throws "Invalid base URL".
+  'base',
   'iframe',
   'script',
   'style',
