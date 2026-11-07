@@ -184,6 +184,18 @@ function decorateFootnoteLinks(main) {
 }
 
 /**
+ * SVG images have only a viewBox, so `width: auto` stretches them to the column. Expose their
+ * width attribute (EDS sets it from the viewBox) as --svg-width for styles.css.
+ * @param {HTMLElement} main The main container element
+ */
+function decorateSvgImages(main) {
+  main.querySelectorAll('img[src*=".svg"][width]').forEach((img) => {
+    const w = parseInt(img.getAttribute('width'), 10);
+    if (w > 0) img.style.setProperty('--svg-width', `${w}px`);
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -196,6 +208,7 @@ export function decorateMain(main) {
   decorateBlocks(main);
   decorateButtons(main);
   decorateFootnoteLinks(main);
+  decorateSvgImages(main);
 }
 
 /**

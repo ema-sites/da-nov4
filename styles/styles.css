@@ -262,6 +262,12 @@ main img {
   height: auto;
 }
 
+/* SVGs have no intrinsic size (only a viewBox): use the width EDS derives from it, which scripts.js
+   copies to --svg-width; block rules that size their icons still win (more specific). */
+main img[src*=".svg"] {
+  width: var(--svg-width, auto);
+}
+
 .icon {
   display: inline-block;
   height: 24px;

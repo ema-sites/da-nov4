@@ -402,8 +402,30 @@ function markStrikethrough(element) {
   });
 }
 
+/**
+ * Server debug output some RBC pages (Caribbean credit cards) print into the body: the raw CMS XML,
+ * the request's headers and cookies (user agent, session ids, IP) and "debug info: …" lines.
+ * Never import it.
+ */
+const DEBUG_DUMP_RE = /\[user-agent\]\s*=\s*\[|\[x-forwarded-for\]|\[cookie\]\s*=|<\/?Properties>|<resultdata>|^\s*debug info:/i;
+function removeDebugDumps(element) {
+  const doc = element.ownerDocument;
+  const walker = doc.createTreeWalker(element, 4 /* NodeFilter.SHOW_TEXT */);
+  const hits = [];
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    if (DEBUG_DUMP_RE.test(n.nodeValue)) hits.push(n);
+  }
+  hits.forEach((n) => {
+    const parent = n.parentElement;
+    // drop the whole wrapper when the dump is all it holds, else just the text
+    if (parent && parent !== element && parent.textContent.trim() === n.nodeValue.trim()) parent.remove();
+    else n.remove();
+  });
+}
+
 export default function transform(hookName, element, payload) {
   if (hookName === 'beforeTransform') {
+    removeDebugDumps(element);
     WebImporter.DOMUtils.remove(element, BEFORE_SELECTORS);
     removeHiddenModals(element);
     removeMobileTableCopies(element);
