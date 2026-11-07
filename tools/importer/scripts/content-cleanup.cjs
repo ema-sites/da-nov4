@@ -14,10 +14,11 @@ const root = process.argv[2];
 const content = fs.realpathSync(path.join(root, 'content'));
 const JUNK = ['open iframe', 'Previous columnNext column', 'Carousel scrollbar', '[an error occurred while processing this directive]'];
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const JUNK_P = new RegExp(`<p>(?:<strong>)?(?:${JUNK.map(esc).join('|')})(?:</strong>)?</p>`, 'g');
+const JUNK_P = new RegExp(`<p>(?:<(?:strong|em)>)?(?:${JUNK.map(esc).join('|')})(?:</(?:strong|em)>)?</p>`, 'g');
 
 const rules = [
   [JUNK_P, ''],
+  [/<ul>\s*(?:<li>\s*<\/li>\s*)+<\/ul>/g, ''], // empty bullet lists left by table-scroller widgets
   [/View Legal DisclaimersHide Legal Disclaimers/g, 'View Legal Disclaimers'],
   [/Afficher les avis juridiquesMasquer les avis juridiques/g, 'Afficher les avis juridiques'],
   [/>View (Afficher|Voir) /g, '>$1 '],
