@@ -27,11 +27,11 @@
   --body-font-size-xs: 12px;
   --body-line-height: 24px;
 
-  /* heading sizes (mobile) */
-  --heading-font-size-xxl: 36px;
-  --heading-font-size-xl: 28px;
-  --heading-font-size-l: 24px;
-  --heading-font-size-m: 20px;
+  /* heading sizes (mobile), most common sizes across all captured source blocks */
+  --heading-font-size-xxl: 28px;
+  --heading-font-size-xl: 24px;
+  --heading-font-size-l: 20px;
+  --heading-font-size-m: 18px;
   --heading-font-size-s: 18px;
   --heading-font-size-xs: 16px;
 
@@ -54,7 +54,7 @@
     --heading-font-size-xxl: 40px;
     --heading-font-size-xl: 36px;
     --heading-font-size-l: 28px;
-    --heading-font-size-m: 20px;
+    --heading-font-size-m: 24px;
     --heading-font-size-s: 18px;
     --heading-font-size-xs: 16px;
   }
