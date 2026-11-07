@@ -40,6 +40,17 @@ function decorateVideo(cell) {
   }
 }
 
+/** mark links that are a paragraph's whole content (RBC standalone links with a chevron) */
+function markStandaloneLinks(block) {
+  block.querySelectorAll('.columns-media-text p').forEach((p) => {
+    const links = p.querySelectorAll(':scope > a[href]');
+    if (links.length !== 1) return;
+    const [a] = links;
+    if (a.classList.contains('button') || a.querySelector('picture, img, sup')) return;
+    if (p.textContent.trim() === a.textContent.trim()) a.classList.add('columns-media-standalone');
+  });
+}
+
 const isTextPara = (el) => !!el && el.tagName === 'P' && !el.querySelector('picture, img');
 
 /**
@@ -113,5 +124,6 @@ export default function decorate(block) {
     }
   });
 
+  markStandaloneLinks(block);
   optimizeImages(block);
 }

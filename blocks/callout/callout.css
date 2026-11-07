@@ -32,9 +32,18 @@
   margin-bottom: 0;
 }
 
-/* badge: small inline pill label */
+@media (width >= 600px) {
+  .callout:not(.badge, .link-bar, .cyan, .image) .callout-item:has(.callout-icon + .callout-body) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* badge: small yellow uppercase pill (source .snipe.pill.all-caps) */
 .callout.badge {
   display: inline-flex;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .callout.badge .callout-item {
@@ -43,21 +52,48 @@
   gap: 8px;
 }
 
-/* link-bar: one-line strip, label/counter beside the message */
-.callout.link-bar .callout-item {
-  flex-flow: row wrap;
-  align-items: center;
+.callout.badge .callout-body > span {
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: #ffba00;
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* link-bar: light-blue centred strip, eyebrow + heading + text (source div.pad) */
+.callout.link-bar {
+  padding: 15px;
+  background-color: #edf7fc;
+  color: var(--text-color);
 }
 
 .callout.link-bar .callout-body {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 24px;
+  text-align: center;
 }
 
-.callout.link-bar .callout-body > * {
-  margin: 0;
+.callout.link-bar .callout-body :where(p) {
+  margin: 0 0 15px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.callout.link-bar .callout-body :where(p:has(+ h2, + h3)) {
+  font-weight: 400;
+}
+
+.callout.link-bar .callout-body :where(h2) {
+  margin: 16px 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 25px;
+}
+
+.callout.link-bar .callout-body > :last-child {
+  margin-bottom: 0;
 }
 
 /* grey: RBC bordered notice box (source .callout > .callout-content); padding and the
@@ -91,9 +127,377 @@
   margin-bottom: 0;
 }
 
-@media (width >= 600px) {
-  .callout:not(.badge, .link-bar) .callout-item:has(.callout-icon + .callout-body) {
-    flex-direction: row;
-    align-items: flex-start;
+/* shadow: white box with RBC .drop-shadow (source .block-wpr.drop-shadow > .block-inner) */
+.callout.shadow .callout-item {
+  padding: 15px;
+  background-color: var(--background-color);
+  box-shadow: 0 2px 24px 0 rgb(0 0 0 / 7%);
+}
+
+.callout.shadow a:any-link {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+/* dismissible: RBC .alert.info.minor - blue outlined notice, info icon, close (x) */
+.callout.dismissible {
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--brand-blue);
+  border-radius: 4px;
+  padding: 20px;
+  background-color: var(--background-color);
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 13%);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.callout.dismissible:not(:has(.callout-body picture))::before {
+  content: '';
+  flex: 0 0 20px;
+  height: 20px;
+  margin-right: 15px;
+  background-color: var(--brand-blue);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9.25' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Crect x='9.25' y='8.5' width='1.5' height='6.5' fill='%23000'/%3E%3Ccircle cx='10' cy='6' r='1' fill='%23000'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.callout.dismissible .callout-item {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.callout.dismissible .callout-body :where(p) {
+  margin: 0;
+  color: var(--brand-blue);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.callout.dismissible .callout-body :where(picture) img {
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+
+.callout.dismissible .callout-close {
+  position: relative;
+  flex: 0 0 15px;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-color);
+  text-align: left;
+  cursor: pointer;
+}
+
+.callout.dismissible .callout-close::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--brand-blue);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15'%3E%3Cpath d='M1 1l13 13M14 1L1 14' stroke='%23000' stroke-width='1.25'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.callout.dismissible .callout-close:hover::before {
+  background-color: var(--brand-blue-dark);
+}
+
+.callout.dismissible .callout-close span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* cyan: WestJet teal rewards card, decoration logo top (mobile) / bottom right (desktop) */
+.callout.cyan {
+  position: relative;
+  gap: 0;
+  border-radius: 8px;
+  background-color: #018380;
+}
+
+.callout.cyan .callout-item {
+  gap: 0;
+  padding: 32px;
+  color: var(--background-color);
+}
+
+.callout.cyan .callout-icon img {
+  width: 173px;
+  height: auto;
+}
+
+.callout.cyan .callout-body :where(h2, h3) {
+  margin: 0 0 15px;
+  color: var(--background-color);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 30px;
+}
+
+.callout.cyan .callout-body :where(p) {
+  margin: 0 0 15px;
+  color: var(--background-color);
+  font-weight: 400;
+}
+
+.callout.cyan a:any-link {
+  color: var(--background-color);
+  font-weight: 400;
+}
+
+.callout.cyan .callout-body p:last-child > a:only-child {
+  padding-bottom: 15px;
+}
+
+.callout.cyan .callout-body p:last-child > a:only-child::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 10px;
+  margin: -2px 0 0 4px;
+  vertical-align: middle;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath d='M1 1l4 4-4 4' fill='none' stroke='%23000' stroke-width='1.25'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* image: grey strip, icon + bold label beside a chevron link list (source .section-grey) */
+.callout.image {
+  background-color: #eee;
+}
+
+.callout.image .callout-item {
+  padding: 30px 0;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: start;
+  gap: 0 15px;
+}
+
+.callout.image .callout-icon img {
+  width: 40px;
+  height: 40px;
+}
+
+.callout.image .callout-body {
+  display: contents;
+}
+
+.callout.image .callout-body :where(p, li) {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.callout.image .callout-body > p {
+  margin: 6px 0 0;
+}
+
+.callout.image .callout-body strong {
+  font-weight: 700;
+}
+
+.callout.image .callout-body > ul {
+  grid-column: 1 / -1;
+  margin: 15px 0 0;
+  padding: 0 0 0 15px;
+  list-style: none;
+}
+
+.callout.image .callout-body > ul > li {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.callout.image .callout-body > ul > li:last-child {
+  margin-bottom: 0;
+}
+
+.callout.image .callout-body > ul > li::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -15px;
+  width: 6px;
+  height: 10px;
+  background-color: var(--brand-blue);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath d='M1 1l4 4-4 4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* grey with an h2: centred offer box (source .block-wpr.with-borders.rounded-corners > .pad-dbl) */
+.callout.grey:has(.callout-body > h2) {
+  border-radius: 8px;
+}
+
+.callout.grey:has(.callout-body > h2) .callout-item {
+  padding: 30px;
+}
+
+.callout.grey .callout-body:has(> h2) {
+  text-align: center;
+}
+
+.callout.grey .callout-body:has(> h2) p.button-wrapper {
+  margin: 15px 0;
+}
+
+.callout.grey .callout-body:has(> h2) p:not(.button-wrapper) > a:only-child {
+  display: table;
+  position: relative;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: start;
+}
+
+.callout.grey .callout-body:has(> h2) p:not(.button-wrapper) > a:only-child::after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  right: -14px;
+  width: 6px;
+  height: 10px;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath d='M1 1l4 4-4 4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+main .callout.grey .callout-body:has(> h2) a.button:any-link {
+  display: table;
+  margin: 0 auto;
+  padding: 15px 30px;
+  text-transform: capitalize;
+}
+
+@media (width >= 900px) {
+  .callout.link-bar {
+    padding: 30px;
   }
+
+  .callout.link-bar .callout-body :where(h2) {
+    margin: 0 0 24px;
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  .callout.shadow .callout-item {
+    padding: 20px;
+  }
+
+  .callout.cyan .callout-item {
+    padding: 40px 40px 88px;
+  }
+
+  .callout.cyan .callout-icon {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0 30px 15px 0;
+  }
+
+  .callout.cyan .callout-icon img {
+    width: 163px;
+  }
+
+  .callout.cyan .callout-body :where(h2, h3) {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .callout.image .callout-body :where(p, li) {
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  .callout.image .callout-item {
+    padding: 60px 0;
+    grid-template-columns: 40px calc(33.333% - 55px) 1fr;
+    width: 66.666%;
+    margin: 0 auto;
+  }
+
+  .callout.image .callout-body > p {
+    margin: 5px 0 0;
+  }
+
+  .callout.image .callout-body > ul {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: center;
+    margin: 0;
+  }
+
+  .callout.image .callout-body > ul > li {
+    margin-bottom: 10px;
+  }
+
+  .callout.image .callout-body > ul > li::before {
+    top: 9px;
+  }
+
+  .callout.grey:has(.callout-body > h2) .callout-item {
+    padding: 60px;
+  }
+
+  .callout.grey .callout-body:has(> h2) :where(h2) {
+    margin-bottom: 30px;
+  }
+
+  .callout.grey .callout-body:has(> h2) :where(p) {
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  .callout.grey .callout-body:has(> h2) p.button-wrapper {
+    margin: 30px 0;
+  }
+
+  main .callout.grey .callout-body:has(> h2) a.button:any-link {
+    padding: 30px 60px;
+  }
+}
+
+/* default (no variant) with icon + h3: RBC homepage "bento-blue" security card */
+.callout:not(.badge, .link-bar, .grey, .shadow, .dismissible, .cyan, .image):has(.callout-icon + .callout-body > h3:first-child) {
+  gap: 0;
+  border-radius: 8px;
+  background-image: linear-gradient(var(--brand-blue) 0%, #008bff 100%);
+  color: var(--text-color);
+}
+
+.callout:not(.badge, .link-bar, .grey, .shadow, .dismissible, .cyan, .image):has(.callout-icon + .callout-body > h3:first-child) .callout-item {
+  flex-direction: column;
+  gap: 0;
+  padding: 30px;
+  color: var(--background-color);
+}
+
+.callout:not(.badge, .link-bar, .grey, .shadow, .dismissible, .cyan, .image):has(.callout-icon + .callout-body > h3:first-child) .callout-icon img {
+  width: 100px;
+  height: 100px;
+}
+
+.callout:not(.badge, .link-bar, .grey, .shadow, .dismissible, .cyan, .image):has(.callout-icon + .callout-body > h3:first-child) .callout-body > h3 {
+  margin: 20px 0 15px;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 36px;
+  color: var(--background-color);
+}
+
+.callout:not(.badge, .link-bar, .grey, .shadow, .dismissible, .cyan, .image):has(.callout-icon + .callout-body > h3:first-child) .callout-body p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  color: var(--background-color);
+}
+
+.callout:not(.badge, .link-bar, .grey, .shadow, .dismissible, .cyan, .image):has(.callout-icon + .callout-body > h3:first-child) a:any-link {
+  color: var(--background-color);
 }

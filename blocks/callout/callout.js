@@ -43,5 +43,22 @@ export default function decorate(block) {
     });
   }
 
+  if (block.classList.contains('dismissible')) {
+    // RBC alert: a close (x) button hides the notice
+    const lang = (document.documentElement.lang || 'en').toLowerCase();
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'callout-close';
+    const label = document.createElement('span');
+    label.textContent = lang.startsWith('fr') ? 'Fermer' : 'Close';
+    close.append(label);
+    close.addEventListener('click', () => {
+      block.hidden = true;
+      const wrapper = block.closest('.callout-wrapper');
+      if (wrapper) wrapper.hidden = true;
+    });
+    block.append(close);
+  }
+
   optimizeImages(block);
 }

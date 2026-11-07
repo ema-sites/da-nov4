@@ -1,40 +1,51 @@
-/* accordion-faq: values from rbcroyalbank.com #help-accordion (see migration-work/accordion-faq-extracted.css) */
+/* accordion-faq: values measured on rbcroyalbank.com (.accordion > .accordion-panel > button.collapse-toggle),
+   see the source.json captures under migration-work/design/ */
 .accordion-faq {
   position: relative;
-  margin: 15px 0 30px;
+  margin: 15px 0 0;
   color: var(--text-color);
 }
 
-.accordion-faq .accordion-faq-intro {
-  margin-bottom: 24px;
+.accordion-faq .accordion-faq-intro > :last-child {
+  margin-bottom: 0;
 }
 
-/* item (source .accordion-panel) */
+.accordion-faq .accordion-faq-intro + .accordion-faq-items {
+  margin-top: 15px;
+}
+
+/* item (source .accordion-panel): 15px above and below the toggle, 1px rule */
 .accordion-faq .accordion-faq-item {
+  padding: 15px 0;
   border-bottom: 1px solid #c4c8cc;
 }
 
-.accordion-faq .accordion-faq-group > .accordion-faq-item:first-of-type,
-.accordion-faq .accordion-faq-column:first-of-type > .accordion-faq-item:first-child {
+.accordion-faq :where(.accordion-faq-group, .accordion-faq-column:first-of-type) > .accordion-faq-item:first-of-type {
   border-top: 1px solid #c4c8cc;
 }
 
-/* label (source .collapse-toggle) */
+.accordion-faq .accordion-faq-item-heading {
+  margin: 0;
+  font: inherit;
+}
+
+/* toggle (source button.collapse-toggle) */
 .accordion-faq .accordion-faq-item-label {
   position: relative;
   display: block;
-  padding: 15px 22px 15px 0;
+  width: 100%;
+  margin: 0;
+  padding: 0 22px 0 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
   color: var(--link-color);
   font-family: var(--body-font-family);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 24px;
+  text-align: left;
   cursor: pointer;
-  list-style: none;
-}
-
-.accordion-faq .accordion-faq-item-label::-webkit-details-marker {
-  display: none;
 }
 
 /* source .collapse-toggle:hover turns #23527c and underlines */
@@ -43,17 +54,16 @@
   text-decoration: underline;
 }
 
-.accordion-faq .accordion-faq-item-label > :is(p, h2, h3, h4, h5, h6) {
-  margin: 0;
-  color: inherit;
-  font: inherit;
+.accordion-faq .accordion-faq-item-label:focus-visible {
+  outline: 1px solid var(--link-color);
+  outline-offset: 2px;
 }
 
-/* chevron: source ui-chevron-down-blue.svg (fixed blue, unchanged on hover), 12x7, right 0, 10px below the label text top */
+/* chevron: source ui-chevron-down-blue.svg (fixed blue, unchanged on hover), 12x7, right 0, 10px below the text top */
 .accordion-faq .accordion-faq-item-label::after {
   content: '';
   position: absolute;
-  top: 25px;
+  top: 10px;
   right: 0;
   width: 12px;
   height: 7px;
@@ -62,13 +72,17 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.accordion-faq .accordion-faq-item[open] > .accordion-faq-item-label::after {
+.accordion-faq .accordion-faq-item-label[aria-expanded='true']::after {
   transform: rotate(180deg);
 }
 
 /* body (source .collapse-inner) */
 .accordion-faq .accordion-faq-item-body {
-  padding: 0 15px 15px 0;
+  padding: 15px 15px 0 0;
+}
+
+.accordion-faq .accordion-faq-item-body[hidden] {
+  display: none;
 }
 
 .accordion-faq .accordion-faq-item-body > :last-child {
@@ -124,58 +138,479 @@
   height: auto;
 }
 
-/* source switches the two-column help topics on at 640px */
+/* grey-2: white panel, 15px below (30px on desktop) */
+.accordion-faq.grey-2 {
+  margin-bottom: 15px;
+  background-color: #fff;
+}
+
+/* grouped: topic columns (source .grid-wpr > .grid-one-third.text-center), "+" toggles centred under an h4 */
+.accordion-faq.grouped {
+  margin: 30px -7.5px 0;
+}
+
+.accordion-faq.grouped .accordion-faq-items {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.accordion-faq.grouped .accordion-faq-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 0 7.5px;
+  text-align: center;
+}
+
+.accordion-faq.grouped .accordion-faq-group-heading {
+  align-self: stretch;
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 27px;
+  text-align: center;
+}
+
+.accordion-faq.grouped .accordion-faq-item {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+}
+
+.accordion-faq.grouped .accordion-faq-item-label {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  padding: 0 0 0 22px;
+}
+
+/* source ui-plus-blue: 12x12 at the left of the label, a minus when open */
+.accordion-faq.grouped .accordion-faq-item-label::after {
+  top: 6px;
+  right: auto;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path d="M5.5 0h1v5.5H12v1H6.5V12h-1V6.5H0v-1h5.5z"/></svg>') no-repeat center / 12px 12px;
+  transition: none;
+}
+
+.accordion-faq.grouped .accordion-faq-item-label[aria-expanded='true']::after {
+  transform: none;
+  mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path d="M0 5.5h12v1H0z"/></svg>');
+}
+
+.accordion-faq.grouped .accordion-faq-item-body {
+  padding: 15px 0 0;
+}
+
+/* image: photo column beside a heading, intro and the list (source .col-wpr.flex > .col-6 + .col-6) */
+.accordion-faq.image {
+  margin: 30px 0 0 -15px;
+}
+
+.accordion-faq.image .accordion-faq-media {
+  position: relative;
+  display: none;
+}
+
+.accordion-faq.image .accordion-faq-content {
+  padding: 46px 7.5px 15px 15px;
+}
+
+.accordion-faq.image .accordion-faq-intro > p:first-child {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+/* image-beside: heading beside the list (source .grid-five-twelfths + .grid-seven-twelfths) */
+.accordion-faq.image-beside .accordion-faq-intro :is(h2, h3) {
+  margin: 0;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
+}
+
+/* image-beside-2: list in two thirds, illustration in the last third */
+.accordion-faq.image-beside-2 {
+  display: flex;
+  flex-direction: column;
+  margin: 15px -7.5px 0;
+}
+
+.accordion-faq.image-beside-2 > * {
+  padding: 0 7.5px;
+}
+
+.accordion-faq.image-beside-2 .accordion-faq-content {
+  order: -1;
+  padding-top: 15px;
+}
+
+.accordion-faq.image-beside-2 .accordion-faq-media {
+  margin-top: 15px;
+}
+
+.accordion-faq.image-beside-2 .accordion-faq-media img {
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* background-image: cut-out photo behind a centred intro and a white boxed list of steps
+   (source .full-img: eyebrow, h2, intro, check-marked RBCDisplay toggles; from the catalog screenshot) */
+.accordion-faq.background-image .accordion-faq-media {
+  display: none;
+}
+
+.accordion-faq.background-image .accordion-faq-intro {
+  max-width: 510px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.accordion-faq.background-image .accordion-faq-intro > p:first-child {
+  margin-bottom: 10px;
+  color: var(--link-color);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.accordion-faq.background-image .accordion-faq-intro > p:nth-child(2) {
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 30px;
+}
+
+.accordion-faq.background-image .accordion-faq-group {
+  border: 1px solid #c4c8cc;
+  border-bottom: 0;
+  background-color: #fff;
+}
+
+.accordion-faq.background-image .accordion-faq-item {
+  padding: 15px 30px 15px 55px;
+  border-top: 0;
+}
+
+.accordion-faq.background-image .accordion-faq-item-label {
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+}
+
+.accordion-faq.background-image .accordion-faq-item-label::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: -40px;
+  width: 25px;
+  height: 18px;
+  background-color: var(--link-color);
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 18"><path d="M8.5 18 0 9.6l1.4-1.4 7.1 7L23.6 0 25 1.4z"/></svg>') no-repeat center / 25px 18px;
+}
+
+.accordion-faq.background-image .accordion-faq-item-label::after {
+  right: -16px;
+}
+
+/* background-image-2: FAQ list beside a photo that fills the list height (source retirement FAQ) */
+.accordion-faq.background-image-2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-faq.background-image-2 .accordion-faq-content {
+  order: -1;
+  padding: 0 20px;
+}
+
+.accordion-faq.background-image-2 .accordion-faq-media {
+  margin-top: 15px;
+}
+
+/* background-image-3: white text, large toggles in a dark panel (source .how-we-help-section) */
+.accordion-faq.background-image-3 {
+  padding: 64px 0;
+}
+
+.accordion-faq.background-image-3 .accordion-faq-content {
+  max-width: 670px;
+  padding: 30px 0;
+}
+
+.accordion-faq.background-image-3 .accordion-faq-intro > :is(p, h2) {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.accordion-faq.background-image-3 .accordion-faq-intro > :is(p, h2):first-child {
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.accordion-faq.background-image-3 .accordion-faq-intro + .accordion-faq-items {
+  margin-top: 47px;
+}
+
+.accordion-faq.background-image-3 .accordion-faq-group {
+  margin-bottom: 32px;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: rgb(0 0 0 / 80%);
+}
+
+.accordion-faq.background-image-3 .accordion-faq-item {
+  padding: 32px;
+  border-top: 0;
+  border-bottom: 1px solid rgb(255 255 255 / 30%);
+}
+
+.accordion-faq.background-image-3 .accordion-faq-item-label {
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 30px;
+}
+
+.accordion-faq.background-image-3 .accordion-faq-item-label::after {
+  top: 12px;
+  background-color: #fff;
+}
+
+.accordion-faq.background-image-3 .accordion-faq-item-body {
+  color: #fff;
+}
+
+.accordion-faq.background-image-3 .accordion-faq-item-body ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.accordion-faq.background-image-3 .accordion-faq-item-body a:any-link {
+  color: #fff;
+}
+
+/* source switches the two-column FAQ on at 640px */
 @media (width >= 640px) {
-  .accordion-faq:not(.accordion-faq-has-media, .grouped) .accordion-faq-group:has(> .accordion-faq-column) {
+  .accordion-faq .accordion-faq-group:has(> .accordion-faq-column) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0 30px;
     align-items: start;
-    padding: 0 15px;
   }
 
-  .accordion-faq:not(.accordion-faq-has-media, .grouped) .accordion-faq-group > .accordion-faq-group-heading {
+  .accordion-faq .accordion-faq-group:has(> .accordion-faq-column) > .accordion-faq-group-heading {
     grid-column: 1 / -1;
   }
 
-  .accordion-faq .accordion-faq-column > .accordion-faq-item:first-child {
+  .accordion-faq :where(.accordion-faq-column) > .accordion-faq-item:first-of-type {
     border-top: 1px solid #c4c8cc;
   }
 }
 
 @media (width >= 900px) {
-  .accordion-faq.grouped .accordion-faq-items {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px;
+  .accordion-faq {
+    margin-top: 30px;
   }
 
-  /* image beside the accordion list */
-  .accordion-faq.accordion-faq-has-media:is(.image-beside, .image-beside-2) {
+  .accordion-faq.grey-2 {
+    margin-bottom: 30px;
+  }
+
+  .accordion-faq.grouped {
+    margin: 60px -15px 0;
+  }
+
+  .accordion-faq.grouped .accordion-faq-items {
     display: grid;
-    grid-template-columns: 2fr 3fr;
-    gap: 48px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
     align-items: start;
   }
 
-  /* cut-out / background photo behind the accordion */
-  .accordion-faq.accordion-faq-has-media:is(.background-image, .background-image-2, .background-image-3) {
-    display: grid;
-    grid-template-columns: 1fr;
+  .accordion-faq.grouped .accordion-faq-group {
+    padding: 0 15px 15px;
   }
 
-  .accordion-faq.accordion-faq-has-media:is(.background-image, .background-image-2, .background-image-3) > * {
+  .accordion-faq.grouped .accordion-faq-group-heading {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .accordion-faq.image {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 60px -15px 0;
+  }
+
+  .accordion-faq.image .accordion-faq-media {
+    display: block;
+  }
+
+  /* source paints the photo as a cover background: it never sets the row height */
+  .accordion-faq.image .accordion-faq-media img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .accordion-faq.image .accordion-faq-content {
+    padding: 15px 15px 15px 60px;
+  }
+
+  .accordion-faq.image .accordion-faq-intro > p:first-child {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .accordion-faq.image .accordion-faq-intro + .accordion-faq-items {
+    margin-top: 30px;
+  }
+
+  /* without a picture the heading sits in the 5/12 column; with one, the picture does */
+  .accordion-faq.image-beside {
+    display: grid;
+    grid-template-columns: calc((100% + 30px) * 5 / 12 - 30px) minmax(0, 1fr);
+    gap: 30px;
+    align-items: start;
+  }
+
+  .accordion-faq.image-beside:where(:not(.accordion-faq-has-media)) .accordion-faq-content {
+    display: contents;
+  }
+
+  .accordion-faq.image-beside:where(:not(.accordion-faq-has-media)) .accordion-faq-intro + .accordion-faq-items {
+    margin-top: 0;
+  }
+
+  .accordion-faq.image-beside .accordion-faq-intro :is(h2, h3) {
+    font-size: 30px;
+    line-height: 38px;
+    text-align: left;
+  }
+
+  .accordion-faq.image-beside-2 {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: start;
+    margin: 30px -15px 0;
+  }
+
+  .accordion-faq.image-beside-2 > * {
+    padding: 0 15px;
+  }
+
+  .accordion-faq.image-beside-2 .accordion-faq-content {
+    padding-top: 23px;
+  }
+
+  .accordion-faq.image-beside-2 .accordion-faq-media {
+    margin-top: 0;
+  }
+
+  .accordion-faq.background-image {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .accordion-faq.background-image > * {
     grid-area: 1 / 1;
   }
 
-  .accordion-faq.accordion-faq-has-media:is(.background-image, .background-image-2, .background-image-3) .accordion-faq-content {
+  .accordion-faq.background-image .accordion-faq-media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+
+  /* source paints the white-backed photo from 100px below the top to the bottom, anchored left */
+  .accordion-faq.background-image .accordion-faq-media img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    max-width: none;
+    height: calc(100% - 100px);
+  }
+
+  .accordion-faq.background-image .accordion-faq-content {
     position: relative;
     width: min(100%, 768px);
     margin: 0 auto;
   }
 
-  .accordion-faq.accordion-faq-has-media:is(.background-image, .background-image-2, .background-image-3) .accordion-faq-media img {
+  .accordion-faq.background-image .accordion-faq-intro > p:nth-child(2) {
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  .accordion-faq.background-image .accordion-faq-item {
+    padding: 20px 36px 20px 70px;
+  }
+
+  .accordion-faq.background-image .accordion-faq-item-label {
+    font-size: 24px;
+  }
+
+  .accordion-faq.background-image-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .accordion-faq.background-image-2 .accordion-faq-media {
+    position: relative;
+    margin-top: 0;
+  }
+
+  .accordion-faq.background-image-2 .accordion-faq-media img {
+    position: absolute;
+    inset: 0;
     height: 100%;
     object-fit: cover;
+  }
+
+  .accordion-faq.background-image-3 {
+    padding: 128px 0;
+  }
+
+  .accordion-faq.background-image-3 .accordion-faq-content {
+    padding: 60px 0;
+  }
+
+  .accordion-faq.background-image-3 .accordion-faq-intro > :is(p, h2):first-child {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .accordion-faq.background-image-3 .accordion-faq-intro + .accordion-faq-items {
+    margin-top: 62px;
+  }
+
+  .accordion-faq.background-image-3 .accordion-faq-item-label {
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  .accordion-faq.background-image-3 .accordion-faq-item-label::after {
+    top: 16px;
   }
 }
