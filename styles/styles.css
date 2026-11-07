@@ -72,6 +72,12 @@ h6 {
 h1 {
   font-size: var(--heading-font-size-xxl);
   line-height: 1.2;
+  color: var(--brand-blue); /* RBC page titles are blue */
+}
+
+/* …except the homepage-style intro above the resource panels */
+main .section.columns-resources-container h1 {
+  color: var(--text-color);
 }
 
 h2 {
