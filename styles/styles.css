@@ -291,17 +291,38 @@ main .section.light-blue-grey {
   padding: var(--section-padding-colored) 0;
 }
 
+/* exact RBC section backgrounds (measured across the catalog) */
+main .section.grey { background-color: #eee; }
+main .section.cool-grey { background-color: #f5f8f9; }
+main .section.pale-grey { background-color: #f3f4f5; }
+main .section.light-blue { background-color: #edf7fc; }
+main .section.sky { background-color: #e3f4ff; }
+main .section.mist { background-color: #e1ebef; }
+main .section.silver { background-color: #c4c8cc; }
+main .section.blue { background-color: var(--brand-blue); }
+main .section.navy { background-color: var(--brand-navy); }
+main .section.dark-blue { background-color: #00599d; }
+
+main .section:is(.grey, .cool-grey, .pale-grey, .light-blue, .sky, .mist, .silver, .blue, .navy, .dark-blue) {
+  padding: var(--section-padding-colored) 0;
+}
+
 main .section.dark-blue-gradient {
   background-image: var(--dark-blue-gradient);
   padding: var(--section-padding-colored) 0;
   color: var(--background-color);
 }
 
-main .section.dark-blue-gradient :is(h1, h2, h3, h4, h5, h6, p) {
+/* white text on the dark sections */
+main .section:is(.dark-blue-gradient, .blue, .navy, .dark-blue) {
   color: var(--background-color);
 }
 
-main .section.dark-blue-gradient a:any-link:not(.button) {
+main .section:is(.dark-blue-gradient, .blue, .navy, .dark-blue) :is(h1, h2, h3, h4, h5, h6, p, li) {
+  color: var(--background-color);
+}
+
+main .section:is(.dark-blue-gradient, .blue, .navy, .dark-blue) a:any-link:not(.button) {
   color: var(--background-color);
 }
 
@@ -309,7 +330,7 @@ main .section.dark-blue-gradient a:any-link:not(.button) {
 main > .section.carousel-hero-container,
 main > .section.carousel-hero-container:first-of-type,
 main > .section.branch-locator-container,
-main > .section.hero-banner-container:not(.light-grey, .light-blue-grey, .dark-blue-gradient) {
+main > .section.hero-banner-container:not(.light-grey, .light-blue-grey, .dark-blue-gradient, .grey, .cool-grey, .pale-grey, .light-blue, .sky, .mist, .silver, .blue, .navy, .dark-blue) {
   padding: 0;
 }
 

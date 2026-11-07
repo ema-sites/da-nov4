@@ -10,13 +10,51 @@
 
 const MARKER_ATTR = 'data-excat-auto-section';
 
+// Section styles by exact background colour (styles/styles.css defines each one); the colours are the
+// section backgrounds measured across the site catalog. A colour within 3 per channel matches.
+const PALETTE = [
+  ['light-grey', [250, 250, 250]], ['light-grey', [249, 249, 249]], ['light-grey', [248, 248, 248]],
+  ['light-blue-grey', [243, 247, 248]], ['light-blue-grey', [244, 248, 249]],
+  ['grey', [238, 238, 238]], ['grey', [234, 234, 234]], ['grey', [235, 235, 235]], ['grey', [245, 245, 245]],
+  ['cool-grey', [245, 248, 249]],
+  ['pale-grey', [243, 244, 245]], ['pale-grey', [241, 246, 249]],
+  ['light-blue', [237, 247, 252]], ['light-blue', [247, 252, 255]],
+  ['sky', [227, 244, 255]], ['sky', [220, 236, 247]],
+  ['mist', [225, 235, 239]], ['mist', [231, 238, 241]],
+  ['silver', [196, 200, 204]],
+  ['blue', [0, 106, 195]],
+  ['navy', [0, 49, 104]],
+  ['dark-blue', [0, 89, 157]], ['dark-blue', [46, 81, 161]],
+];
+
+function paletteStyle(color) {
+  const m = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+  if (!m || (m[4] !== undefined && Number(m[4]) < 0.9)) return null;
+  const c = [Number(m[1]), Number(m[2]), Number(m[3])];
+  let best = null;
+  let bestDist = Infinity;
+  PALETTE.forEach(([name, p]) => {
+    const far = Math.max(...p.map((v, i) => Math.abs(v - c[i])));
+    if (far <= 3 && far < bestDist) { best = name; bestDist = far; }
+  });
+  return best;
+}
+
 function styleFor(el) {
-  const cs = el.ownerDocument.defaultView.getComputedStyle(el);
-  const bg = cs.backgroundColor.replace(/\s+/g, '');
-  const img = cs.backgroundImage || '';
-  if (/gradient/.test(img) && /0,49,104|0,30,67|0,81,165/.test(img.replace(/\s+/g, ''))) return 'dark-blue-gradient';
-  if (['rgb(250,250,250)', 'rgb(249,249,249)', 'rgb(247,247,247)', 'rgb(245,248,249)', 'rgb(248,248,248)'].includes(bg)) return 'light-grey';
-  if (['rgb(243,247,248)', 'rgb(237,247,252)', 'rgb(236,247,251)'].includes(bg)) return 'light-blue-grey';
+  const win = el.ownerDocument.defaultView;
+  // the colour is often painted by the section's wrapper rather than the section itself
+  let node = el;
+  for (let depth = 0; node && depth < 3; depth += 1) {
+    const cs = win.getComputedStyle(node);
+    const img = cs.backgroundImage || '';
+    if (/gradient/.test(img) && /0,49,104|0,30,67|0,81,165/.test(img.replace(/\s+/g, ''))) return 'dark-blue-gradient';
+    if (/url\(/.test(img)) return null; // a photo section keeps its block's own image
+    const style = paletteStyle(cs.backgroundColor);
+    if (style) return style;
+    const kids = [...node.children].filter((k) => k.offsetHeight > 0);
+    if (kids.length !== 1 || kids[0].offsetHeight < node.offsetHeight * 0.9) break;
+    [node] = kids;
+  }
   return null;
 }
 
