@@ -18,11 +18,13 @@ const cacheFile = path.join(root, 'migration-work/link-resolve-cache.json');
 
 const key = (u) => {
   const x = new URL(u);
-  return `${x.pathname.replace(/\/index\.html?$/, '/').replace(/\.html?$/, '').replace(/\/$/, '') || '/'}`;
+  // case-insensitive: RBC serves /buying-a-boat-or-RV.html and links to it in either case
+  return `${x.pathname.toLowerCase().replace(/\/{2,}/g, '/').replace(/\/index\.html?$/, '/').replace(/\.html?$/, '').replace(/\/$/, '') || '/'}`;
 };
 
 // migrated pages: report url → content path
 const pageOf = new Map();
+const sourcePaths = new Map(); // key → the page's original RBC pathname
 const edsPath = (p) => {
   if (p === 'index') return '/';
   if (p.endsWith('/index')) return `/${p.slice(0, -'index'.length)}`;
@@ -37,6 +39,7 @@ const walkReports = (dir) => fs.readdirSync(dir, { withFileTypes: true }).forEac
   if (r.status !== 'success' || !r.url || !r.path) return;
   if (!fs.existsSync(path.join(content, `${r.path}.plain.html`))) return;
   pageOf.set(key(r.url), edsPath(r.path));
+  sourcePaths.set(key(r.url), new URL(r.url).pathname);
 });
 walkReports(reports);
 
@@ -135,8 +138,18 @@ walk(content);
       if (!dry) fs.writeFileSync(f, out);
     }
   });
-  // every migrated page's original .html address also redirects to its new path
-  pageOf.forEach((t, k) => { if (k !== t && `${k}/` !== t) redirects.set(`${k}.html`, t); });
+  // every migrated page's original address (e.g. /credit-cards/travel.html) redirects to its new path
+  sourcePaths.forEach((src, k) => {
+    const t = pageOf.get(k);
+    if (src !== t && src.replace(/\/$/, '') !== t.replace(/\/$/, '')) redirects.set(src, t);
+  });
+  // RBC's own redirects that land on a migrated page (/bank-accounts/advantage-banking.html → …/chequing-accounts/…)
+  Object.entries(cache).forEach(([src, c]) => {
+    if (c.status !== 200 || !/^https:\/\/www\.rbcroyalbank\.com\//.test(c.final)) return;
+    const t = pageOf.get(key(c.final));
+    const p = new URL(src).pathname;
+    if (t && !pageOf.has(key(src)) && p !== t) redirects.set(p, t);
+  });
   const rows = [...redirects].filter(([s, d]) => s !== d && s !== '/').sort().map(([Source, Destination]) => ({ Source, Destination }));
   fs.writeFileSync(path.join(root, 'migration-work/redirects.json'), JSON.stringify(rows, null, 1));
   console.log(JSON.stringify({ ...stats, migratedPages: pageOf.size, lookedUp: list.length, redirects: rows.length, dry }));
