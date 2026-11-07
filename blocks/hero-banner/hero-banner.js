@@ -1,15 +1,21 @@
 /*
  * Hero Banner
  * Rows (any order is tolerated, cells are optional):
- *  - media row: a background picture and/or a video link (.mp4/.webm) with no heading
+ *  - media row: a background picture and/or a video link (.mp4/.webm/.mov) with no heading
  *  - content row: heading, text, CTA links (first row with text content)
  *  - extra rows: aside cards (contact box, offer card, overlap card)
  */
 
-const VIDEO_RE = /\.(mp4|webm|ogg)(\?|#|$)/i;
+const VIDEO_RE = /\.(mp4|webm|ogg|mov)(\?|#|$)/i;
+const VIDEO_TYPES = { ogg: 'video/ogg', webm: 'video/webm' };
 
 // options that define their own layout; without one the default layout is picked from the photo
-const LAYOUT_OPTIONS = ['split', 'split-strip', 'split-overlap-card', 'video', 'video-2', 'energy-lines'];
+const LAYOUT_OPTIONS = [
+  'split', 'split-strip', 'split-overlap-card', 'video', 'video-2', 'energy-lines',
+  'contact-box', 'offer-card', 'orange',
+];
+// full-bleed banner photos are cut to the banner height (e.g. 1440x524, 1922x560)
+const MAX_BANNER_HEIGHT = 700;
 // photos at least this wide (width / height) are designed as full-bleed banner backgrounds
 const OVERLAY_MIN_RATIO = 2.4;
 
@@ -34,7 +40,8 @@ function buildVideo(link, poster) {
   const source = document.createElement('source');
   source.src = link.href;
   const ext = new URL(link.href, window.location.href).pathname.split('.').pop().toLowerCase();
-  source.type = `video/${ext === 'ogg' ? 'ogg' : ext}`;
+  // .mp4 and .mov (H.264) both play as video/mp4
+  source.type = VIDEO_TYPES[ext] || 'video/mp4';
   video.append(source);
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     video.autoplay = false;
@@ -118,7 +125,11 @@ export default function decorate(block) {
   if (hasLayout || !img || block.classList.contains('hero-banner-has-video')) return;
   block.classList.add('hero-banner-overlay');
   const pickLayout = () => {
-    if (!img.naturalWidth || img.naturalWidth / img.naturalHeight >= OVERLAY_MIN_RATIO) return;
+    if (!img.naturalWidth) return;
+    if (img.naturalWidth / img.naturalHeight >= OVERLAY_MIN_RATIO) {
+      if (img.naturalHeight <= MAX_BANNER_HEIGHT) block.style.setProperty('--hero-banner-height', `${img.naturalHeight}px`);
+      return;
+    }
     block.classList.remove('hero-banner-overlay');
     block.classList.add('energy-lines');
   };

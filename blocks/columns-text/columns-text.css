@@ -1,3 +1,5 @@
+/* rules are grouped by look (variant class); each look's selectors never overlap another's */
+/* stylelint-disable no-descending-specificity */
 .columns-text .columns-text-row {
   display: flex;
   flex-direction: column;
@@ -121,5 +123,435 @@
 
   .columns-text .columns-text-empty {
     display: block;
+  }
+}
+
+/* footnote links authored as <a><sup>n</sup></a>: size them as RBC's sup > a */
+.columns-text a:any-link:has(> sup:only-child) {
+  font-size: 0.55em;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.columns-text a:any-link:has(> sup:only-child) > sup {
+  font-size: inherit;
+  vertical-align: baseline;
+}
+
+/* alt: icon + text rows render as light blue-grey award cards */
+.columns-text.alt > .columns-text-row:has(> .columns-text-img-col:first-child + .columns-text-col:last-child) {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0;
+  margin: 0;
+  border-bottom: 0;
+  border-radius: 8px;
+  padding: 13px 24px;
+  background-color: var(--light-blue-grey-color);
+}
+
+.columns-text.alt > .columns-text-row:has(> .columns-text-img-col:first-child + .columns-text-col:last-child)
+  + .columns-text-row {
+  margin-top: 8px;
+}
+
+.columns-text.alt > .columns-text-row > .columns-text-img-col:first-child:has(+ .columns-text-col:last-child) {
+  flex: 0 0 auto;
+  padding-right: 23px;
+}
+
+.columns-text.alt > .columns-text-row > .columns-text-img-col:first-child:has(+ .columns-text-col:last-child) img {
+  width: auto;
+  max-width: 81px;
+}
+
+.columns-text.alt > .columns-text-row > .columns-text-img-col:first-child + .columns-text-col:last-child {
+  align-self: center;
+}
+
+.columns-text.alt > .columns-text-row > .columns-text-img-col:first-child + .columns-text-col:last-child p {
+  margin: 0;
+  font-size: var(--body-font-size-s);
+  line-height: 20px;
+}
+
+/* light: icon (white 60px disc) + heading + text features */
+.columns-text.light > .columns-text-row:has(> .columns-text-img-col:first-child + .columns-text-col:last-child) {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  border-bottom: 0;
+}
+
+.columns-text.light > .columns-text-row:has(> .columns-text-img-col:first-child + .columns-text-col:last-child)
+  + .columns-text-row {
+  margin-top: 20px;
+}
+
+.columns-text.light > .columns-text-row > .columns-text-img-col:first-child:has(+ .columns-text-col:last-child) {
+  display: flex;
+  flex: 0 0 60px;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--background-color);
+}
+
+.columns-text.light > .columns-text-row > .columns-text-img-col:first-child:has(+ .columns-text-col:last-child) img {
+  width: 28px;
+  height: 28px;
+}
+
+.columns-text.light > .columns-text-row > .columns-text-img-col:first-child + .columns-text-col:last-child
+  :is(h2, h3, h4, h5, h6) {
+  margin: 0 0 16px;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-xs);
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.columns-text.light > .columns-text-row > .columns-text-img-col:first-child + .columns-text-col:last-child
+  > :last-child {
+  margin-bottom: 0;
+}
+
+/* RBC bootstrap rows: 7.5px (mobile) / 15px (desktop) column gutters */
+.columns-text:is(.image, .image-2, .light-2):not(:has(.columns-text-img-col)) {
+  margin-right: -7.5px;
+  margin-left: -7.5px;
+}
+
+.columns-text:is(.image, .image-2, .light-2):not(:has(.columns-text-img-col)) .columns-text-row {
+  gap: 0;
+}
+
+.columns-text:is(.image, .image-2, .light-2):not(:has(.columns-text-img-col)) .columns-text-row > div {
+  padding: 0 7.5px;
+}
+
+/* image: icon-led headed lists */
+.columns-text.image .columns-text-col {
+  position: relative;
+}
+
+.columns-text.image .columns-text-col > h4 {
+  margin: 0 0 15px;
+  padding-left: 30px;
+  font-size: var(--heading-font-size-s);
+  line-height: 27px;
+}
+
+.columns-text.image .columns-text-col > h4 + p:has(> picture:only-child) {
+  position: absolute;
+  top: 3px;
+  left: 7.5px;
+  margin: 0;
+}
+
+.columns-text.image .columns-text-col > h4 + p:has(> picture:only-child) img {
+  width: 24px;
+  height: 24px;
+}
+
+.columns-text.image .columns-text-col > ul {
+  margin: 0;
+  padding: 0 0 0 30px;
+  list-style: none;
+}
+
+.columns-text.image .columns-text-col > ul > li {
+  margin-bottom: 15px;
+}
+
+
+.columns-text.image .columns-text-col > ul:last-child > li:last-child {
+  margin-bottom: 0;
+}
+
+.columns-text.image .columns-text-col li a:any-link:not(:has(> sup)) {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+.columns-text.image:not(:has(.columns-text-img-col)) .columns-text-row,
+.columns-text.image-2:not(:has(.columns-text-img-col)) .columns-text-row {
+  gap: 15px 0;
+}
+
+.columns-text.image .columns-text-col > ul > li::first-line {
+  font-weight: 500;
+}
+
+/* image-2: label + green check lists */
+.columns-text.image-2 .columns-text-col > p:first-child {
+  margin: 0 0 15px;
+  font-weight: 500;
+}
+
+.columns-text.image-2 .columns-text-col > ul {
+  margin: 0;
+  padding: 0 0 0 7.5px;
+  list-style: none;
+}
+
+.columns-text.image-2 .columns-text-col > ul > li {
+  margin-bottom: 10px;
+  padding-left: 20px;
+  background: url("https://www.rbcroyalbank.com/dvl/v1.0/assets/images/ui/green-check-list-img.png") no-repeat 0 6px;
+}
+
+.columns-text.image-2 .columns-text-col > ul > li:last-child {
+  margin-bottom: 0;
+}
+
+/* light-2: heading + pdf link lists */
+.columns-text.light-2 .columns-text-col > :is(h2, h3) {
+  margin: 0 0 15px;
+  font-size: var(--heading-font-size-m);
+  line-height: 25px;
+}
+
+.columns-text.light-2 .columns-text-col > p {
+  margin: 0 0 15px;
+}
+
+.columns-text.light-2 .columns-text-row > div:last-child > :last-child {
+  margin-bottom: 0;
+}
+
+.columns-text.light-2 .columns-text-col > p > a:any-link {
+  display: inline-block;
+  padding-left: 25px;
+  font-weight: 300;
+}
+
+/* blue-light: icon-over-label quick links strip */
+.columns-text.blue-light .columns-text-col:has(> p > picture) {
+  display: grid;
+  grid-auto-columns: 80px;
+  grid-auto-flow: column;
+  grid-template-rows: auto auto;
+  column-gap: 32px;
+  overflow-x: auto;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.columns-text.blue-light .columns-text-col:has(> p > picture) > p {
+  margin: 0;
+}
+
+.columns-text.blue-light .columns-text-col:has(> p > picture) > p:has(> picture) {
+  padding-top: 20px;
+}
+
+.columns-text.blue-light .columns-text-col:has(> p > picture) > p:not(:has(> picture)) {
+  padding-bottom: 20px;
+}
+
+.columns-text.blue-light .columns-text-col:has(> p > picture) img {
+  width: 20px;
+  height: 20px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+@media (width >= 900px) {
+  .columns-text.alt:has(> .columns-text-row > .columns-text-img-col:first-child + .columns-text-col:last-child) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .columns-text.alt > .columns-text-row:has(> .columns-text-img-col:first-child + .columns-text-col:last-child) {
+    display: flex;
+    padding: 24px 32px;
+  }
+
+  .columns-text.alt > .columns-text-row:has(> .columns-text-img-col:first-child + .columns-text-col:last-child)
+    + .columns-text-row {
+    margin-top: 0;
+  }
+
+  .columns-text.alt > .columns-text-row > .columns-text-img-col:first-child + .columns-text-col:last-child p {
+    font-size: var(--body-font-size-m);
+    line-height: var(--body-line-height);
+  }
+
+  .columns-text.light:has(> .columns-text-row > .columns-text-img-col:first-child + .columns-text-col:last-child) {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    column-gap: 48px;
+  }
+
+  .columns-text.light > .columns-text-row:has(> .columns-text-img-col:first-child + .columns-text-col:last-child) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .columns-text.light > .columns-text-row:has(> .columns-text-img-col:first-child + .columns-text-col:last-child)
+    + .columns-text-row {
+    margin-top: 0;
+  }
+
+  .columns-text.light > .columns-text-row > .columns-text-img-col:first-child + .columns-text-col:last-child
+    :is(h2, h3, h4, h5, h6) {
+    font-size: var(--heading-font-size-s);
+    line-height: 28px;
+  }
+
+  .columns-text:is(.image, .image-2, .light-2):not(:has(.columns-text-img-col)) {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+
+  .columns-text:is(.image, .image-2, .light-2):not(:has(.columns-text-img-col)) .columns-text-row > div {
+    padding: 0 15px;
+  }
+
+  .columns-text.image .columns-text-col > h4 {
+    margin-bottom: 30px;
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .columns-text:is(.image, .image-2):not(:has(.columns-text-img-col)) .columns-text-row {
+    align-items: start;
+  }
+
+  .columns-text.image .columns-text-col > h4 + p:has(> picture:only-child) {
+    top: 6px;
+    left: 15px;
+  }
+
+  .columns-text.image-2 .columns-text-col > p:first-child {
+    font-size: var(--heading-font-size-s);
+    line-height: 28px;
+  }
+
+  .columns-text.image-2 .columns-text-col > ul {
+    padding-left: 8px;
+  }
+
+  .columns-text.light-2 .columns-text-row {
+    grid-template-columns: 25% 33.333% 41.667%;
+  }
+
+  .columns-text.light-2 .columns-text-col > :is(h2, h3) {
+    margin: 0;
+    font-size: var(--heading-font-size-l);
+    line-height: 36px;
+  }
+
+  .columns-text.light-2 .columns-text-row > div > :last-child {
+    margin-bottom: 0;
+  }
+
+  .columns-text.blue-light .columns-text-col:has(> p > picture) {
+    grid-auto-columns: auto;
+    justify-content: center;
+    overflow-x: visible;
+  }
+}
+
+/* dark-light: numbered steps */
+.columns-text.dark-light .columns-text-col > p:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 0 0 16px;
+  border: 1px solid var(--text-color);
+  border-radius: 50%;
+  font-size: var(--heading-font-size-s);
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.columns-text.dark-light .columns-text-col a:any-link {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+/* blue-orange: centred cash-flow terms */
+.columns-text.blue-orange .columns-text-col {
+  text-align: center;
+}
+
+.columns-text.blue-orange .columns-text-col > p:first-child {
+  margin: 0;
+  font-weight: 500;
+}
+
+.columns-text.blue-orange .columns-text-col > p + p {
+  margin: 15px 0 0;
+}
+
+/* grey-2: centred icon stat columns with an outlined link */
+.columns-text.grey-2 {
+  text-align: center;
+}
+
+.columns-text.grey-2 .columns-text-icon img {
+  width: 94px;
+  margin: 0 auto;
+}
+
+.columns-text.grey-2 .columns-text-icon {
+  display: inline-block;
+  margin: 0 21px 15px 0;
+  vertical-align: middle;
+}
+
+.columns-text.grey-2 .columns-text-icon + p {
+  display: inline-block;
+  margin: 0 0 15px;
+  vertical-align: middle;
+  color: rgb(179 179 179);
+  font-size: var(--heading-font-size-m);
+  font-weight: 700;
+  line-height: 22px;
+}
+
+main .columns-text.grey-2 a.button:any-link {
+  border: 2px solid rgb(179 179 179);
+  border-radius: 8px;
+  padding: 7.5px;
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--text-color);
+  font-weight: 400;
+  line-height: 24px;
+  white-space: normal;
+}
+
+/* shadow-light: reward options with pill buttons */
+.columns-text.shadow-light .columns-text-icon + p {
+  font-size: var(--heading-font-size-s);
+  font-weight: 400;
+  line-height: 28px;
+}
+
+main .columns-text.shadow-light a.button:any-link {
+  border: 1px solid rgb(19 60 143);
+  border-radius: 100px;
+  padding: 16px 32px;
+  background-color: var(--background-color);
+  box-shadow: none;
+  color: rgb(19 60 143);
+  font-weight: 400;
+  white-space: normal;
+}
+
+@media (width >= 900px) {
+  .columns-text.blue-orange .columns-text-col > p:first-child {
+    font-size: var(--heading-font-size-s);
+    line-height: 28px;
   }
 }

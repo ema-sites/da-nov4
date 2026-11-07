@@ -22,9 +22,9 @@ Single block table. Content: Row 1 (media): background picture, and/or a link to
 | Split Overlap Card | `split-overlap-card` |
 | Energy Lines | `energy-lines` |
 
-Without a layout option (`split`, `split-strip`, `split-overlap-card`, `video`, `video-2`, `energy-lines`) the layout follows the background picture:
+Without a layout option (`split`, `split-strip`, `split-overlap-card`, `video`, `video-2`, `energy-lines`, `contact-box`, `offer-card`, `orange`) the layout follows the background picture:
 
-- wide photo (width / height of 2.4 or more, e.g. 1440x524): full-bleed background with the text in the left half (mobile: text above the photo);
+- wide photo (width / height of 2.4 or more, e.g. 1440x524, 1922x560): full-bleed background as tall as the photo, text centred in the left column (mobile: photo on top fading into a light panel with the text). A paragraph right before the heading is styled as a super-title;
 - narrower photo (e.g. 1200x579): `energy-lines` layout, i.e. photo on the left, light grey panel with the RBC energy lines and the text on the right (mobile: photo above the panel);
 - no photo: light grey text panel.
 

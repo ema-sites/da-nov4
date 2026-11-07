@@ -34,6 +34,80 @@ function decorateContactItems(cell) {
   cell.querySelectorAll('li').forEach((li) => {
     if (li.querySelector('picture, img, .icon')) li.classList.add('columns-contact-icon-link');
   });
+  // a link inside running text (not the whole paragraph) keeps the body weight
+  cell.querySelectorAll('p a').forEach((a) => {
+    const p = a.closest('p');
+    if (p.textContent.trim() !== a.textContent.trim()) a.classList.add('columns-contact-inline-link');
+  });
+}
+
+function isSvgIcon(p) {
+  const img = p.querySelector('img');
+  if (!img) return false;
+  return /\.svg$/i.test(new URL(img.src, window.location.href).pathname);
+}
+
+/** Wrap consecutive siblings matching `test`, starting at `first`, in a new element. */
+function wrapRun(first, test, className) {
+  const run = [first];
+  let next = first.nextElementSibling;
+  while (next && test(next)) {
+    run.push(next);
+    next = next.nextElementSibling;
+  }
+  const wrapper = document.createElement('div');
+  wrapper.className = className;
+  first.before(wrapper);
+  wrapper.append(...run);
+  return wrapper;
+}
+
+/**
+ * Contact options: an unlinked SVG icon paragraph and the text paragraphs after it (up to the
+ * next icon, heading or list) sit side by side; consecutive options form one contact list.
+ */
+function decorateContacts(cell) {
+  const isLinkedIcon = (el) => el.matches('p.columns-contact-icon') && !!el.querySelector('a');
+  [...cell.querySelectorAll(':scope > p.columns-contact-icon')].forEach((icon) => {
+    // consecutive linked icons (app-store badges) form one row
+    if (isLinkedIcon(icon)) {
+      const prev = icon.previousElementSibling;
+      if (icon.parentElement !== cell || (prev && isLinkedIcon(prev))) return;
+      if (icon.nextElementSibling && isLinkedIcon(icon.nextElementSibling)) {
+        wrapRun(icon, isLinkedIcon, 'columns-contact-badges');
+      }
+      return;
+    }
+    if (!isSvgIcon(icon)) return;
+    const next = icon.nextElementSibling;
+    if (!next || next.tagName !== 'P' || next.classList.contains('columns-contact-icon')) return;
+    const text = wrapRun(next, (el) => el.tagName === 'P' && !el.classList.contains('columns-contact-icon'), 'columns-contact-contact-text');
+    const contact = document.createElement('div');
+    contact.className = 'columns-contact-contact';
+    icon.before(contact);
+    contact.append(icon, text);
+  });
+  [...cell.querySelectorAll(':scope > .columns-contact-contact')].forEach((contact) => {
+    if (contact.parentElement !== cell || contact.previousElementSibling?.classList.contains('columns-contact-contact')) return;
+    wrapRun(contact, (el) => el.classList.contains('columns-contact-contact'), 'columns-contact-contacts');
+  });
+}
+
+/** Key facts: two or more paragraphs in a row, each a bold label, a line break and a value. */
+function decorateStats(cell) {
+  const isStat = (el) => {
+    const label = el.tagName === 'P' && el.firstElementChild;
+    return !!label && label.matches('strong, b')
+      && label.nextElementSibling?.tagName === 'BR'
+      && el.textContent.trim().startsWith(label.textContent.trim());
+  };
+  [...cell.querySelectorAll(':scope > p')].forEach((p) => {
+    const prev = p.previousElementSibling;
+    const next = p.nextElementSibling;
+    if (p.parentElement !== cell || !isStat(p) || (prev && isStat(prev))) return;
+    if (!next || !isStat(next)) return;
+    wrapRun(p, isStat, 'columns-contact-stats');
+  });
 }
 
 /**
@@ -168,7 +242,12 @@ export default function decorate(block) {
       const intro = !threeUp && rowIdx === 0 && idx === 0 && cells.length > 1;
       cell.classList.add(intro ? 'columns-contact-intro' : 'columns-contact-item');
       decorateContactItems(cell);
-      if (slider && idx === cells.length - 1 && cells.length > 1) buildSlider(cell);
+      if (slider && idx === cells.length - 1 && cells.length > 1) {
+        buildSlider(cell);
+        return;
+      }
+      decorateContacts(cell);
+      decorateStats(cell);
     });
 
     const hasImage = cells.some((cell) => cell.classList.contains('columns-contact-image'));
