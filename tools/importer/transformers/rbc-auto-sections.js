@@ -58,6 +58,15 @@ function styleFor(el) {
   return null;
 }
 
+/** 'centered' when the section's lead heading (and so its intro) is centred on the source. */
+function alignmentStyle(el) {
+  const win = el.ownerDocument.defaultView;
+  // only default content counts: a heading inside a block is styled by the block
+  const heading = [...el.querySelectorAll('h1, h2')].find((h) => h.offsetHeight > 0 && !h.closest('[data-catalog-block]'));
+  if (!heading) return null;
+  return win.getComputedStyle(heading).textAlign === 'center' ? 'centered' : null;
+}
+
 function pageSections(element) {
   const main = element.querySelector('main') || element;
   const list = [...main.querySelectorAll(':scope > section, :scope > div.banner-container')];
@@ -75,7 +84,7 @@ export default function transform(hookName, element, payload) {
     const sections = pageSections(element);
     if (sections.length < 2) return;
     sections.forEach((el, i) => {
-      const style = styleFor(el);
+      const style = [styleFor(el), alignmentStyle(el)].filter(Boolean).join(', ') || null;
       if (i === 0 && !style) return;
       const hr = doc.createElement('hr');
       if (style) hr.setAttribute(MARKER_ATTR, style);
