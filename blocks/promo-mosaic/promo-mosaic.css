@@ -215,3 +215,203 @@ main .promo-mosaic .promo-mosaic-grid .promo-mosaic-tile:nth-child(even) a:any-l
     display: flex;
   }
 }
+
+/* split looks (alt / grey / grey-2 with two rows; JS adds promo-mosaic-split):
+   copy panel beside a media or aside panel (values from source computed styles) */
+.promo-mosaic .promo-mosaic-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 30px;
+}
+
+.promo-mosaic .promo-mosaic-panel {
+  min-width: 0;
+}
+
+.promo-mosaic .promo-mosaic-panel-body > :first-child {
+  margin-top: 0;
+}
+
+.promo-mosaic .promo-mosaic-panel-body > :last-child {
+  margin-bottom: 0;
+}
+
+.promo-mosaic.promo-mosaic-split .promo-mosaic-panel-body p {
+  margin: 0 0 15px;
+}
+
+/* alt: check-list copy + three-photo collage */
+.promo-mosaic.alt .promo-mosaic-panel-body ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.promo-mosaic.alt .promo-mosaic-panel-body li {
+  position: relative;
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+
+.promo-mosaic.alt .promo-mosaic-panel-body li::before {
+  content: '';
+  position: absolute;
+  top: 6.88px;
+  left: 0;
+  width: 13px;
+  height: 9px;
+  background-color: var(--brand-blue);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 9.5'%3E%3Cpath d='M3.75 9.5L0 5.47l.69-.64 3.06 3.29L11.31 0l.69.64L3.75 9.5z'/%3E%3C/svg%3E") no-repeat center / 13px 9px;
+}
+
+.promo-mosaic.alt .promo-mosaic-panel-body li strong {
+  font-weight: 500;
+}
+
+.promo-mosaic.alt .promo-mosaic-panel-media > p {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 15px;
+  margin: 0;
+  line-height: 0;
+}
+
+.promo-mosaic.alt .promo-mosaic-panel-media picture {
+  display: block;
+}
+
+.promo-mosaic.alt .promo-mosaic-panel-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 269 / 239;
+  object-fit: fill;
+}
+
+.promo-mosaic.alt .promo-mosaic-panel-media picture:nth-child(3) {
+  grid-area: 1 / 2 / span 2;
+  align-self: center;
+}
+
+.promo-mosaic.alt .promo-mosaic-panel-media picture:nth-child(3) img {
+  aspect-ratio: 269 / 457;
+}
+
+/* grey: centred icon panels on white (section supplies the grey band) */
+.promo-mosaic.grey .promo-mosaic-panel {
+  box-sizing: border-box;
+  padding: 30px 15px;
+  background-color: var(--background-color);
+  text-align: center;
+}
+
+.promo-mosaic.grey .promo-mosaic-panel + .promo-mosaic-panel {
+  border: 1px solid #c4c8cc;
+}
+
+.promo-mosaic.grey .promo-mosaic-panel-media {
+  line-height: 0;
+}
+
+.promo-mosaic.grey .promo-mosaic-panel picture:only-child img {
+  display: block;
+  margin: 0 auto;
+  width: 80px;
+  height: 80px;
+  padding-bottom: 15px;
+  object-fit: contain;
+}
+
+.promo-mosaic.grey .promo-mosaic-panel-body h2 {
+  margin: 0 0 15px;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.promo-mosaic.grey .promo-mosaic-panel-body h5 {
+  margin: 0 0 15px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+main .promo-mosaic.grey .promo-mosaic-panels .promo-mosaic-panel-body p > a:any-link {
+  display: inline-block;
+  padding: 7.5px 14px 0 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath fill='%23006ac3' d='M.7 0L0 .7 4.3 5 0 9.3l.7.7 5-5z'/%3E%3C/svg%3E") no-repeat right 15px / 6px 10px;
+  font-weight: 400;
+}
+
+/* grey-2: article copy beside a bordered video aside */
+.promo-mosaic.grey-2 .promo-mosaic-panel-body > p:first-child {
+  font-family: Georgia, Times, 'Times New Roman', serif;
+  font-style: italic;
+}
+
+.promo-mosaic.grey-2 .promo-mosaic-panel-body h2 {
+  margin: 30px 0 15px;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+main .promo-mosaic.grey-2 .promo-mosaic-panels .promo-mosaic-panel-body li a:any-link {
+  text-decoration: underline;
+}
+
+.promo-mosaic.grey-2 .promo-mosaic-panel-body li {
+  margin-bottom: 10px;
+}
+
+.promo-mosaic.grey-2 .promo-mosaic-panel + .promo-mosaic-panel {
+  align-self: start;
+  padding: 20px;
+  border: 1px solid #c4c8cc;
+  background-color: var(--light-blue-grey-color);
+  text-align: center;
+}
+
+.promo-mosaic.grey-2 .promo-mosaic-panel + .promo-mosaic-panel p {
+  font-weight: 500;
+}
+
+.promo-mosaic.grey-2 .promo-mosaic-panel-body li > p:first-child {
+  margin: 0;
+}
+
+@media (width >= 900px) {
+  .promo-mosaic .promo-mosaic-panels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .promo-mosaic.alt .promo-mosaic-panels {
+    gap: 32px;
+  }
+
+  .promo-mosaic.alt .promo-mosaic-panel-media > p {
+    gap: 24px 28px;
+  }
+
+  .promo-mosaic.grey .promo-mosaic-panels {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  .promo-mosaic.grey .promo-mosaic-panel {
+    padding: 30px 20px;
+  }
+
+  .promo-mosaic.grey .promo-mosaic-panel-body h2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .promo-mosaic.grey .promo-mosaic-panel-body h5 {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .promo-mosaic.grey-2 .promo-mosaic-panel-body h2 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}

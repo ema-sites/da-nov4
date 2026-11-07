@@ -1,6 +1,8 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
 const TEXT_SLIDE_OPTIONS = ['text-slides', 'text-slides-2'];
+// looks paged with dots between the arrows instead of a progress bar
+const DOT_OPTIONS = ['light-2'];
 
 function optimizePictures(root) {
   root.querySelectorAll('picture > img').forEach((img) => {
@@ -121,7 +123,7 @@ export default function decorate(block) {
   controls.append(prev, next);
 
   let indicator;
-  if (textSlides) {
+  if (textSlides || DOT_OPTIONS.some((c) => block.classList.contains(c))) {
     indicator = document.createElement('ol');
     indicator.className = 'carousel-cards-dots';
     rows.forEach((_, idx) => {

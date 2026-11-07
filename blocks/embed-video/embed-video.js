@@ -80,6 +80,11 @@ function decorateItem(row) {
   media.className = 'embed-video-media';
   item.append(media);
 
+  // a plain web page (not a video file or player) embeds as a fixed-height panel
+  if (!picture && !/youtube|youtu\.be|vimeo|\.(mp4|webm|ogg)(\?|#|$)/i.test(link.href)) {
+    item.classList.add('embed-video-page');
+  }
+
   if (picture) {
     const placeholder = document.createElement('button');
     placeholder.type = 'button';

@@ -42,14 +42,62 @@
   margin-bottom: 0;
 }
 
-/* a single-cell checklist flows into two columns on wider screens */
+/*
+ * Single-cell look (measured, source "disc-list"): one column of blue-disc
+ * bullets in 18px text, with bold 18px/28px lead-in paragraphs. Without a
+ * heading it sits under a numbered step, indented 63px past the step icon.
+ */
+.columns-checklist.columns-checklist-1-cols .columns-checklist-col > p {
+  font-size: 18px;
+  line-height: 28px;
+  margin: 0 0 16px;
+}
+
+.columns-checklist.columns-checklist-1-cols .columns-checklist-col > p strong {
+  font-weight: 500;
+}
+
+.columns-checklist.columns-checklist-1-cols .columns-checklist-list {
+  display: block;
+  margin: 0 0 15px;
+}
+
+.columns-checklist.columns-checklist-1-cols .columns-checklist-col > :last-child {
+  margin-bottom: 0;
+}
+
+.columns-checklist.columns-checklist-1-cols .columns-checklist-list > li {
+  padding-left: 15px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.columns-checklist.columns-checklist-1-cols .columns-checklist-list > li:last-child {
+  margin-bottom: 0;
+}
+
+.columns-checklist.columns-checklist-1-cols .columns-checklist-list > li::before {
+  left: 0;
+  top: 10px;
+  width: 5px;
+  height: 5px;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--brand-blue);
+  transform: none;
+}
+
+.columns-checklist.columns-checklist-1-cols:not(:has(h1, h2, h3, h4, h5, h6)) .columns-checklist-col {
+  padding: 8px 0 0 63px;
+}
+
 @media (width >= 900px) {
   .columns-checklist .columns-checklist-row {
     grid-template-columns: repeat(var(--columns-checklist-cols, 2), minmax(0, 1fr));
   }
 
-  .columns-checklist.columns-checklist-1-cols .columns-checklist-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 48px;
+  .columns-checklist.columns-checklist-1-cols:not(:has(h1, h2, h3, h4, h5, h6)) .columns-checklist-col {
+    padding-top: 0;
   }
 }

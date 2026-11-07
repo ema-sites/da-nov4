@@ -1,18 +1,41 @@
-/* anchor-nav: structural styles only */
+/* anchor-nav: RBC in-page jump links, centred labels split by thin rules
+   (values from rbcroyalbank.com fonds-communs-de-placement #benefits nav) */
 .anchor-nav .anchor-nav-links ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 32px;
+  justify-content: center;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.anchor-nav .anchor-nav-links a {
-  display: inline-block;
-  padding: 8px 0;
+.anchor-nav .anchor-nav-links li {
+  box-sizing: border-box;
+  flex: 0 0 33.333%;
+  padding: 12px 10px;
+  text-align: center;
 }
 
+.anchor-nav .anchor-nav-links li + li {
+  border-left: 1px solid #c4c8cc;
+}
+
+/* mobile: three per row, each row starts without a rule */
+.anchor-nav .anchor-nav-links li:nth-child(3n + 1) {
+  border-left: 0;
+}
+
+.anchor-nav .anchor-nav-links a:any-link {
+  display: inline;
+  padding: 0;
+  color: var(--link-color);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.anchor-nav .anchor-nav-links a:hover,
 .anchor-nav .anchor-nav-links a[aria-current='true'] {
   text-decoration: underline;
 }
@@ -25,4 +48,23 @@
 
 .anchor-nav .anchor-nav-cell {
   flex: 1 1 240px;
+}
+
+@media (width >= 900px) {
+  .anchor-nav .anchor-nav-links ul {
+    flex-wrap: nowrap;
+  }
+
+  .anchor-nav .anchor-nav-links li {
+    flex: 1 1 auto;
+    padding: 23px 20px;
+  }
+
+  .anchor-nav .anchor-nav-links li:nth-child(3n + 1) {
+    border-left: 1px solid #c4c8cc;
+  }
+
+  .anchor-nav .anchor-nav-links li:first-child {
+    border-left: 0;
+  }
 }

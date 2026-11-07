@@ -11,9 +11,11 @@
  *                               Branches, ATM).
  *  - any other row           -> card content (heading, subtitle, links such as
  *                               "Advanced Search Options"), kept in authored order.
- * The form POSTs to the locator URL with the same fields as the rbcroyalbank.com forms:
- *  - search only (homepage): q, lang=English, searchBranch=1, searchATM=1
- *  - with a choice group:    location_type (BRANCH | ABM), postal
+ *  - last row of an empty cell + link, in a callout without map/photo -> unlabelled search form
+ * The form submits to the locator URL with the same fields as the rbcroyalbank.com forms:
+ *  - maps locator, search only (homepage): POST q, lang=English, searchBranch=1, searchATM=1
+ *  - with a choice group:                  POST location_type (BRANCH | ABM), postal
+ *  - other locator pages (mortgage):       GET q
  */
 
 let formCounter = 0;
@@ -74,7 +76,10 @@ function buildForm(cells) {
   form.className = 'branch-locator-form';
   form.setAttribute('role', 'search');
   form.action = actionLink.href;
-  form.method = 'post';
+  // the maps.rbcroyalbank.com locator takes a POST; other locator pages
+  // (e.g. the mortgage specialist locator) read ?q= like the source GET forms
+  const isMapsLocator = /^maps\./i.test(new URL(actionLink.href, window.location.href).hostname);
+  form.method = isMapsLocator ? 'post' : 'get';
 
   let hasChoices = false;
   choiceCells.forEach((cell, i) => {
@@ -103,7 +108,7 @@ function buildForm(cells) {
   });
 
   // search-only form (homepage) carries the locator defaults as hidden fields
-  if (!hasChoices) {
+  if (!hasChoices && isMapsLocator) {
     form.append(
       hiddenInput('lang', 'English'),
       hiddenInput('searchBranch', '1'),
@@ -133,14 +138,37 @@ function buildForm(cells) {
   return { form, hasChoices };
 }
 
+/*
+ * A last row of an empty label cell and a lone link is the search form of the
+ * plain callout (no map/photo, h1-h3 heading): its source field has no label.
+ * Elsewhere such rows are kept as links. Call before rows are moved out of the block.
+ */
+function findUnlabelledFormRow(block) {
+  const row = block.lastElementChild;
+  const raw = row ? [...row.children] : [];
+  const isFormRow = raw.length >= 2
+    && raw.slice(0, -1).every((c) => !c.textContent.trim() && !c.querySelector('picture, img'))
+    && isLinkOnly(raw[raw.length - 1])
+    && !block.querySelector('picture, img')
+    && !!block.querySelector('h1, h2, h3');
+  return isFormRow ? row : null;
+}
+
 export default function decorate(block) {
   const background = document.createElement('div');
   background.className = 'branch-locator-background';
   const card = document.createElement('div');
   card.className = 'branch-locator-card';
   let hasForm = false;
+  const unlabelledFormRow = findUnlabelledFormRow(block);
 
   [...block.children].forEach((row) => {
+    if (row === unlabelledFormRow) {
+      const { form } = buildForm([row.lastElementChild]);
+      card.append(form);
+      hasForm = true;
+      return;
+    }
     const cells = [...row.children].filter((c) => c.textContent.trim() || c.querySelector('picture, img'));
     if (!cells.length) return;
     if (cells.length === 1 && isPictureOnly(cells[0])) {
@@ -162,6 +190,9 @@ export default function decorate(block) {
       }
       const part = document.createElement('div');
       part.className = 'branch-locator-text';
+      if (cell.querySelector('h1, h2, h3, h4, h5, h6')) part.classList.add('branch-locator-heading');
+      else if (isLinkOnly(cell)) part.classList.add('branch-locator-link');
+      else block.classList.add('branch-locator-has-text');
       part.append(...cell.childNodes);
       card.append(part);
     });

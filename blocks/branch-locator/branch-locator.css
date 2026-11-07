@@ -195,24 +195,388 @@ main > .section > .branch-locator-wrapper {
 }
 
 @media (width >= 900px) {
-  /* card with a choice group (and compact): sits to the right of the map */
-  .branch-locator.branch-locator-has-choices:not(:where(.alt, .alt-2, .shadow)) .branch-locator-card,
+  /* compact: sits to the right of the photo */
   .branch-locator.compact .branch-locator-card {
     justify-self: end;
     width: min(45%, 570px);
-    margin: 48px 136px 48px auto;
+    margin: 24px 136px 24px auto;
+  }
+}
+
+/*
+ * alt-3 / shadow-2: callout without a map (source .callout.horizontal and the
+ * blue-topped shadow box): centred heading and text over an inline search row.
+ */
+.branch-locator:is(.alt-3, .shadow-2) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.branch-locator:is(.alt-3, .shadow-2) .branch-locator-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  min-height: 0;
+  margin: 30px 15px;
+  padding: 30px;
+}
+
+.branch-locator.shadow-2 .branch-locator-card {
+  border: 0;
+  border-top: 4px solid var(--brand-blue);
+  box-shadow: 0 2px 24px 0 rgb(0 0 0 / 7%);
+}
+
+.branch-locator:is(.alt-3, .shadow-2) .branch-locator-card h2 {
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.branch-locator:is(.alt-3, .shadow-2) .branch-locator-text > * {
+  margin: 0 0 15px;
+}
+
+.branch-locator:is(.alt-3, .shadow-2) .branch-locator-text > :last-child {
+  margin-bottom: 15px;
+}
+
+.branch-locator:is(.alt-3, .shadow-2) .branch-locator-controls {
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.branch-locator:is(.alt-3, .shadow-2) .branch-locator-controls input {
+  flex: 1 1 0;
+  width: auto;
+}
+
+.branch-locator:is(.alt-3, .shadow-2) .branch-locator-controls button {
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+}
+
+.branch-locator.alt-3 .branch-locator-controls button {
+  padding: 13px 20px;
+}
+
+.branch-locator.shadow-2 .branch-locator-controls button {
+  padding: 7px 15px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* shadow-2: "search by" line and the form share a 987px column; the closing
+   sentence (authored before the form row) follows the form */
+.branch-locator.shadow-2 .branch-locator-text:nth-last-of-type(2),
+.branch-locator.shadow-2 .branch-locator-form {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 987px;
+  margin-inline: auto;
+  text-align: start;
+}
+
+.branch-locator.shadow-2 .branch-locator-text:last-of-type {
+  order: 1;
+}
+
+.branch-locator.shadow-2 .branch-locator-text:last-of-type > * {
+  margin: 15px 0 0;
+}
+
+.branch-locator.shadow-2 :where(.branch-locator-text:last-of-type) a {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+@media (width >= 900px) {
+  .branch-locator:is(.alt-3, .shadow-2) .branch-locator-card {
+    margin: 60px auto;
+    padding: 60px;
   }
 
-  .branch-locator.compact .branch-locator-card {
-    margin-block: 24px;
+  .branch-locator.alt-3 .branch-locator-card {
+    width: min(100% - 30px, 940px);
   }
 
-  /* shadow: text teaser card overlapping a photo */
+  .branch-locator.shadow-2 .branch-locator-card {
+    width: min(100% - 30px, 1170px);
+  }
+
+  .branch-locator:is(.alt-3, .shadow-2) .branch-locator-card h2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .branch-locator.alt-3 .branch-locator-text:last-of-type > :last-child {
+    margin-bottom: 30px;
+  }
+
+  .branch-locator:is(.alt-3, .shadow-2) .branch-locator-controls {
+    gap: 30px;
+  }
+
+  .branch-locator.shadow-2 .branch-locator-text:last-of-type > * {
+    margin-top: 30px;
+  }
+}
+
+/* shadow: text teaser card overlapping the bottom of a photo */
+.branch-locator.shadow {
+  display: flow-root;
+}
+
+.branch-locator.shadow .branch-locator-background {
+  position: relative;
+  inset: auto;
+  height: 135px;
+  margin-top: 30px;
+}
+
+.branch-locator.shadow .branch-locator-card {
+  width: auto;
+  min-height: 0;
+  margin: -15px 15px 45px;
+  padding: 15px;
+  border: 0;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+}
+
+.branch-locator.shadow .branch-locator-card h2 {
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.branch-locator.shadow .branch-locator-text > p:last-child {
+  margin-bottom: 0;
+}
+
+@media (width >= 900px) {
+  .branch-locator.shadow .branch-locator-background {
+    width: min(100% - 30px, 1170px);
+    height: 500px;
+    margin: 0 auto;
+  }
+
   .branch-locator.shadow .branch-locator-card {
-    justify-self: start;
-    width: min(45%, 570px);
-    margin: 48px auto 48px 136px;
-    border: 0;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+    width: min(100% - 150px, 1050px);
+    margin: -167px auto 90px;
+    padding: 60px;
+    text-align: center;
+  }
+
+  .branch-locator.shadow .branch-locator-card h2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .branch-locator.shadow .branch-locator-text p {
+    max-width: 770px;
+    margin-inline: auto;
+  }
+}
+
+/*
+ * Map callout with a description (mortgage specialist / branch finder, source
+ * .fw-bnr .callout): heading, italic script text, a divider, the form, then a
+ * divider and the "advanced search" link. Card sits in the right half.
+ */
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-card {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  min-height: 0;
+  margin: 45px 15px 30px;
+  padding: 15px;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-card h2 {
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-text:not(.branch-locator-heading, .branch-locator-link) {
+  font-family: Georgia, Times, 'Times New Roman', serif;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 20px;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-text:not(.branch-locator-heading) > * {
+  margin: 0;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-form {
+  margin-top: 15px;
+  padding-top: 23px;
+  border-top: 1px solid #ccc;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-field > label {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-controls {
+  flex-direction: column;
+  gap: 0;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-controls input {
+  width: 100%;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-controls button {
+  align-self: flex-end;
+  width: auto;
+  height: auto;
+  margin-top: 15px;
+  padding: 7px 15px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* with a choice group: yellow submit below the field */
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-controls button {
+  border-color: var(--brand-yellow);
+  background-color: var(--brand-yellow);
+  box-shadow: none;
+  color: var(--text-color);
+}
+
+/* no choice group: the button floats right of the "advanced search" link */
+.branch-locator.branch-locator-has-text:not(.branch-locator-has-choices):where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)):has(.branch-locator-link) .branch-locator-controls button {
+  position: absolute;
+  right: 15px;
+  bottom: 19px;
+  margin: 0;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-link {
+  order: 1;
+  margin-top: 15px;
+  padding: 15px 0;
+  border-top: 1px solid #ccc;
+}
+
+.branch-locator.branch-locator-has-text:not(.branch-locator-has-choices):where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-link {
+  padding-top: 30px;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-link a {
+  position: relative;
+  display: inline-block;
+  padding-left: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-link a::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid currentcolor;
+  border-right: 1px solid currentcolor;
+  transform: rotate(45deg);
+}
+
+/* with a choice group (branch / ATM finder): bigger heading and script text */
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-card h2 {
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-text:not(.branch-locator-heading, .branch-locator-link) {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-form {
+  gap: 15px 30px;
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-choices,
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-field {
+  flex: 1 1 200px;
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-choices {
+  align-content: flex-start;
+  gap: 0;
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-choices legend {
+  margin-bottom: 10px;
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-choices input {
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #6f6f6f;
+  border-radius: 50%;
+  background-color: var(--background-color);
+  cursor: pointer;
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-choices input:checked {
+  box-shadow: inset 0 0 0 7px var(--background-color);
+  background-color: var(--brand-blue);
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-choices label {
+  margin: 0 30px 0 20px;
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-field > label {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-choices label:last-of-type {
+  margin-right: 0;
+}
+
+@media (width >= 900px) {
+  .branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-card {
+    justify-self: end;
+    width: min(50% - 15px, 570px);
+    margin: 60px max(15px, (100% - 1170px) / 2) 60px auto;
+    padding: 20px;
+  }
+
+  .branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-card h2 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-form {
+    margin-top: 20px;
+    padding-top: 28px;
+  }
+
+  .branch-locator.branch-locator-has-text:not(.branch-locator-has-choices):where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)):has(.branch-locator-link) .branch-locator-controls button {
+    right: 20px;
+    bottom: 33px;
+  }
+
+  .branch-locator.branch-locator-has-text:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-link {
+    margin-top: 20px;
+    padding: 20px 0;
+  }
+
+  .branch-locator.branch-locator-has-text:not(.branch-locator-has-choices):where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-link {
+    padding-top: 40px;
+  }
+
+  .branch-locator.branch-locator-has-text.branch-locator-has-choices:where(:not(.alt, .alt-2, .alt-3, .alt-4, .alt-5, .shadow, .shadow-2, .compact)) .branch-locator-card h2 {
+    font-size: 36px;
+    line-height: 44px;
   }
 }

@@ -52,6 +52,23 @@ export default function decorate(block) {
   });
 
   if (grid.children.length < 2) block.classList.add('promo-mosaic-single');
+
+  // alt / grey / grey-2 with two rows: a two-panel content split (copy + media/aside),
+  // styled apart from the bento tiles
+  const splitLook = ['alt', 'grey', 'grey-2'].some((look) => block.classList.contains(look));
+  if (splitLook && grid.children.length === 2) {
+    block.classList.add('promo-mosaic-split');
+    grid.className = 'promo-mosaic-panels';
+    grid.querySelectorAll('.promo-mosaic-tile').forEach((tile) => {
+      tile.className = 'promo-mosaic-panel';
+    });
+    grid.querySelectorAll('.promo-mosaic-tile-media').forEach((el) => {
+      el.className = 'promo-mosaic-panel-media';
+    });
+    grid.querySelectorAll('.promo-mosaic-tile-body').forEach((el) => {
+      el.className = 'promo-mosaic-panel-body';
+    });
+  }
   optimizeImages(grid);
   block.replaceChildren(grid);
 }

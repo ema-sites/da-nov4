@@ -30,14 +30,153 @@
   margin-inline-end: 16px;
 }
 
-/* rounded: pill-shaped field with an overlapping round-ended button */
+/*
+ * plain (customer service "Ask your question"): wide field, blue button
+ * beside it. Also the fallback for search-site blocks without a variant.
+ */
+.search-site:where(:not(.boxed, .boxed-light, .rounded, .dark, .grey)) .search-site-box {
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  max-width: none;
+}
+
+.search-site:where(:not(.boxed, .boxed-light, .rounded, .dark, .grey)) .search-site-input,
+.search-site:where(.rounded, .dark) .search-site-input {
+  height: 50px;
+  border: 1px solid #6f6f6f;
+  border-radius: 0;
+  padding: 10px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 16px;
+  appearance: none;
+}
+
+.search-site:where(:not(.boxed, .boxed-light, .rounded, .dark, .grey)) .search-site-input:focus,
+.search-site:where(.rounded, .dark) .search-site-input:focus {
+  border-color: var(--brand-blue);
+  box-shadow: inset 0 0 0 1px var(--brand-blue);
+  outline: none;
+}
+
+.search-site:where(:not(.boxed, .boxed-light, .rounded, .dark, .grey)) .search-site-button,
+.search-site:where(.rounded, .dark) .search-site-button {
+  box-sizing: border-box;
+  height: 40px;
+  border: 1px solid var(--background-color);
+  border-radius: 1px;
+  padding: 0 15px;
+  background-color: var(--brand-blue);
+  box-shadow: inset 0 0 0 1px var(--brand-blue-dark);
+  color: var(--background-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.search-site:where(:not(.boxed, .boxed-light, .rounded, .dark, .grey)) .search-site-button:hover,
+.search-site:where(.rounded, .dark) .search-site-button:hover {
+  background-color: var(--brand-blue-dark);
+  box-shadow: inset 0 0 0 1px var(--brand-navy);
+}
+
+/* rounded (auto loans "Je cherche..."): square field and a grey button until a query is typed */
+.search-site.rounded {
+  text-align: center;
+}
+
+.search-site.rounded .search-site-box {
+  max-width: none;
+}
+
 .search-site.rounded .search-site-input {
-  border-radius: 999px 0 0 999px;
+  flex: 0 1 211px;
+  padding: 0 15px;
 }
 
 .search-site.rounded .search-site-button {
-  border-radius: 999px;
-  margin-left: -1.5em;
+  height: 50px;
+  padding: 15px 15px 12px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* dark: field with a square blue magnifier button */
+.search-site.dark .search-site-box {
+  max-width: none;
+}
+
+.search-site.dark .search-site-input {
+  flex: 1 1 auto;
+}
+
+.search-site.dark .search-site-button {
+  position: relative;
+  flex: 0 0 50px;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  overflow: hidden;
+  color: transparent;
+  font-size: 0;
+}
+
+.search-site.dark .search-site-button::before,
+.search-site.dark .search-site-button::after {
+  content: '';
+  position: absolute;
+}
+
+.search-site.dark .search-site-button::before {
+  top: 15px;
+  left: 16px;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--background-color);
+  border-radius: 50%;
+}
+
+.search-site.dark .search-site-button::after {
+  top: 31px;
+  left: 29px;
+  width: 7px;
+  height: 2px;
+  background-color: var(--background-color);
+  transform: rotate(45deg);
+  transform-origin: left center;
+}
+
+@media (width >= 900px) {
+  .search-site:where(:not(.boxed, .boxed-light, .rounded, .dark, .grey)) .search-site-box {
+    gap: 30px;
+  }
+
+  .search-site:where(:not(.boxed, .boxed-light, .rounded, .dark, .grey)) .search-site-input {
+    flex: 0 1 770px;
+  }
+
+  .search-site.rounded .search-site-box {
+    justify-content: center;
+  }
+
+  .search-site.rounded .search-site-input {
+    flex-basis: 444px;
+    padding: 0 30px;
+  }
+
+  .search-site.rounded .search-site-button {
+    padding: 15px 30px 12px;
+  }
+
+  .search-site.dark .search-site-box {
+    max-width: 477px;
+    margin: 15px 0 15px calc(50% + 15px);
+  }
 }
 
 /* boxed-light: full-width bar inside a panel */
@@ -175,4 +314,13 @@
   .search-site.boxed .search-site-input {
     margin-right: clamp(15px, calc(2.6738vw - 2.0856px), 30px);
   }
+}
+
+/* rounded: grey until a query is typed (after the boxed rules for stylelint order) */
+.search-site.rounded .search-site-button:disabled {
+  background-color: #eee;
+  box-shadow: inset 0 0 0 1px var(--dark-color);
+  color: var(--dark-color);
+  cursor: pointer;
+  pointer-events: none;
 }

@@ -116,7 +116,8 @@ function buildForm(config) {
  */
 export default function decorate(block) {
   const config = readConfig(block);
-  config.requireQuery = block.classList.contains('boxed');
+  // source buttons stay disabled (grey) until a query is typed
+  config.requireQuery = ['boxed', 'rounded'].some((c) => block.classList.contains(c));
   const box = config.options.length ? buildSelect(config) : buildForm(config);
   block.replaceChildren(box);
 }

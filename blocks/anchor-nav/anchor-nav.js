@@ -32,7 +32,14 @@ function watchTargets(links) {
 }
 
 export default function decorate(block) {
-  const links = [...block.querySelectorAll('a[href]')];
+  // authors sometimes repeat links (e.g. desktop and mobile copies): keep the first of each
+  const seen = new Set();
+  const links = [...block.querySelectorAll('a[href]')].filter((a) => {
+    const key = `${a.getAttribute('href')}|${a.textContent.trim()}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
   const nav = document.createElement('nav');
   nav.className = 'anchor-nav-links';
   nav.setAttribute('aria-label', block.querySelector('h1, h2, h3, h4, h5, h6')?.textContent.trim() || 'On this page');
