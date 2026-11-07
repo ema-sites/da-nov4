@@ -163,7 +163,7 @@ export default {
 
     const rawPath = new URL(params.originalURL).pathname
       .replace(/\/$/, '')
-      .replace(/\.html?$/, '');
+      .replace(/\.(html?|page|cgi)$/, ''); // EDS paths have no extension (Caribbean pages end in .page)
     const path = WebImporter.FileUtils.sanitizePath(rawPath === '' ? '/index' : rawPath);
 
     return [{

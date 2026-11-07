@@ -190,7 +190,10 @@ export function decorateMain(main) {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
-  document.documentElement.lang = 'en';
+  // RBC's French, Traditional and Simplified Chinese pages live under /fr/, /tc/ and /sc/
+  const langs = { fr: 'fr', tc: 'zh-Hant', sc: 'zh-Hans' };
+  const first = window.location.pathname.replace(/^\/content\//, '/').split('/')[1];
+  document.documentElement.lang = langs[first] || 'en';
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {

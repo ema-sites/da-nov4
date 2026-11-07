@@ -20,7 +20,8 @@ const cacheFile = path.join(root, 'migration-work/link-resolve-cache.json');
 const key = (u) => {
   const x = new URL(u);
   // case-insensitive: RBC serves /buying-a-boat-or-RV.html and links to it in either case
-  return `${x.pathname.toLowerCase().replace(/\/{2,}/g, '/').replace(/\/index\.html?$/, '/').replace(/\.html?$/, '').replace(/\/$/, '') || '/'}`;
+  // (Caribbean pages end in .page, a few tools in .cgi; EDS paths have no extension)
+  return `${x.pathname.toLowerCase().replace(/\/{2,}/g, '/').replace(/\/index\.(html?|page)$/, '/').replace(/\.(html?|page|cgi)$/, '').replace(/\/$/, '') || '/'}`;
 };
 
 // migrated pages: report url → content path
