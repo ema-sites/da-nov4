@@ -8,6 +8,13 @@ Model: `standalone`
 
 Single block table. Content: One row per card. Cells (all optional): image (picture only) | optional short label cell for the header strip (e.g. 'Loan', with optional icon) | body (optional eyebrow, heading, text, list, link or button). Cells may be in any order; picture-only cells become the card image, everything else body. Cards with exactly one link become fully clickable. With image, a small image (logo or award badge, 400px or less) is shown whole and centred instead of cropped.
 
+Decoration details (block JS):
+- A closing paragraph that holds only one link is the card's action row (`.cards-product-card-action`): in the default RBC callout it sits under a divider with a chevron.
+- A bold link opening the card body (`**[Title](url)**`) is the card title, so it stays a link with bold text rather than becoming a primary button.
+- With any `photo-overlay*` option the card photo becomes the card's background image, with the text on top.
+
+Default look (no option): RBC callout, a bordered card with centred title, text, divider and chevron link. The grid reproduces the source row gutters (-7.5px on mobile, -15px from 900px) and uses one column per card up to five.
+
 ## Supported variations
 
 | Variation | Option class |

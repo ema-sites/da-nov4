@@ -30,6 +30,18 @@ Single block table. Content: One row per plan card. Cells (all optional, any cou
 | Image | `image` |
 | Orange Light 2 | `orange-light-2` |
 
+## Decoration (JS)
+
+The block reads plain authored paragraphs and recognises these card shapes:
+
+- **Mini card** (`compare`): caption, name, fee label/value, three rate pairs, compare link, card link.
+- **Credit card grid** (`image-light-4`, `orange-light-3`, `slider-2`, `image-orange-light-*`, `orange-shadow-light`, `orange-light-2`): a fee label paragraph ("Annual Fee", "Frais annuels :", "年费", "Interest Rate:"…) marks the card; captions above the title go on the image panel, a short offer caption plus its text become the offer box, three trailing label/value pairs become the rates row, repeated feature copies are dropped.
+- **Label rows**: "Label:" paragraphs (plain or bold) followed by a value paragraph, and "Label :<br>value" paragraphs, become label/value rows.
+- **Icon features**: an image-only paragraph followed by a heading and text becomes one icon feature.
+- A short line above the first heading is the eyebrow; generic "read more" links get the card title as hidden text.
+
+Behaviour: `slider`/`slider-3` scroll with side chevrons and one dot per card; `light` collapses the feature list behind "View More"; `image-light-2` puts the details after the fee rows behind "Détails".
+
 ## Universal Editor fields
 
 N/A (Document Authoring project)

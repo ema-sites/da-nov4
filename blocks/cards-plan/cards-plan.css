@@ -1,3 +1,6 @@
+/* Each look is scoped by its option class, so later look rules never compete with earlier ones. */
+/* stylelint-disable no-descending-specificity */
+
 .cards-plan ul {
   list-style: none;
   margin: 0;
@@ -46,8 +49,30 @@
   margin: 8px 0 0;
 }
 
-.cards-plan .cards-plan-card-action:not(.cards-plan-card-action + .cards-plan-card-action) {
+.cards-plan .cards-plan-card-action:where(:not(.cards-plan-card-action + .cards-plan-card-action)) {
   margin-top: auto;
+}
+
+/* hidden link text for screen readers (source .offscreen) */
+.cards-plan .cards-plan-offscreen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* footnote links: imported as <a><sup>1</sup></a>, sized like the source <sup><a>1</a></sup> */
+.cards-plan a:any-link:has(> sup) {
+  font-size: 0.55em;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.cards-plan a:any-link > sup {
+  font-size: inherit;
+  vertical-align: baseline;
 }
 
 .cards-plan .cards-plan-card-image {
@@ -67,23 +92,224 @@
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
-/* horizontal: single wide card, sections side by side */
+/* horizontal: one bordered box (source .callout .grid-wpr), product details beside a
+   "great choice" check-list, split by a vertical rule from desktop */
+.cards-plan.horizontal {
+  border: 1px solid #c4c8cc;
+  background-color: var(--background-color);
+}
+
+.cards-plan.horizontal > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+}
+
+.cards-plan.horizontal > ul > li {
+  border: 0;
+}
+
+.cards-plan.horizontal .cards-plan-card-header,
+.cards-plan.horizontal .cards-plan-card-body {
+  padding: 0;
+}
+
+.cards-plan.horizontal .cards-plan-card-header h4 {
+  margin: 0 0 15px;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.cards-plan.horizontal .cards-plan-card-header h4 a:any-link {
+  font-weight: inherit;
+}
+
+.cards-plan.horizontal .cards-plan-card-body > p {
+  margin: 0 0 15px;
+}
+
+.cards-plan.horizontal li + li .cards-plan-card-body > p:first-child {
+  font-weight: 500;
+}
+
+.cards-plan.horizontal .cards-plan-card-features {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-plan.horizontal .cards-plan-card-features > li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 15px;
+}
+
+.cards-plan.horizontal .cards-plan-card-features > li:last-child {
+  margin-bottom: 0;
+}
+
+/* source disc-list: 5px brand-blue disc */
+.cards-plan.horizontal .cards-plan-card-features > li::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--brand-blue);
+}
+
+/* source check-list: blue check, 20px indent, 15px apart */
+.cards-plan.horizontal li + li .cards-plan-card-features > li {
+  margin-bottom: 15px;
+  padding-left: 20px;
+}
+
+.cards-plan.horizontal li + li .cards-plan-card-features > li:last-child {
+  margin-bottom: 0;
+}
+
+.cards-plan.horizontal li + li .cards-plan-card-features > li::before {
+  top: 4px;
+  width: 10px;
+  height: 16px;
+  border-radius: 0;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" fill="none" stroke="black" stroke-width="1.2"><path d="M.5 8.5l3 3 6-6.5"/></svg>') no-repeat center / 10px 16px;
+}
+
+.cards-plan.horizontal .cards-plan-card-features + .cards-plan-card-action {
+  margin: 30px 0 0;
+}
+
 @media (width >= 900px) {
   .cards-plan.horizontal > ul {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 20px;
   }
 
-  .cards-plan.horizontal > ul > li {
-    flex-direction: row;
+  .cards-plan.horizontal > ul > li:first-child {
+    padding-right: 15px;
+    border-right: 1px solid #c4c8cc;
   }
 
-  .cards-plan.horizontal > ul > li > * {
-    flex: 1 1 0;
+  .cards-plan.horizontal > ul > li + li {
+    padding-left: 15px;
+  }
+
+  .cards-plan.horizontal .cards-plan-card-header h4 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .cards-plan.horizontal .cards-plan-card-features + .cards-plan-card-action {
+    margin-top: 35px;
+  }
+}
+
+/* alt: business tool callouts (source .grid-one-third .callout): heading and text beside a
+   40px icon, arrow link pinned to the bottom; stacked on mobile, thirds from desktop */
+.cards-plan.alt {
+  margin-inline: -7.5px;
+}
+
+.cards-plan.alt > ul {
+  grid-template-columns: 1fr;
+  gap: 15px;
+  padding: 0 7.5px;
+}
+
+.cards-plan.alt > ul > li {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  grid-template-rows: auto auto 1fr;
+  column-gap: 15px;
+  padding: 15px;
+  border-color: #c4c8cc;
+}
+
+.cards-plan.alt .cards-plan-card-header,
+.cards-plan.alt .cards-plan-card-body {
+  display: contents;
+}
+
+.cards-plan.alt li > div > * {
+  grid-column: 1;
+}
+
+.cards-plan.alt .cards-plan-card-image {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.cards-plan.alt .cards-plan-card-image img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* most source callouts set mar-t-qtr on the heading */
+.cards-plan.alt :is(h2, h3, h4, h5, h6) {
+  margin: 7.5px 0 15px;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.cards-plan.alt p {
+  margin: 0;
+}
+
+.cards-plan.alt li .cards-plan-card-action {
+  grid-column: 1 / -1;
+  align-self: end;
+  margin: 15px 0 0;
+}
+
+.cards-plan.alt .cards-plan-card-action a:any-link {
+  display: inline-block;
+}
+
+/* source goto-link: 20px arrow, 10px after the label */
+.cards-plan.alt .cards-plan-card-action a:any-link::after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 18px;
+  margin-left: 10px;
+  vertical-align: -3px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 18" fill="none" stroke="black" stroke-width="1.4"><path d="M0 9h19M11 1l8 8-8 8"/></svg>') no-repeat center / 20px 18px;
+}
+
+@media (width >= 900px) {
+  .cards-plan.alt {
+    margin-inline: -15px;
+  }
+
+  .cards-plan.alt > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 0 15px;
+  }
+
+  .cards-plan.alt > ul > li {
+    padding: 20px;
+  }
+
+  .cards-plan.alt :is(h2, h3, h4, h5, h6) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .cards-plan.alt li .cards-plan-card-action {
+    margin-top: 20px;
   }
 }
 
 /* compare*: equal-height cards whose sections line up across the row */
-.cards-plan.compare > ul > li,
 .cards-plan.compare-grey-blue-light > ul > li,
 .cards-plan.compare-grey-image > ul > li {
   height: 100%;
@@ -266,7 +492,2536 @@ main .cards-plan.compare-grey-blue-light a.button:any-link {
   }
 }
 
-/* slider: horizontally scrolling track with prev/next controls */
+/* compare: credit-card mini cards (source .ssr-cross-sell-template .mini-card), a scrolling
+   row of 85%-wide cards on mobile, equal thirds from desktop */
+.cards-plan.compare {
+  display: flex;
+  gap: 30px;
+  padding: 15px 0;
+  overflow-x: auto;
+}
+
+.cards-plan.compare > ul {
+  display: contents;
+}
+
+.cards-plan.compare > ul > li {
+  position: relative;
+  flex: 0 0 85%;
+  height: auto;
+  overflow: visible;
+  border-color: var(--border-color);
+}
+
+.cards-plan.compare .cards-plan-card-image {
+  padding: 27px 0;
+  background-color: var(--light-blue-grey-color);
+  text-align: center;
+}
+
+.cards-plan.compare .cards-plan-card-image img {
+  display: block;
+  width: 158px;
+  height: 95px;
+  margin: 0 auto;
+  object-fit: fill;
+}
+
+.cards-plan.compare .cards-plan-card-body {
+  padding: 20px 24px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.cards-plan .cards-plan-mini p {
+  margin: 0;
+}
+
+.cards-plan .cards-plan-mini .cards-plan-mini-caption {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 4px 12px;
+  border-radius: 12px;
+  background-color: var(--brand-yellow);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.cards-plan .cards-plan-mini-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cards-plan .cards-plan-mini .cards-plan-mini-name {
+  padding-right: 15px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.cards-plan .cards-plan-mini-fee {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  text-align: right;
+}
+
+.cards-plan .cards-plan-mini-fee p:first-child {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 12px;
+}
+
+.cards-plan .cards-plan-mini-fee p:last-child {
+  font-size: 20px;
+  line-height: 32px;
+}
+
+.cards-plan .cards-plan-mini-rates {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.cards-plan .cards-plan-mini .cards-plan-mini-rate p {
+  margin-bottom: 2px;
+}
+
+.cards-plan .cards-plan-mini .cards-plan-mini-rate p + p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cards-plan .cards-plan-mini-rate a:any-link {
+  font-size: 12px;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.cards-plan .cards-plan-mini-rate a sup {
+  font-size: inherit;
+  vertical-align: baseline;
+}
+
+.cards-plan .cards-plan-mini-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid #c4c8cc;
+}
+
+.cards-plan .cards-plan-mini-compare a:any-link {
+  display: inline-flex;
+  align-items: center;
+  height: 50px;
+  background-color: var(--background-color);
+  color: #1f1f1f;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  text-align: left;
+}
+
+/* source compare checkbox: 32px square */
+.cards-plan .cards-plan-mini-compare a:any-link::before {
+  content: '';
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  margin: 0 14px 0 -6px;
+  border: 1px solid #d8dbdd;
+}
+
+.cards-plan li.cards-plan-mini .cards-plan-mini-footer .cards-plan-card-action {
+  margin: 0;
+}
+
+.cards-plan .cards-plan-mini .cards-plan-card-action a:any-link {
+  display: inline-block;
+  position: relative;
+  margin-right: 15px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* source standalone-link-after: ui-chevron-right-blue.svg, 6x10 */
+.cards-plan .cards-plan-mini .cards-plan-card-action a:any-link::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 8px);
+  width: 6px;
+  height: 10px;
+  transform: translateY(-50%);
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+@media (width >= 900px) {
+  .cards-plan.compare > ul > li {
+    flex: 1 1 0;
+  }
+
+  .cards-plan.compare .cards-plan-card-image {
+    padding: 30px 0;
+  }
+}
+
+/* credit-card grid cards (source #card-grid-container .card-container), shared by the
+   image-light-4, image-orange-light-*, orange-light-3 and slider-2 looks */
+.cards-plan > ul > li.cards-plan-cc {
+  border-color: var(--border-color);
+  border-radius: 8px;
+}
+
+.cards-plan .cards-plan-cc p {
+  margin: 0;
+}
+
+.cards-plan .cards-plan-cc .cards-plan-card-image {
+  padding: 22px 15px 30px;
+  background-color: #edf7fc;
+  line-height: 0;
+  text-align: center;
+}
+
+.cards-plan .cards-plan-cc .cards-plan-card-image img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 147px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.cards-plan .cards-plan-cc-captions {
+  margin-top: 9px;
+  line-height: 24px;
+}
+
+.cards-plan .cards-plan-cc-captions p {
+  display: inline-block;
+  padding: 3px 10px;
+  background-color: var(--background-color);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.cards-plan .cards-plan-cc .cards-plan-card-body {
+  padding: 23px 20px 24px;
+  color: #1f1f1f;
+}
+
+.cards-plan .cards-plan-cc-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 15px;
+}
+
+.cards-plan .cards-plan-cc .cards-plan-cc-title {
+  margin: 0;
+  color: #1f1f1f;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 27px;
+}
+
+.cards-plan .cards-plan-cc-fee {
+  display: flex;
+  flex-direction: column;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* the label never wraps: it hangs out of a squeezed fee column like the source span */
+.cards-plan .cards-plan-cc-fee p:first-child {
+  align-self: safe flex-end;
+  width: max-content;
+  white-space: nowrap;
+  color: var(--dark-color);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cards-plan .cards-plan-cc-fee p:nth-child(3) {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cards-plan .cards-plan-cc-fee p:nth-child(2) {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 40px;
+}
+
+.cards-plan .cards-plan-cc-features {
+  flex: 1 0 auto;
+  border-top: 1px solid #b3b3b3;
+}
+
+.cards-plan .cards-plan-cc-features p {
+  position: relative;
+  margin-top: 24px;
+  padding-left: 36px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+/* the source feature icons are CSS backgrounds that do not survive import: a neutral check */
+.cards-plan .cards-plan-cc-features p::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 20px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 20" fill="none" stroke="black" stroke-width="1.5"><path d="M5 10.5l4.5 4.5L19 5.5"/></svg>') no-repeat center / 24px 20px;
+}
+
+.cards-plan .cards-plan-cc .cards-plan-card-body > .cards-plan-card-action {
+  margin: 23px 0 0;
+}
+
+/* source newwindow-link: 15px window icon, 10px after the label */
+.cards-plan .cards-plan-cc a:any-link[target='_blank']::after,
+.cards-plan.image-light-4 .cards-plan-card-action a:any-link::after {
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 12px;
+  margin-left: 10px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 12" fill="none" stroke="black"><path d="M3.5.5h11v8h-11zM.5 3.5v8h11"/></svg>') no-repeat center / 15px 12px;
+}
+
+.cards-plan .cards-plan-cc-rates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px solid #b3b3b3;
+}
+
+.cards-plan .cards-plan-cc-rate p:first-child {
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.cards-plan .cards-plan-cc-rate p:last-child {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+/* credit-card offer box: caption on the orange top border, warm gradient */
+.cards-plan .cards-plan-cc .cards-plan-cc-description {
+  margin-bottom: 20px;
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cards-plan .cards-plan-cc-offer {
+  margin: 11px 0 16px;
+  padding: 0 16px 15px;
+  border: 1px solid #ffb500;
+  border-radius: 4px;
+  background-image: linear-gradient(#fff8e5, var(--background-color));
+}
+
+.cards-plan .cards-plan-cc-offer p:first-child {
+  display: inline-block;
+  margin-bottom: 0;
+  padding: 3px 10px;
+  transform: translateY(-50%);
+  background-color: #ffba00;
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.cards-plan .cards-plan-cc-offer p + p {
+  margin-top: 0;
+  color: #1f1f1f;
+  font-weight: 400;
+}
+
+.cards-plan .cards-plan-cc-offer strong {
+  color: #1f1f1f;
+}
+
+/* credit-card compare checkbox (source .btn-compare) */
+.cards-plan .cards-plan-cc .cards-plan-cc-compare {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #c4c8cc;
+}
+
+.cards-plan .cards-plan-cc-compare a:any-link {
+  display: inline-flex;
+  align-items: center;
+  height: 50px;
+  background-color: var(--background-color);
+  color: #1f1f1f;
+  font-weight: 300;
+}
+
+.cards-plan .cards-plan-cc .cards-plan-cc-compare:not(:has(a)) {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  color: #1f1f1f;
+}
+
+.cards-plan .cards-plan-cc-compare:not(:has(a))::before,
+.cards-plan .cards-plan-cc-compare a:any-link::before {
+  content: '';
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  margin-right: 14px;
+  border: 1px solid #d8dbdd;
+}
+
+/* orange-light-3: two wide credit cards centred in the source 970px column */
+.cards-plan.orange-light-3 > ul {
+  grid-template-columns: 1fr;
+  gap: 33px;
+  max-width: 967px;
+  margin-inline: auto;
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc .cards-plan-card-image {
+  padding: 16px 15px 69px;
+  background-color: var(--light-blue-grey-color);
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc .cards-plan-card-image img {
+  height: 131px;
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc-header {
+  margin-bottom: 30px;
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc-fee p:first-child {
+  font-size: 11px;
+  line-height: 12px;
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc-fee p:nth-child(2) {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc-features {
+  align-self: start;
+  padding-top: 6px;
+  border-top-color: #c4c8cc;
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc-features p {
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc-features p:first-child {
+  margin-top: 24px;
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc-rates {
+  margin-top: 24px;
+  padding-top: 15px;
+  border-top-color: #c4c8cc;
+}
+
+.cards-plan.orange-light-3 .cards-plan-cc-rate p:last-child {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.cards-plan.orange-light-3 .cards-plan-card-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto 1fr;
+  column-gap: 24px;
+}
+
+.cards-plan.orange-light-3 .cards-plan-card-body > * {
+  grid-column: 1 / -1;
+}
+
+.cards-plan.orange-light-3 .cards-plan-card-body > .cards-plan-card-action {
+  grid-column: auto;
+  margin-top: 16px;
+}
+
+.cards-plan.orange-light-3 .cards-plan-card-action a.button:any-link {
+  width: 100%;
+}
+
+@media (width >= 900px) {
+  .cards-plan.orange-light-3 > ul {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cards-plan.orange-light-3 .cards-plan-cc .cards-plan-card-image {
+    padding-top: 31px;
+  }
+
+  .cards-plan.orange-light-3 .cards-plan-cc .cards-plan-cc-title {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .cards-plan.orange-light-3 .cards-plan-cc-fee {
+    flex: none;
+  }
+}
+
+/* slider-2 and image-orange-light-2: credit card grids (source #card-grid-container): despite
+   the option name the slider-2 source is a static grid, three columns from desktop */
+.cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) > ul {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .cards-plan-cc-fee p:first-child {
+  font-size: 11px;
+  line-height: 12px;
+}
+
+.cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .cards-plan-cc-fee p:nth-child(2) {
+  letter-spacing: -0.39px;
+}
+
+.cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .cards-plan-cc-offer {
+  margin-top: 26px;
+}
+
+.cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .cards-plan-cc .cards-plan-card-body > .cards-plan-card-action {
+  margin-top: 16px;
+}
+
+/* "Call 1-8xx or": phone link centred above the apply bar */
+.cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .cards-plan-card-action.button-wrapper {
+  text-align: center;
+}
+
+main .cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .button-wrapper a.button:any-link {
+  padding: 0 0 0 35px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--link-color);
+  line-height: 24px;
+}
+
+main .cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .button-wrapper a.button:any-link::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  margin: 0 15px 0 -35px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="black" stroke-width="1.2"><path d="M4.5 1.5l3 4-2 2c1 2.5 3.5 5 6 6l2-2 4 3-2 3.5C9 17.5 2.5 11 1 4.5z"/></svg>') no-repeat center / 20px 20px;
+}
+
+/* the last action is the apply bar across the card foot */
+.cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .cards-plan-cc .cards-plan-card-body > .cards-plan-card-action:last-child {
+  margin: 16px -20px -24px;
+}
+
+.cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .cards-plan-card-body > .cards-plan-card-action:last-child a:any-link {
+  display: block;
+  padding: 16px 32px;
+  border-radius: 0 0 8px 8px;
+  background-color: var(--brand-blue);
+  color: var(--background-color);
+  font-weight: 500;
+  line-height: 19px;
+  text-align: center;
+}
+
+/* orange-shadow-light: shadowed rounded cards */
+.cards-plan.orange-shadow-light > ul > li {
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 0 12px 0 rgb(0 0 0 / 10%);
+}
+
+/* personal cards: larger title, lighter fee */
+.cards-plan.image-orange-light-2 .cards-plan-cc .cards-plan-cc-title {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.cards-plan.image-orange-light-2 .cards-plan-cc-fee p:nth-child(2) {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 32px;
+}
+
+.cards-plan.image-orange-light-2 .cards-plan-cc-captions img {
+  position: absolute;
+  top: 108px;
+  right: 15px;
+  width: 100px;
+  height: auto;
+}
+
+.cards-plan.image-orange-light-2 .cards-plan-cc .cards-plan-card-image {
+  position: relative;
+}
+
+@media (width >= 900px) {
+  .cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .cards-plan:is(.slider-2, .image-orange-light-2, .orange-shadow-light) .cards-plan-cc-fee {
+    flex: none;
+  }
+}
+
+/* image-light-4: light-blue image panel; a scrolling row on mobile, thirds from desktop */
+.cards-plan.image-light-4 {
+  margin-inline: -7.5px;
+  padding: 32px 0;
+}
+
+.cards-plan.image-light-4 > ul {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+}
+
+.cards-plan.image-light-4 > ul > li {
+  box-sizing: border-box;
+  flex: 0 0 330px;
+}
+
+@media (width >= 900px) {
+  .cards-plan.image-light-4 {
+    margin-inline: 0;
+    padding: 64px 0;
+  }
+
+  .cards-plan.image-light-4 > ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    overflow: visible;
+  }
+
+  .cards-plan.image-light-4 .cards-plan-cc-fee {
+    flex: none;
+  }
+}
+
+/* image-shadow-light: ways-to-invest strip (source .ways-to-invest-container): one shadowed,
+   rounded panel of boxes with a light-blue centred head, check-list and chevron link */
+.cards-plan.image-shadow-light {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 0 12px 0 rgb(0 0 0 / 10%);
+}
+
+.cards-plan.image-shadow-light > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cards-plan.image-shadow-light > ul > li {
+  border: 0;
+  border-left: 1px solid #e5e5e5;
+}
+
+.cards-plan.image-shadow-light > ul > li + li {
+  border-top: 1px solid #e5e5e5;
+}
+
+.cards-plan.image-shadow-light .cards-plan-card-header {
+  padding: 16px;
+  background-color: #eef7fc;
+  text-align: center;
+}
+
+.cards-plan.image-shadow-light .cards-plan-card-header p {
+  margin: 0 0 15px;
+}
+
+.cards-plan.image-shadow-light .cards-plan-card-header p:last-child {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.cards-plan.image-shadow-light .cards-plan-card-header em {
+  font-weight: 300;
+}
+
+.cards-plan.image-shadow-light .cards-plan-card-body {
+  padding: 16px;
+}
+
+.cards-plan.image-shadow-light .cards-plan-card-features {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-plan.image-shadow-light .cards-plan-card-features > li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.cards-plan.image-shadow-light .cards-plan-card-features > li:last-child {
+  margin-bottom: 0;
+}
+
+/* source check-list: blue check */
+.cards-plan.image-shadow-light .cards-plan-card-features > li::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 10px;
+  height: 16px;
+  background-color: var(--brand-blue);
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" fill="none" stroke="black" stroke-width="1.2"><path d="M.5 8.5l3 3 6-6.5"/></svg>') no-repeat center / 10px 16px;
+}
+
+/* divider (source .divider.mar-tb) above the link */
+.cards-plan.image-shadow-light li .cards-plan-card-action {
+  margin: 15px 0 0;
+  padding-top: 15px;
+  border-top: 1px solid #c4c8cc;
+}
+
+/* source standalone-link: chevron in a 16px gutter */
+.cards-plan.image-shadow-light .cards-plan-card-action a:any-link {
+  display: inline-block;
+  position: relative;
+  padding-left: 16px;
+}
+
+.cards-plan.image-shadow-light .cards-plan-card-action a:any-link::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 6px;
+  height: 10px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+@media (width >= 900px) {
+  .cards-plan.image-shadow-light > ul {
+    flex-direction: row;
+  }
+
+  .cards-plan.image-shadow-light > ul > li {
+    flex: 1 1 0;
+  }
+
+  .cards-plan.image-shadow-light > ul > li + li {
+    border-top: 0;
+  }
+
+  /* source equal-height script: lists share one minimum height */
+  .cards-plan.image-shadow-light .cards-plan-card-features {
+    min-height: 228px;
+  }
+
+  .cards-plan.image-shadow-light li .cards-plan-card-action {
+    margin-top: 30px;
+    padding-top: 30px;
+  }
+}
+
+/* orange-2: featured credit card (source .card-details-container): card art beside the name,
+   an orange-bordered offer box with its caption on the top border, rates and a card link */
+.cards-plan.orange-2 > ul {
+  grid-template-columns: 1fr;
+}
+
+.cards-plan.orange-2 > ul > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  overflow: visible;
+  border: 0;
+}
+
+.cards-plan.orange-2 .cards-plan-card-header,
+.cards-plan.orange-2 .cards-plan-card-body {
+  display: contents;
+}
+
+.cards-plan.orange-2 > ul > li > *,
+.cards-plan.orange-2 :is(.cards-plan-card-header, .cards-plan-card-body) > * {
+  grid-column: 1;
+}
+
+.cards-plan.orange-2 .cards-plan-card-image {
+  grid-row: 1;
+  margin-bottom: 32px;
+}
+
+.cards-plan.orange-2 .cards-plan-card-image img {
+  object-fit: contain;
+}
+
+.cards-plan.orange-2 h3 {
+  grid-row: 2;
+  margin: 0 0 16px;
+  font-size: 20px;
+  line-height: 25px;
+}
+
+/* offer caption sits on the offer box's top border */
+.cards-plan.orange-2 .cards-plan-card-header > p,
+.cards-plan.orange-2 .cards-plan-card-body > p:first-child {
+  grid-row: 3;
+}
+
+.cards-plan.orange-2 .cards-plan-card-header > p {
+  z-index: 1;
+  justify-self: start;
+  margin: 0 0 0 17px;
+  padding: 3px 8px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background-color: #ffba00;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.cards-plan.orange-2 .cards-plan-card-body > p:first-child {
+  isolation: isolate;
+  position: relative;
+  margin: 22px 17px 31px;
+  color: #1f1f1f;
+  font-weight: 400;
+}
+
+/* the offer box is drawn around the text so the text keeps the source content box */
+.cards-plan.orange-2 .cards-plan-card-body > p:first-child::before {
+  content: '';
+  position: absolute;
+  inset: -22px -17px -16px;
+  z-index: -1;
+  border: 1px solid #ffb500;
+  border-radius: 4px;
+  background-image: linear-gradient(#fff8e5, var(--background-color));
+}
+
+.cards-plan.orange-2 .cards-plan-card-body > p:first-child strong {
+  color: #1f1f1f;
+}
+
+.cards-plan.orange-2 .cards-plan-card-body > p:not(:first-child, .cards-plan-card-action) {
+  margin: 0 0 15px;
+}
+
+.cards-plan .cards-plan-rates {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.cards-plan .cards-plan-rates .cards-plan-rate {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.cards-plan .cards-plan-rate br {
+  display: none;
+}
+
+.cards-plan .cards-plan-rate-value {
+  font-weight: 300;
+}
+
+.cards-plan.orange-2 li .cards-plan-card-action {
+  margin: 0;
+}
+
+.cards-plan.orange-2 .cards-plan-card-action a:any-link {
+  display: inline-block;
+  position: relative;
+}
+
+/* source standalone-link-after: chevron 9px after the label */
+.cards-plan.orange-2 .cards-plan-card-action a:any-link::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 9px);
+  width: 6px;
+  height: 10px;
+  transform: translateY(-50%);
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+@media (width >= 900px) {
+  .cards-plan.orange-2 {
+    padding-bottom: 16px;
+  }
+
+  .cards-plan.orange-2 > ul > li {
+    grid-template-columns: 360px minmax(0, 1fr);
+    column-gap: 30px;
+  }
+
+  .cards-plan.orange-2 > ul > li > * {
+    grid-column: 2;
+  }
+
+  .cards-plan.orange-2 > ul > li > .cards-plan-card-image {
+    grid-column: 1;
+    grid-row: 1 / span 6;
+    margin: 0;
+  }
+
+  .cards-plan.orange-2 :is(.cards-plan-card-header, .cards-plan-card-body) > * {
+    grid-column: 2;
+  }
+
+  .cards-plan.orange-2 h3 {
+    grid-row: 1;
+    font-size: 40px;
+    line-height: 50px;
+  }
+
+  .cards-plan.orange-2 .cards-plan-card-header > p,
+  .cards-plan.orange-2 .cards-plan-card-body > p:first-child {
+    grid-row: 2;
+  }
+
+  .cards-plan.orange-2 .cards-plan-rates {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .cards-plan.orange-2 .cards-plan-rate br {
+    display: inline;
+  }
+}
+
+/* orange-light: bank account offer cards (source .account-card): grey card-art panel, amber
+   offer tag, large price, icon features split by rules, full-width button at the foot;
+   a scrolling row on mobile, two columns from desktop */
+.cards-plan:is(.orange-light, .orange-light-4) {
+  margin-inline: -7.5px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) > ul {
+  display: flex;
+  gap: 15px;
+  padding: 0 7.5px;
+  overflow-x: auto;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) > ul > li {
+  flex: 0 0 323px;
+  border: 0;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-image {
+  padding: 15px;
+  background-color: #e1ebef;
+  text-align: center;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-image img {
+  width: 243px;
+  height: 152px;
+  object-fit: fill;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-header,
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-body {
+  padding: 0 15px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-header {
+  padding-top: 15px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-body {
+  padding-bottom: 15px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-eyebrow {
+  display: table;
+  margin: 0;
+  padding: 2px 8px;
+  background-color: #ffba00;
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-header :is(h2, h3) {
+  margin: 22px 0 15px;
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-header > p:not(.cards-plan-card-eyebrow) {
+  margin: 0 0 15px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-body > p {
+  margin: 0;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-price {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 36px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-price a:any-link:has(> sup) {
+  font-size: 8.8px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-price-unit {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-price + p:not(.cards-plan-card-feature) {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-feature {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  column-gap: 15px;
+  padding: 16px 0 15px;
+  border-top: 1px solid var(--border-color);
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-feature:first-of-type {
+  margin-top: 15px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-feature:not(:has(~ .cards-plan-card-feature)) {
+  padding-bottom: 0;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-feature > * {
+  grid-column: 2;
+  margin: 0;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-feature .cards-plan-card-feature-icon {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  line-height: 0;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-feature img {
+  width: 32px;
+  height: 32px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-feature :is(h3, h4, h5) {
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-body > p:not(.cards-plan-card-action) a:any-link:not(:has(> sup)) {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+.cards-plan:is(.orange-light, .orange-light-4) li .cards-plan-card-action {
+  margin: auto -15px -15px;
+  padding-top: 30px;
+}
+
+main .cards-plan:is(.orange-light, .orange-light-4) a.button:any-link {
+  display: flex;
+  width: 100%;
+  padding: 16px 32px;
+  border-radius: 0;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+@media (width >= 900px) {
+  .cards-plan:is(.orange-light, .orange-light-4) {
+    margin-inline: -15px;
+  }
+
+  .cards-plan:is(.orange-light, .orange-light-4) > ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 0 15px;
+    overflow: visible;
+  }
+
+  .cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-header,
+  .cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-body {
+    padding: 0 30px;
+  }
+
+  .cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-header {
+    padding-top: 30px;
+  }
+
+  .cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-body {
+    padding-bottom: 30px;
+  }
+
+  .cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-header :is(h2, h3) {
+    margin-top: 37px;
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-header > p:not(.cards-plan-card-eyebrow) {
+    margin-bottom: 30px;
+  }
+
+  .cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-feature:first-of-type {
+    margin-top: 30px;
+  }
+
+  .cards-plan:is(.orange-light, .orange-light-4) .cards-plan-card-feature :is(h3, h4, h5) {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .cards-plan:is(.orange-light, .orange-light-4) li .cards-plan-card-action {
+    margin: auto -30px -30px;
+    padding-top: 50px;
+  }
+}
+
+/* compact-rate: tool promo panels (source .callout .option-image-4): light-blue gradient,
+   big heading and intro, chevron link at the foot, illustration bottom right */
+.cards-plan.compact-rate {
+  margin-inline: -7.5px;
+}
+
+.cards-plan.compact-rate > ul {
+  grid-template-columns: 1fr;
+  gap: 15px;
+  padding: 0 7.5px;
+}
+
+.cards-plan.compact-rate > ul > li {
+  display: grid;
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  padding: 30px 30px 15px;
+  border-color: #c4c8cc;
+  border-radius: 8px;
+  background-image: linear-gradient(to right, #eef7fc, #fff);
+}
+
+.cards-plan.compact-rate .cards-plan-card-header,
+.cards-plan.compact-rate .cards-plan-card-body {
+  display: contents;
+  padding: 0;
+}
+
+.cards-plan.compact-rate li > div > * {
+  grid-column: 1 / -1;
+}
+
+.cards-plan.compact-rate :is(h2, h3, h4, h5) {
+  margin: 0 0 15px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.cards-plan.compact-rate p {
+  max-width: 400px;
+  margin: 0 0 15px;
+  font-weight: 400;
+}
+
+.cards-plan.compact-rate li .cards-plan-card-action {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: end;
+  margin: 0 0 20px;
+}
+
+.cards-plan.compact-rate .cards-plan-card-image {
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: end;
+}
+
+.cards-plan.compact-rate .cards-plan-card-image img {
+  width: 175px;
+  height: auto;
+  object-fit: fill;
+}
+
+.cards-plan.compact-rate .cards-plan-card-action a:any-link {
+  display: inline-block;
+  position: relative;
+  padding-left: 16px;
+  white-space: nowrap;
+}
+
+.cards-plan.compact-rate .cards-plan-card-action a:any-link::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 6px;
+  height: 10px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+@media (width >= 900px) {
+  .cards-plan.compact-rate {
+    margin-inline: -15px;
+  }
+
+  .cards-plan.compact-rate > ul {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 0 15px;
+  }
+
+  /* source equal-height panels: the illustration hangs in the bottom-right corner */
+  .cards-plan.compact-rate > ul > li {
+    box-sizing: border-box;
+    min-height: 460px;
+    padding: 45px 45px 50px;
+  }
+
+  .cards-plan.compact-rate :is(h2, h3, h4, h5) {
+    font-size: 40px;
+    line-height: 51px;
+  }
+
+  .cards-plan.compact-rate p:not(.cards-plan-card-action) {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .cards-plan.compact-rate li .cards-plan-card-action {
+    margin-bottom: 0;
+  }
+
+  .cards-plan.compact-rate .cards-plan-card-image {
+    position: absolute;
+    right: 45px;
+    bottom: 30px;
+    grid-area: auto;
+  }
+
+  .cards-plan.compact-rate .cards-plan-card-image img {
+    width: auto;
+    max-width: 300px;
+    max-height: 230px;
+  }
+}
+
+/* light: GIC family cards (source .callout with .callout-snipe): light-blue rounded panels
+   (the first, "most popular", a shade deeper), centred title, collapsible feature list,
+   rule and full-width button at the foot */
+.cards-plan.light {
+  margin-inline: -7.5px;
+}
+
+.cards-plan.light > ul {
+  grid-template-columns: 1fr;
+  gap: 30px;
+  padding: 0 7.5px 15px;
+}
+
+.cards-plan.light > ul > li {
+  position: relative;
+  overflow: visible;
+  padding: 15px;
+  border-color: #c4c8cc;
+  border-radius: 8px;
+  background-color: #edf7fc;
+}
+
+.cards-plan.light > ul > li:first-child {
+  background-color: #e3f4ff;
+}
+
+.cards-plan.light .cards-plan-card-header,
+.cards-plan.light .cards-plan-card-body {
+  display: contents;
+}
+
+.cards-plan.light .cards-plan-card-eyebrow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin: 0;
+  padding: 2px 10px;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background-color: var(--brand-blue-dark);
+  color: var(--background-color);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cards-plan.light :is(h2, h3, h4) {
+  margin: 0 0 15px;
+  font-size: 18px;
+  line-height: 27px;
+  text-align: center;
+}
+
+.cards-plan.light p {
+  margin: 0;
+}
+
+.cards-plan .cards-plan-toggle {
+  position: relative;
+  align-self: flex-start;
+  margin: 15px 0 0;
+  padding: 0 0 0 22px;
+  border: 0;
+  background: none;
+  color: var(--link-color);
+  font-weight: 400;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* source plus/minus icon */
+.cards-plan .cards-plan-toggle::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="none" stroke="black" stroke-width="1.4"><path d="M7 0v14M0 7h14"/></svg>') no-repeat center / 14px 14px;
+}
+
+.cards-plan .cards-plan-toggle[aria-expanded='true']::before {
+  mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="none" stroke="black" stroke-width="1.4"><path d="M0 7h14"/></svg>');
+}
+
+.cards-plan .cards-plan-toggle[aria-expanded='false'] .cards-plan-toggle-less,
+.cards-plan .cards-plan-toggle[aria-expanded='true'] .cards-plan-toggle-more {
+  display: none;
+}
+
+.cards-plan.light .cards-plan-card-features {
+  margin: 15px 0 0;
+  padding-left: 20px;
+}
+
+.cards-plan.light .cards-plan-card-features[hidden],
+.cards-plan .cards-plan-card-details[hidden] {
+  display: none;
+}
+
+.cards-plan.light li .cards-plan-card-action {
+  margin-top: auto;
+  padding-top: 31px;
+  background: linear-gradient(#c4c8cc, #c4c8cc) no-repeat 0 15px / 100% 1px;
+}
+
+main .cards-plan.light a.button:any-link {
+  display: flex;
+  width: 100%;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+@media (width >= 900px) {
+  .cards-plan.light {
+    margin-inline: -15px;
+  }
+
+  .cards-plan.light > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 0 15px 30px;
+  }
+
+  .cards-plan.light > ul > li {
+    padding: 20px;
+  }
+
+  .cards-plan.light :is(h2, h3, h4) {
+    margin-bottom: 20px;
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .cards-plan.light li .cards-plan-card-action {
+    padding-top: 41px;
+    background-position: 0 20px;
+  }
+}
+
+/* image-light-3: loan product cards (source .product-card): light-blue head with centred
+   title and an icon in a white disc, "most popular" pill, check-list and a full-width button */
+.cards-plan.image-light-3 {
+  margin-inline: -7.5px;
+}
+
+.cards-plan.image-light-3 > ul {
+  grid-template-columns: 1fr;
+  gap: 30px;
+  padding: 0 7.5px;
+}
+
+.cards-plan.image-light-3 > ul > li {
+  position: relative;
+  overflow: visible;
+  padding: 30px;
+  border-color: #e5e5e5;
+  border-radius: 8px;
+  background: linear-gradient(#edf7fc, #edf7fc) no-repeat 0 0 / 100% 240px, var(--background-color);
+}
+
+.cards-plan.image-light-3 > ul > li:nth-child(2) {
+  background-image: linear-gradient(#e3f4ff, #e3f4ff);
+}
+
+.cards-plan.image-light-3 .cards-plan-card-header,
+.cards-plan.image-light-3 .cards-plan-card-body {
+  display: contents;
+}
+
+.cards-plan.image-light-3 li > div > * {
+  order: 2;
+}
+
+.cards-plan.image-light-3 li > div > :is(h2, h3, h4) {
+  order: 0;
+  min-height: 72px;
+  margin: 0;
+  font-size: 28px;
+  line-height: 36px;
+  text-align: center;
+}
+
+.cards-plan.image-light-3 .cards-plan-card-image {
+  display: flex;
+  order: 1;
+  align-items: center;
+  justify-content: center;
+  width: 108px;
+  height: 108px;
+  margin: 15px auto 45px;
+  border-radius: 50%;
+  background-color: var(--background-color);
+}
+
+.cards-plan.image-light-3 .cards-plan-card-image img {
+  width: 60px;
+  height: 60px;
+  object-fit: fill;
+}
+
+.cards-plan.image-light-3 .cards-plan-card-eyebrow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin: 0;
+  padding: 2px 10px;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background-color: var(--brand-blue-dark);
+  color: var(--background-color);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.cards-plan.image-light-3 p {
+  margin: 0 0 15px;
+}
+
+.cards-plan.image-light-3 .cards-plan-card-features {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-plan.image-light-3 .cards-plan-card-features > li {
+  position: relative;
+  margin-bottom: 8px;
+  padding-left: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cards-plan.image-light-3 .cards-plan-card-features > li::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background-color: #313133;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="black" stroke-width="1.6"><path d="M1 8.5l4.5 4.5L15 3.5"/></svg>') no-repeat center / 16px 16px;
+}
+
+.cards-plan.image-light-3 li .cards-plan-card-action {
+  margin: auto 0 0;
+  padding-top: 61px;
+  background: linear-gradient(#c4c8cc, #c4c8cc) no-repeat 0 30px / 100% 1px;
+}
+
+main .cards-plan.image-light-3 a.button:any-link {
+  display: flex;
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+@media (width >= 900px) {
+  .cards-plan.image-light-3 {
+    margin-inline: -15px;
+  }
+
+  .cards-plan.image-light-3 > ul {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 15px;
+  }
+}
+
+/* image: Caribbean credit card list (source #credit-card-list .callout): centred name, card
+   art, compare checkbox, disc list, fee rows, centred details link and apply button */
+.cards-plan.image > ul {
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.cards-plan.image > ul > li {
+  padding: 15px;
+  border-color: #c4c8cc;
+}
+
+.cards-plan.image .cards-plan-card-header,
+.cards-plan.image .cards-plan-card-body {
+  display: contents;
+}
+
+.cards-plan.image li > div > * {
+  order: 2;
+}
+
+.cards-plan.image li > div > :is(h2, h3) {
+  order: 0;
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.cards-plan.image .cards-plan-card-image {
+  order: 1;
+  padding: 15px;
+  text-align: center;
+}
+
+.cards-plan.image .cards-plan-card-image img {
+  width: 100%;
+  object-fit: fill;
+}
+
+/* compare checkbox (source input + label in a bordered box) */
+.cards-plan.image .cards-plan-card-header > p {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  gap: 20px;
+  margin: 8px 0 15px;
+  padding: 7px 15px;
+  border: 1px solid #cacadf;
+}
+
+.cards-plan.image .cards-plan-card-header > p::before {
+  content: '';
+  width: 30px;
+  height: 30px;
+  border: 1px solid #8a8a8a;
+  background-color: var(--background-color);
+}
+
+.cards-plan.image .cards-plan-card-features {
+  margin: 0 0 30px;
+  padding-left: 15px;
+}
+
+.cards-plan.image .cards-plan-card-features > li {
+  margin-bottom: 10px;
+}
+
+.cards-plan.image .cards-plan-card-features a:any-link:not(:has(> sup)) {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+.cards-plan.image .cards-plan-card-features > li::marker {
+  color: var(--brand-blue);
+}
+
+.cards-plan.image .cards-plan-rows {
+  margin-top: auto;
+  padding-top: 22px;
+  border-top: 1px solid #c4c8cc;
+}
+
+.cards-plan.image .cards-plan-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 2.5px 0;
+}
+
+.cards-plan.image .cards-plan-row p {
+  margin: 0;
+  line-height: 19px;
+}
+
+.cards-plan.image .cards-plan-row p:last-child {
+  text-align: right;
+}
+
+.cards-plan.image li .cards-plan-card-action {
+  margin: 40px 10px 0;
+  text-align: center;
+}
+
+.cards-plan.image li .cards-plan-card-action + .cards-plan-card-action {
+  margin-top: 20px;
+}
+
+.cards-plan.image .cards-plan-card-action strong a:any-link {
+  display: block;
+  padding: 12px 15px;
+  border: 1px solid var(--background-color);
+  background-color: var(--brand-blue);
+  box-shadow: inset 0 0 0 1px var(--brand-blue-dark);
+  color: var(--background-color);
+  font-weight: 500;
+  line-height: 20px;
+  text-transform: capitalize;
+}
+
+.cards-plan.image .cards-plan-card-action > a:any-link {
+  position: relative;
+}
+
+/* source standalone-link: chevron before the label */
+.cards-plan.image .cards-plan-card-action > a:any-link::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -15px;
+  width: 6px;
+  height: 10px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+@media (width >= 900px) {
+  .cards-plan.image > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cards-plan.image > ul > li {
+    padding: 20px 20px 30px;
+  }
+
+  .cards-plan.image li > div > :is(h2, h3) {
+    min-height: 55px;
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .cards-plan.image .cards-plan-card-image {
+    padding: 30px;
+  }
+}
+
+/* alt-2: dark-blue promo panels (source .callout.bg-blue with .option-image): white heading,
+   intro and chevron link, illustration in the bottom-right corner; thirds from desktop */
+.cards-plan.alt-2 > ul {
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.cards-plan.alt-2 > ul > li {
+  display: grid;
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  padding: 30px 30px 15px;
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--brand-blue-dark);
+  color: var(--background-color);
+}
+
+.cards-plan.alt-2 .cards-plan-card-header,
+.cards-plan.alt-2 .cards-plan-card-body {
+  display: contents;
+}
+
+.cards-plan.alt-2 li > div > * {
+  grid-column: 1 / -1;
+}
+
+.cards-plan.alt-2 :is(h2, h3, h4, h5) {
+  margin: 0 0 15px;
+  color: var(--background-color);
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.cards-plan.alt-2 p {
+  margin: 0 0 15px;
+  color: var(--background-color);
+}
+
+.cards-plan.alt-2 li .cards-plan-card-action {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: end;
+  margin: 0 0 20px;
+}
+
+.cards-plan.alt-2 .cards-plan-card-image {
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: end;
+}
+
+.cards-plan.alt-2 .cards-plan-card-image img {
+  width: 150px;
+  height: auto;
+  object-fit: fill;
+}
+
+.cards-plan.alt-2 .cards-plan-card-action a:any-link {
+  display: inline-block;
+  position: relative;
+  padding-left: 16px;
+  color: var(--background-color);
+  white-space: nowrap;
+}
+
+/* source standalone-link: chevron in a 16px gutter */
+.cards-plan.alt-2 .cards-plan-card-action a:any-link::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 6px;
+  height: 10px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+@media (width >= 900px) {
+  .cards-plan.alt-2 > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cards-plan.alt-2 > ul > li {
+    box-sizing: border-box;
+    min-height: 502px;
+    padding: 30px 30px 36px;
+  }
+
+  .cards-plan.alt-2 :is(h2, h3, h4, h5) {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .cards-plan.alt-2 li .cards-plan-card-action {
+    margin-bottom: 0;
+  }
+
+  .cards-plan.alt-2 .cards-plan-card-image {
+    position: absolute;
+    right: 30px;
+    bottom: 15px;
+    grid-area: auto;
+  }
+}
+
+/* compare-grey-image: business account comparison (source .w-66 .grid-half .callout): two
+   grey-bordered cards in the 780px column, centred fee and branch button between rules,
+   check-list and a chevron link at the foot */
+.cards-plan.compare-grey-image {
+  max-width: 780px;
+  margin-inline: auto;
+}
+
+.cards-plan.compare-grey-image > ul {
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.cards-plan.compare-grey-image > ul > li {
+  padding: 15px;
+  border-color: #c4c8cc;
+}
+
+.cards-plan.compare-grey-image .cards-plan-card-header,
+.cards-plan.compare-grey-image .cards-plan-card-body {
+  padding: 0;
+}
+
+.cards-plan.compare-grey-image p {
+  margin: 0 0 15px;
+}
+
+/* source .text-script eyebrow */
+.cards-plan.compare-grey-image .cards-plan-card-eyebrow {
+  font-family: Georgia, Times, 'Times New Roman', serif;
+}
+
+.cards-plan.compare-grey-image :is(h3, h4, h5) {
+  margin: 0 0 15px;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+/* centred fee between two rules (source .divider.mar-tb-20) */
+.cards-plan.compare-grey-image .cards-plan-card-body > p:has(> strong:only-child) {
+  margin: 20px 0 10px;
+  padding-top: 20px;
+  border-top: 1px solid #c4c8cc;
+  text-align: center;
+}
+
+.cards-plan.compare-grey-image .cards-plan-card-body > p.button-wrapper {
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.cards-plan.compare-grey-image .cards-plan-card-features {
+  margin: 0 0 20px;
+  padding: 20px 0 0;
+  border-top: 1px solid #c4c8cc;
+  list-style: none;
+}
+
+.cards-plan.compare-grey-image .cards-plan-card-features > li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.cards-plan.compare-grey-image .cards-plan-card-features > li::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 10px;
+  height: 16px;
+  background-color: var(--brand-blue);
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" fill="none" stroke="black" stroke-width="1.2"><path d="M.5 8.5l3 3 6-6.5"/></svg>') no-repeat center / 10px 16px;
+}
+
+.cards-plan.compare-grey-image li .cards-plan-card-action {
+  margin: auto 0 0;
+  padding-top: 20px;
+  border-top: 1px solid #c4c8cc;
+}
+
+.cards-plan.compare-grey-image .cards-plan-card-action a:any-link {
+  display: inline-block;
+  position: relative;
+  padding-left: 16px;
+}
+
+.cards-plan.compare-grey-image .cards-plan-card-action a:any-link::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 6px;
+  height: 10px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+@media (width >= 900px) {
+  .cards-plan.compare-grey-image > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cards-plan.compare-grey-image > ul > li {
+    padding: 20px;
+  }
+
+  .cards-plan.compare-grey-image :is(h3, h4, h5) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+
+/* image-orange-light-3: two credit cards in the source 770px column */
+.cards-plan.image-orange-light-3 {
+  max-width: 770px;
+  margin-inline: auto;
+}
+
+.cards-plan.image-orange-light-3 > ul {
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.cards-plan.image-orange-light-3 .cards-plan-card-action a:any-link::after {
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 12px;
+  margin-left: 10px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 12" fill="none" stroke="black"><path d="M3.5.5h11v8h-11zM.5 3.5v8h11"/></svg>') no-repeat center / 15px 12px;
+}
+
+@media (width >= 768px) {
+  .cards-plan.image-orange-light-3 > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cards-plan.image-orange-light-3 .cards-plan-cc-fee {
+    flex: none;
+  }
+}
+
+/* orange-light-2: medical/dental offer cards (source .tab-card): title band on top (the middle,
+   featured card navy), stacked fee label, large value and note, offer box, includes list */
+.cards-plan.orange-light-2 > ul {
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.cards-plan.orange-light-2 > ul > li.cards-plan-cc {
+  border-color: #c4c8cc;
+  border-radius: 8px;
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc .cards-plan-card-body {
+  padding: 0 32px 32px;
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc-header {
+  display: block;
+  margin: 0;
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc .cards-plan-cc-title {
+  margin: 0 -32px 32px;
+  padding: 33px 32px;
+  background-color: #e1e8ee;
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+}
+
+.cards-plan.orange-light-2 > ul > li:nth-child(2) .cards-plan-cc-title {
+  background-color: var(--brand-navy);
+  color: var(--background-color);
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc-fee {
+  display: block;
+  text-align: left;
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc-fee p:first-child {
+  width: auto;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc-fee p:nth-child(2) {
+  margin-top: 8px;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.39px;
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc .cards-plan-cc-description {
+  margin: 7px 0 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #c4c8cc;
+  color: var(--dark-color);
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc-features p {
+  margin-top: 15px;
+  padding-left: 0;
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc-features p::before {
+  display: none;
+}
+
+.cards-plan.orange-light-2 .cards-plan-cc-features {
+  border-top: 0;
+}
+
+@media (width >= 900px) {
+  .cards-plan.orange-light-2 > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* orange: credit card picks (source .card-list-item): centred art and name, yellow italic offer
+   ribbon, bold label / italic value table, card link beside the apply button */
+.cards-plan.orange {
+  max-width: 823px;
+  margin-inline: auto;
+}
+
+.cards-plan.orange > ul {
+  grid-template-columns: 1fr;
+  gap: 30px 20px;
+  padding: 0 10px;
+}
+
+.cards-plan.orange > ul > li {
+  padding: 20px;
+  border-color: #c4c8cc;
+}
+
+.cards-plan.orange .cards-plan-card-image {
+  text-align: center;
+}
+
+.cards-plan.orange .cards-plan-card-image img {
+  width: 191px;
+  height: 120px;
+  object-fit: fill;
+}
+
+.cards-plan.orange .cards-plan-card-body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto 1fr;
+  padding: 0;
+}
+
+.cards-plan.orange .cards-plan-card-body > * {
+  grid-column: 1 / -1;
+}
+
+/* the imported compare toggle is hidden on the source cards */
+.cards-plan.orange .cards-plan-card-body > p:has(a[href*='compare']) {
+  display: none;
+}
+
+.cards-plan.orange .cards-plan-card-body > p:not(.cards-plan-card-action) {
+  margin: 30px 0 15px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.cards-plan.orange .cards-plan-card-body > ul {
+  margin: 0 0 15px;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-plan.orange .cards-plan-card-body > ul > li {
+  display: inline;
+  font-weight: 500;
+}
+
+.cards-plan.orange .cards-plan-card-body > ul > li:first-child {
+  display: table;
+  margin-bottom: 19px;
+  padding: 0 30px 0 10px;
+  background-color: #ffc72c;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 50%, 100% 100%, 0 100%);
+  color: #000;
+  font-family: Georgia, Times, 'Times New Roman', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 30px;
+}
+
+.cards-plan.orange .cards-plan-card-body > ul a:any-link {
+  font-size: 12px;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.cards-plan.orange .cards-plan-rows {
+  display: grid;
+  grid-template-columns: 111px 1fr;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.cards-plan.orange .cards-plan-row {
+  display: contents;
+}
+
+.cards-plan.orange .cards-plan-row p {
+  margin: 0;
+  font-weight: 700;
+}
+
+.cards-plan.orange .cards-plan-row p:last-child {
+  font-style: italic;
+  font-weight: 400;
+  text-align: right;
+}
+
+.cards-plan.orange li .cards-plan-card-action {
+  grid-column: auto;
+  align-self: end;
+  margin: 0;
+  padding-top: 20px;
+  border-top: 1px solid #c4c8cc;
+}
+
+.cards-plan.orange li .cards-plan-card-action + .cards-plan-card-action {
+  padding-left: 15px;
+}
+
+.cards-plan.orange .cards-plan-card-action > a:any-link:not(.button) {
+  display: inline-block;
+  white-space: nowrap;
+  position: relative;
+  margin-top: 7px;
+  padding-left: 16px;
+}
+
+.cards-plan.orange .cards-plan-card-action > a:any-link:not(.button)::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 6px;
+  height: 10px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat center / 6px 10px;
+}
+
+main .cards-plan.orange a.button:any-link {
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+@media (width >= 900px) {
+  .cards-plan.orange > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* image-2: account highlight (source .petro-offer): photo, heading and first perks in a narrow
+   column, more perks, fee lines and the apply button beside it from desktop */
+.cards-plan.image-2 {
+  max-width: 888px;
+}
+
+.cards-plan.image-2 > ul {
+  grid-template-columns: 1fr;
+}
+
+.cards-plan.image-2 > ul > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border: 0;
+}
+
+.cards-plan.image-2 .cards-plan-card-header,
+.cards-plan.image-2 .cards-plan-card-body {
+  display: contents;
+}
+
+.cards-plan.image-2 .cards-plan-card-image img {
+  width: 100%;
+  height: auto;
+}
+
+.cards-plan.image-2 :is(h3, h4, h5) {
+  margin: 15px 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.cards-plan.image-2 .cards-plan-card-features {
+  margin: 0 0 15px;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-plan.image-2 .cards-plan-card-features > li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 35px;
+  color: var(--dark-color);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cards-plan.image-2 .cards-plan-card-aside .cards-plan-card-features > li {
+  padding-left: 20px;
+  color: var(--text-color);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.cards-plan.image-2 .cards-plan-card-features > li::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 10px;
+  height: 16px;
+  background-color: var(--brand-blue);
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" fill="none" stroke="black" stroke-width="1.2"><path d="M.5 8.5l3 3 6-6.5"/></svg>') no-repeat center / 10px 16px;
+}
+
+.cards-plan.image-2 .cards-plan-card-aside {
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-plan.image-2 .cards-plan-card-aside > p {
+  margin: 0 0 15px;
+}
+
+.cards-plan.image-2 .cards-plan-card-aside > p:has(> strong) {
+  padding-top: 15px;
+  border-top: 1px solid #c4c8cc;
+}
+
+.cards-plan.image-2 .cards-plan-card-aside > p:has(> strong) + p:has(> strong) {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.cards-plan.image-2 .cards-plan-card-aside > .cards-plan-card-action {
+  align-self: flex-end;
+}
+
+@media (width >= 900px) {
+  .cards-plan.image-2 > ul > li {
+    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: 30px;
+  }
+
+  .cards-plan.image-2 li > div > *,
+  .cards-plan.image-2 .cards-plan-card-image {
+    grid-column: 1;
+  }
+
+  .cards-plan.image-2 .cards-plan-card-body > .cards-plan-card-aside {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
+}
+
+/* image-light-2: Petro-Canada credit card offers (source .callout .card-offer): centred name
+   over the card art, offer bullets, rule, highlights, fee rows, "Détails" toggle, button */
+.cards-plan.image-light-2 > ul {
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.cards-plan.image-light-2 > ul > li {
+  padding: 20px;
+  border-color: #c4c8cc;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-header,
+.cards-plan.image-light-2 .cards-plan-card-body {
+  display: contents;
+}
+
+.cards-plan.image-light-2 li > div > * {
+  order: 2;
+}
+
+.cards-plan.image-light-2 li > div > :is(p, h2, h3, h4):first-child {
+  order: 0;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-image {
+  order: 1;
+  margin: 0 0 15px;
+  text-align: center;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-image img {
+  width: 220px;
+  height: auto;
+}
+
+.cards-plan.image-light-2 li > div > p:first-child:not(.cards-plan-card-action) {
+  margin: 0 0 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-body > p:not(.cards-plan-card-action) {
+  margin: 0 0 15px;
+  font-weight: 500;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-features {
+  margin: 0 0 15px;
+  padding-left: 15px;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-features:first-of-type {
+  padding-bottom: 35px;
+  border-bottom: 1px solid #c4c8cc;
+  margin-bottom: 35px;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-features > li {
+  margin-bottom: 10px;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-features > li::marker {
+  color: var(--brand-blue);
+}
+
+.cards-plan.image-light-2 .cards-plan-rows {
+  margin: 15px 0 0;
+}
+
+.cards-plan.image-light-2 .cards-plan-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 6px;
+}
+
+.cards-plan.image-light-2 .cards-plan-row p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.cards-plan.image-light-2 .cards-plan-row p:last-child {
+  font-weight: 300;
+  text-align: right;
+}
+
+.cards-plan.image-light-2 .cards-plan-toggle {
+  align-self: center;
+  margin-top: 30px;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-details {
+  margin-top: 15px;
+}
+
+.cards-plan.image-light-2 .cards-plan-card-details > p {
+  margin: 0 0 15px;
+}
+
+.cards-plan.image-light-2 li .cards-plan-card-action {
+  margin: auto 0 0;
+  padding-top: 30px;
+  text-align: center;
+}
+
+@media (width >= 900px) {
+  .cards-plan.image-light-2 > ul {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 930px;
+  }
+}
+
+/* image-orange-2: Avion credit card picks (source .card-list-item): centred art and name,
+   yellow italic offer ribbon over a disc list, fee table, Details + Apply buttons, compare */
+.cards-plan.image-orange-2 > ul {
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.cards-plan.image-orange-2 > ul > li {
+  padding: 20px;
+  border-color: #c4c8cc;
+}
+
+.cards-plan.image-orange-2 .cards-plan-card-image {
+  text-align: center;
+}
+
+.cards-plan.image-orange-2 .cards-plan-card-image img {
+  width: 248px;
+  height: auto;
+}
+
+.cards-plan.image-orange-2 .cards-plan-card-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  column-gap: 32px;
+  padding: 0;
+}
+
+.cards-plan.image-orange-2 .cards-plan-card-body > * {
+  grid-column: 1 / -1;
+}
+
+.cards-plan.image-orange-2 .cards-plan-card-body > p:first-child {
+  margin: 30px 0 15px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.cards-plan.image-orange-2 .cards-plan-card-body > .cards-plan-card-features {
+  margin: 0 0 30px;
+  padding-left: 15px;
+}
+
+.cards-plan.image-orange-2 .cards-plan-card-features > li {
+  margin-bottom: 10px;
+}
+
+.cards-plan.image-orange-2 .cards-plan-card-features > li::marker {
+  color: var(--brand-blue);
+}
+
+/* first item: the offer ribbon */
+.cards-plan.image-orange-2 .cards-plan-card-body > .cards-plan-card-features > li:first-child {
+  display: table;
+  margin: 0 0 15px -15px;
+  padding: 0 30px 0 10px;
+  background-color: #ffc72c;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 50%, 100% 100%, 0 100%);
+  color: #000;
+  font-family: Georgia, Times, 'Times New Roman', serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 30px;
+}
+
+.cards-plan.image-orange-2 .cards-plan-rows {
+  align-self: end;
+  margin: 0 0 20px;
+  padding: 15px 15px 0;
+  border-top: 1px solid #c4c8cc;
+  border-bottom: 1px solid #c4c8cc;
+}
+
+.cards-plan.image-orange-2 .cards-plan-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 22px;
+}
+
+.cards-plan.image-orange-2 .cards-plan-row p {
+  margin: 0;
+}
+
+.cards-plan.image-orange-2 li .cards-plan-card-action {
+  grid-column: auto;
+  margin: 0;
+}
+
+main .cards-plan.image-orange-2 a.button:any-link {
+  display: flex;
+  width: 100%;
+  height: 56px;
+  font-weight: 400;
+  white-space: normal;
+}
+
+.cards-plan.image-orange-2 li .cards-plan-card-action:last-child {
+  grid-column: 1 / -1;
+  margin-top: 30px;
+  text-align: center;
+}
+
+@media (width >= 900px) {
+  .cards-plan.image-orange-2 > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* slider: product carousel (source .carousel-wpr.side-controls): one card per view on mobile,
+   three from desktop, thin side chevrons and one dot per card. Cards share their header
+   height (subgrid) like the source's equalised .top panels. */
+.cards-plan.cards-plan-slider {
+  position: relative;
+  padding: 0 35px;
+}
+
 .cards-plan.cards-plan-slider .cards-plan-track {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -280,44 +3035,158 @@ main .cards-plan.compare-grey-blue-light a.button:any-link {
 .cards-plan.cards-plan-slider .cards-plan-track > ul {
   grid-auto-flow: column;
   grid-template-columns: none;
-  grid-auto-columns: minmax(280px, calc((100% - 48px) / 3));
+  grid-template-rows: auto 1fr;
+  grid-auto-columns: 100%;
+  gap: 0 30px;
 }
 
 .cards-plan.cards-plan-slider .cards-plan-track > ul > li {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  border-color: #c4c8cc;
   scroll-snap-align: start;
 }
 
+.cards-plan.cards-plan-slider .cards-plan-card-header {
+  padding: 15px;
+  background-color: var(--light-blue-grey-color);
+}
+
+.cards-plan.cards-plan-slider .cards-plan-card-eyebrow {
+  display: inline-block;
+  margin: 0;
+  padding: 3px 0;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-card-header :is(h2, h3, h4) {
+  margin: 15px 0;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-card-header > :first-child {
+  margin-top: 0;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-card-header p:not(.cards-plan-card-eyebrow) {
+  margin: 0 0 15px;
+  font-weight: 400;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-card-header > p:last-child {
+  margin-bottom: 0;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-card-body {
+  padding: 15px 15px 20px;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-card-features {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-card-features > li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.cards-plan.cards-plan-slider .cards-plan-card-features > li::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 10px;
+  height: 16px;
+  background-color: var(--brand-blue);
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" fill="none" stroke="black" stroke-width="1.2"><path d="M.5 8.5l3 3 6-6.5"/></svg>') no-repeat center / 10px 16px;
+}
+
+.cards-plan.cards-plan-slider li .cards-plan-card-action {
+  margin: auto 0 0;
+  padding-top: 30px;
+  text-align: center;
+}
+
+.cards-plan.cards-plan-slider li .cards-plan-card-action + .cards-plan-card-action {
+  padding-top: 10px;
+}
+
+/* side chevrons (source .carousel-prev/.carousel-next): 20x40 thin brand-blue */
 .cards-plan .cards-plan-nav {
   display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 16px;
+  position: absolute;
+  inset: 0 0 40px;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
 }
 
 .cards-plan .cards-plan-nav button {
-  width: 40px;
+  width: 20px;
   height: 40px;
-  padding: 0;
   margin: 0;
-  border-radius: 50%;
+  padding: 0;
+  border: 0;
+  background-color: var(--brand-blue);
   cursor: pointer;
+  pointer-events: auto;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 40" fill="none" stroke="black" stroke-width="1.5"><path d="M19 1L1 20l18 19"/></svg>') no-repeat center / 20px 40px;
+}
+
+.cards-plan .cards-plan-nav .cards-plan-next {
+  transform: scaleX(-1);
 }
 
 .cards-plan .cards-plan-nav button:disabled {
-  opacity: 0.4;
+  opacity: 0.3;
   cursor: default;
 }
 
-.cards-plan .cards-plan-prev::before {
-  content: '\2039';
+.cards-plan .cards-plan-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.cards-plan .cards-plan-next::before {
-  content: '\203A';
+.cards-plan .cards-plan-dots button {
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--brand-blue);
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
 }
 
-@media (width < 600px) {
+.cards-plan .cards-plan-dots .active button {
+  background-color: var(--brand-blue);
+}
+
+@media (width >= 900px) {
+  .cards-plan.cards-plan-slider {
+    padding: 0 117px;
+  }
+
   .cards-plan.cards-plan-slider .cards-plan-track > ul {
-    grid-auto-columns: 85%;
+    grid-auto-columns: calc((100% - 60px) / 3);
+  }
+
+  .cards-plan .cards-plan-nav {
+    padding: 0 53px;
   }
 }

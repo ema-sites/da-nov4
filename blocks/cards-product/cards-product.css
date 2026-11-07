@@ -1,35 +1,52 @@
+/* Each look is scoped by its option class, so later look rules never compete with earlier ones. */
+/* stylelint-disable no-descending-specificity */
+
+/*
+ * cards-product: RBC product / service card grids.
+ * Source grids (.grid-wpr / .col-wpr) are rows with negative gutters: -7.5px on mobile,
+ * -15px from desktop, each card inset by the same gutter. The block reproduces that box so
+ * cards line up with the section content edge.
+ */
+.cards-product {
+  --cards-product-gutter: 7.5px;
+  --cards-product-border: #c4c8cc;
+  --cards-product-pad: 15px;
+  --cards-product-chevron: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>');
+  --cards-product-arrow: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 14"><path d="M13.3 0l-1 1 5.3 5.3H0v1.4h17.6L12.3 13l1 1L20 7z"/></svg>');
+
+  margin-inline: calc(-1 * var(--cards-product-gutter));
+}
+
 .cards-product > ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 15px calc(2 * var(--cards-product-gutter));
+  margin: 0;
+  padding: 0 var(--cards-product-gutter);
+  list-style: none;
 }
 
 .cards-product > ul > li {
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
   min-width: 0;
-  overflow: hidden;
-  border: 1px solid #dadada;
+  border: 1px solid var(--cards-product-border);
   background-color: var(--background-color);
 }
 
 .cards-product .cards-product-card-body {
   display: flex;
-  flex-direction: column;
   flex: 1 1 auto;
-  padding: 16px;
+  flex-direction: column;
+  padding: var(--cards-product-pad);
 }
 
-.cards-product .cards-product-card-body > :first-child {
+.cards-product .cards-product-card-body > * {
   margin-top: 0;
 }
 
-.cards-product .cards-product-card-body > :last-child:has(a) {
-  margin-top: auto;
+.cards-product .cards-product-card-body > :last-child {
   margin-bottom: 0;
 }
 
@@ -37,53 +54,245 @@
   line-height: 0;
 }
 
+.cards-product .cards-product-card-image p {
+  margin: 0;
+}
+
 .cards-product .cards-product-card-image img {
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
 }
 
-/* single-destination cards: stretch the link over the whole card */
-.cards-product .cards-product-card-linked .cards-product-card-body a::after {
+/* footnote references (source sup > a): the link itself carries the small size */
+.cards-product a:any-link:has(> sup:only-child) {
+  font-size: 0.55em;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.cards-product :is(h2, h3, h4, h5, h6) a:any-link:has(> sup:only-child) {
+  font-weight: inherit;
+}
+
+.cards-product a:any-link > sup:only-child {
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* RBC callout (default look): bordered card, title, text, divider, action link */
+.cards-product .cards-product-card-body :is(h2, h3, h4, h5, h6) {
+  margin-bottom: 15px;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.cards-product .cards-product-card-body h6 {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.cards-product .cards-product-card-body > p.cards-product-card-action {
+  margin-top: auto;
+  border-top: 1px solid var(--cards-product-border);
+  padding-top: var(--cards-product-pad);
+}
+
+/* callout cards: text above the divider keeps a 15px gap */
+.cards-product .cards-product-card-body > :nth-last-child(2):not(:first-child) {
+  margin-bottom: 15px;
+}
+
+.cards-product:is([class='cards-product block'], [class='cards-product block cards-product-single']) .cards-product-card-body {
+  text-align: center;
+}
+
+/* action link (source .standalone-link): inline-block line, ui-chevron-right-blue.svg 6x10
+   8px before the label; looks with an arrow after the label swap the two pseudo elements */
+.cards-product .cards-product-card-body > p.cards-product-card-action > a:not(.button) {
+  display: inline-block;
+  line-height: 24px;
+}
+
+.cards-product .cards-product-card-body > p.cards-product-card-action > a:not(.button)::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 10px;
+  margin-right: 8px;
+  background-color: currentcolor;
+  mask: var(--cards-product-chevron) no-repeat center / 6px 10px;
+}
+
+/* stretch a single-destination card's link over the card */
+.cards-product .cards-product-card-linked .cards-product-card-body a:any-link:not([href^='#'])::after {
   content: '';
   position: absolute;
   inset: 0;
 }
 
-/* image* options: photo always above text */
-.cards-product.image .cards-product-card-image,
-.cards-product.image-2 .cards-product-card-image,
-.cards-product.image-3 .cards-product-card-image,
-.cards-product.image-light .cards-product-card-image,
-.cards-product.image-light-2 .cards-product-card-image,
-.cards-product.image-orange .cards-product-card-image,
-.cards-product.image-orange-2 .cards-product-card-image,
-.cards-product.image-blue .cards-product-card-image {
-  order: -1;
+.cards-product:is(.alt, .image, .image-3) .cards-product-card-body > p.cards-product-card-action > a:not(.button)::before {
+  content: none;
 }
 
-/* image option: award tiles (badge, optional ribbon, title, byline, description) */
-.cards-product.image {
-  --cards-product-award-gap: 15px;
-  --cards-product-award-img: 104px;
+.cards-product:is(.alt, .image, .image-3) .cards-product-card-linked .cards-product-card-body > p.cards-product-card-action > a:not(.button)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
+  background: none;
+  mask: none;
 }
 
-.cards-product.image > ul {
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
+.cards-product:is(.alt, .image, .image-3) .cards-product-card-body > p.cards-product-card-action > a:not(.button)::after {
+  content: '';
+  position: static;
+  display: inline-block;
+  width: 6px;
+  height: 10px;
+  margin-left: 8px;
+  background-color: currentcolor;
+  mask: var(--cards-product-chevron) no-repeat center / 6px 10px;
 }
 
-.cards-product.image > ul > li {
-  align-items: center;
-  gap: var(--cards-product-award-gap);
-  overflow: visible;
+/* source .goto-link: 20x14 arrow, 10px after the label */
+.cards-product:is(.image, .image-3) .cards-product-card-body > p.cards-product-card-action > a:not(.button)::after {
+  width: 20px;
+  height: 14px;
+  margin-left: 10px;
+  vertical-align: -2px;
+  mask-image: var(--cards-product-arrow);
+  mask-size: 20px 14px;
+}
+
+/* looks whose source row has no negative gutters: cards span the content width */
+.cards-product:is(.image-dark, .image-shadow, .image-orange-2, .blue-orange, .blue-light-2, .image-blue) {
+  margin-inline: 0;
+}
+
+.cards-product:is(.image-dark, .image-shadow, .image-orange-2, .blue-orange, .blue-light-2, .image-blue) > ul {
+  padding-inline: 0;
+}
+
+/* ---- image-blue: information notice, blue 10px top rule (source .notice.info) ---- */
+.cards-product.image-blue {
+  border-top: 10px solid var(--brand-blue);
+  padding: 20px;
+}
+
+.cards-product.image-blue > ul > li {
   border: 0;
   background-color: transparent;
 }
 
-/* small logos/badges keep their own size, uncropped and centred */
+.cards-product.image-blue .cards-product-card-body {
+  padding: 0;
+}
+
+.cards-product.image-blue .cards-product-card-body :is(h2, h3) {
+  min-height: 40px;
+  margin-left: 1px;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  line-height: normal;
+}
+
+.cards-product.image-blue .cards-product-card-body ul {
+  padding-left: 1px;
+  list-style: none;
+}
+
+.cards-product.image-blue .cards-product-card-body li + li {
+  margin-top: 10px;
+}
+
+/* ---- alt: rounded new-to-canada cards (source .block-wpr.with-borders.rounded-corners) ---- */
+.cards-product.alt {
+  margin-inline: 0;
+}
+
+.cards-product.alt > ul > li {
+  border-radius: 8px;
+}
+
+.cards-product.alt .cards-product-card-body :is(h2, h3, h4, h5, h6) {
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.cards-product.alt .cards-product-card-body > p.cards-product-card-action {
+  margin-top: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* ---- image / image-3: RBC callout with a photo, divider and right-aligned arrow link ---- */
+.cards-product.image .cards-product-card-image,
+.cards-product.image-3 .cards-product-card-image {
+  order: -1;
+}
+
+.cards-product.image .cards-product-card-image img,
+.cards-product.image-3 .cards-product-card-image img {
+  height: 150px;
+  object-fit: cover;
+}
+
+.cards-product.image .cards-product-card-body > p.cards-product-card-action,
+.cards-product.image-3 .cards-product-card-body > p.cards-product-card-action {
+  text-align: right;
+}
+
+/* image: a card holding only its title (source span.h4 article teaser) */
+.cards-product.image .cards-product-card-body > p:only-child {
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* title paragraph (source .text-bold) and byline (source .text-script) */
+.cards-product.image-3 .cards-product-card-body > p:first-child:not(:last-child) {
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.cards-product.image-3 .cards-product-card-body > p:first-child + p:not(:last-child) + p:last-child {
+  margin-top: 0;
+}
+
+.cards-product.image-3 .cards-product-card-body > p:first-child + p:not(:last-child) {
+  margin-top: auto;
+  font-family: Georgia, Times, 'Times New Roman', serif;
+  font-style: italic;
+}
+
+/* image: award tiles (badge, optional ribbon, title, byline, description) */
+.cards-product.image:has(.cards-product-card-logo) {
+  --cards-product-award-gap: 15px;
+  --cards-product-award-img: 104px;
+
+  margin-inline: 0;
+}
+
+.cards-product.image:has(.cards-product-card-logo) > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding: 0;
+}
+
+.cards-product.image:has(.cards-product-card-logo) > ul > li {
+  align-items: center;
+  gap: var(--cards-product-award-gap);
+  border: 0;
+  background-color: transparent;
+}
+
 .cards-product.image .cards-product-card-logo {
   display: flex;
   justify-content: center;
@@ -94,7 +303,6 @@
   width: var(--cards-product-award-img);
   height: var(--cards-product-award-img);
   max-width: 100%;
-  aspect-ratio: auto;
   object-fit: contain;
 }
 
@@ -103,37 +311,39 @@
   min-height: calc(var(--cards-product-award-img) + 33px);
 }
 
-.cards-product.image .cards-product-card-body {
+.cards-product.image:has(.cards-product-card-logo) .cards-product-card-body {
   align-items: center;
   padding: 0;
   text-align: center;
 }
 
-.cards-product.image .cards-product-card-body > :is(h2, h3, h4, p) {
+.cards-product.image:has(.cards-product-card-logo) .cards-product-card-body > :is(h2, h3, h4, p) {
   margin: 0;
 }
 
-.cards-product.image .cards-product-card-body h3 {
+.cards-product.image:has(.cards-product-card-logo) .cards-product-card-body h3 {
+  font-family: var(--heading-font-family);
   font-size: var(--heading-font-size-s);
   font-weight: 500;
   line-height: 27px;
 }
 
-/* description */
-.cards-product.image .cards-product-card-body > p:last-child {
+.cards-product.image:has(.cards-product-card-logo) .cards-product-card-body > p:last-child {
   max-width: 218px;
   margin: 0 auto;
+  border: 0;
+  padding: 0;
   font-size: var(--body-font-size-s);
   font-weight: 400;
   line-height: 20px;
+  text-align: center;
 }
 
-.cards-product.image .cards-product-card-body > :is(h2, h3, h4) + p:last-child {
+.cards-product.image:has(.cards-product-card-logo) .cards-product-card-body > :is(h2, h3, h4) + p:last-child {
   margin-top: 12px;
 }
 
-/* byline under the title */
-.cards-product.image .cards-product-card-body > :is(h2, h3, h4) + p:not(:last-child) {
+.cards-product.image:has(.cards-product-card-logo) .cards-product-card-body > :is(h2, h3, h4) + p:not(:last-child) {
   margin-bottom: 12px;
   font-size: var(--body-font-size-m);
   font-weight: 500;
@@ -151,17 +361,697 @@
   line-height: normal;
 }
 
-.cards-product.image .cards-product-card-body a:any-link {
+.cards-product.image:has(.cards-product-card-logo) .cards-product-card-body a:any-link {
+  padding: 0;
+  background: none;
   color: var(--text-color);
   text-decoration: underline;
 }
 
-/* award tiles keep only the inline link clickable */
-.cards-product.image .cards-product-card-linked .cards-product-card-body a::after {
+.cards-product.image:has(.cards-product-card-logo) .cards-product-card-linked .cards-product-card-body a::after {
   content: none;
 }
 
-/* header-strip: coloured label bar across the top of each card */
+/* ---- image-2: article cards (source .block-wpr.rounded-corners + .article-img) ---- */
+.cards-product.image-2 > ul > li {
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+}
+
+.cards-product.image-2 .cards-product-card-image {
+  order: -1;
+}
+
+.cards-product.image-2 .cards-product-card-image img {
+  height: 164px;
+  object-fit: cover;
+}
+
+.cards-product.image-2 .cards-product-card-body {
+  padding: 20px;
+}
+
+.cards-product.image-2 .cards-product-card-body > p:first-child:has(> a:only-child) {
+  margin: 0 0 16px;
+  border: 0;
+  padding: 0;
+}
+
+.cards-product.image-2 .cards-product-card-body > p:first-child > a:only-child {
+  display: block;
+}
+
+/* ---- alt-2: tool tiles, text left and an illustration on the right (source .card-tools-grid-item) ---- */
+.cards-product.alt-2 > ul {
+  row-gap: 26px;
+}
+
+.cards-product.alt-2 > ul > li {
+  overflow: hidden;
+  min-height: 190px;
+  border: 0;
+  border-radius: 8px;
+}
+
+.cards-product.alt-2 .cards-product-card-body {
+  position: relative;
+  z-index: 1;
+  padding: 32px 127.5px 23px 24.5px;
+}
+
+.cards-product.alt-2 > ul > li + li .cards-product-card-body {
+  padding-right: 109.5px;
+}
+
+/* the two tool illustrations sit at the tile's right edge (source .tool-style-1.help / .compare) */
+.cards-product.alt-2 .cards-product-card-image {
+  position: absolute;
+  top: 12px;
+  right: 7.5px;
+}
+
+.cards-product.alt-2 .cards-product-card-image img {
+  width: 125px;
+  max-width: none;
+  height: 190px;
+}
+
+.cards-product.alt-2 > ul > li + li .cards-product-card-image {
+  top: 34px;
+  right: -37.5px;
+}
+
+.cards-product.alt-2 > ul > li + li .cards-product-card-image img {
+  width: 180px;
+}
+
+.cards-product.alt-2 > ul > li + li .cards-product-card-body a.button:any-link {
+  max-width: 169px;
+}
+
+.cards-product.alt-2 .cards-product-card-body :is(h2, h3, h4) {
+  margin-bottom: 16px;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.cards-product.alt-2 .cards-product-card-body > p.button-wrapper:last-child {
+  margin-top: 11px;
+  border: 0;
+  padding: 0;
+}
+
+.cards-product.alt-2 .cards-product-card-body a.button:any-link {
+  display: block;
+  white-space: normal;
+}
+
+
+/* ---- light-image: borderless photo cards (source .callout.no-border.half-card) ---- */
+.cards-product.light-image {
+  margin-inline: 0;
+}
+
+.cards-product.light-image > ul {
+  padding: 0;
+}
+
+.cards-product.light-image > ul > li {
+  border: 0;
+}
+
+.cards-product.light-image .cards-product-card-image {
+  order: -1;
+}
+
+.cards-product.light-image .cards-product-card-body {
+  padding: 24px;
+}
+
+.cards-product.light-image .cards-product-card-body :is(h2, h3, h4) {
+  margin-bottom: 18px;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 25.2px;
+}
+
+.cards-product.light-image .cards-product-card-body :is(h2, h3, h4) a:any-link {
+  color: var(--text-color);
+  font-weight: inherit;
+}
+
+/* ---- image-4: open photo tiles, rounded photo above an RBC Display heading
+   (source .possibilities-container); the tiles are inset 20px from the viewport on mobile ---- */
+.cards-product.image-4 {
+  margin-inline: 5px;
+}
+
+.cards-product.image-4 > ul {
+  gap: 30px;
+  padding: 0;
+}
+
+.cards-product.image-4 > ul > li {
+  border: 0;
+  background-color: transparent;
+}
+
+.cards-product.image-4 .cards-product-card-image {
+  order: -1;
+  margin-bottom: 30px;
+}
+
+.cards-product.image-4 .cards-product-card-image img {
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.cards-product.image-4 .cards-product-card-body {
+  padding: 0;
+}
+
+.cards-product.image-4 .cards-product-card-body :is(h2, h3, h4) {
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.cards-product:is(.image-4, .shadow-2) a:any-link:has(> sup:only-child) {
+  font-size: 12px;
+}
+
+/* ---- shadow-2: white photo cards with a soft drop shadow (source .exclusive-offer-item, gap-32) ---- */
+.cards-product.shadow-2 {
+  margin-inline: 0;
+}
+
+.cards-product.shadow-2 > ul {
+  gap: 32px;
+  padding: 0;
+}
+
+.cards-product.shadow-2 > ul > li {
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+
+.cards-product.shadow-2 .cards-product-card-image {
+  order: -1;
+}
+
+.cards-product.shadow-2 .cards-product-card-image img {
+  height: 179px;
+  object-fit: cover;
+}
+
+.cards-product.shadow-2 .cards-product-card-body {
+  padding: 24px;
+}
+
+.cards-product.shadow-2 .cards-product-card-body :is(h2, h3, h4) {
+  margin-bottom: 16px;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  line-height: 27px;
+}
+
+/* ---- shadow: fixed 217px icon tiles, content centred vertically (source .finance-tiles .tile) ---- */
+.cards-product.shadow {
+  margin-inline: 0;
+}
+
+.cards-product.shadow > ul {
+  grid-template-columns: repeat(auto-fill, 217px);
+  gap: 30px;
+  justify-content: center;
+  padding: 0;
+}
+
+.cards-product.shadow > ul > li {
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  padding: 32px;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+}
+
+.cards-product.shadow .cards-product-card-image img {
+  width: auto;
+}
+
+.cards-product.shadow .cards-product-card-body {
+  flex: 0 0 auto;
+  padding: 0;
+  color: #1f1f1f;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+/* ---- light-image-2: white cards with a rounded photo and a 48px bottom-right corner
+   (source .callout.no-border.pad-hlf.radius-48) ---- */
+.cards-product.light-image-2 {
+  padding-bottom: 15px;
+}
+
+.cards-product.light-image-2 > ul {
+  grid-auto-rows: 1fr;
+  gap: 30px;
+}
+
+.cards-product.light-image-2 > ul > li {
+  padding: 15px;
+  border: 0;
+  border-radius: 0 0 48px;
+}
+
+.cards-product.light-image-2 .cards-product-card-image {
+  order: -1;
+}
+
+.cards-product.light-image-2 .cards-product-card-image img {
+  height: 150px;
+  border-radius: 40px;
+  object-fit: cover;
+}
+
+.cards-product.light-image-2 .cards-product-card-body {
+  padding: 25px;
+}
+
+.cards-product.light-image-2 .cards-product-card-body > p:first-child {
+  margin-bottom: 15px;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 27px;
+}
+
+.cards-product.light-image-2 .cards-product-card-body > p.cards-product-card-action {
+  margin-top: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+
+.cards-product.light-image-2 .cards-product-card-body > p.cards-product-card-action > a:any-link {
+  position: relative;
+  display: block;
+  padding-left: 16px;
+}
+
+.cards-product.light-image-2 .cards-product-card-body > p.cards-product-card-action > a:any-link::before {
+  position: absolute;
+  top: 7px;
+  left: 0;
+}
+
+/* ---- grouped: award row, 118px seal beside its title, byline and note
+   (source .awards-recognition-container .column) ---- */
+.cards-product.grouped {
+  margin-inline: 0;
+}
+
+.cards-product.grouped > ul {
+  gap: 30px;
+  padding: 0;
+}
+
+.cards-product.grouped > ul > li {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+  border: 0;
+  background-color: transparent;
+}
+
+.cards-product.grouped .cards-product-card-image {
+  flex: 0 0 118px;
+}
+
+.cards-product.grouped .cards-product-card-image img {
+  width: 118px;
+  height: 118px;
+}
+
+.cards-product.grouped .cards-product-card-body {
+  padding: 0;
+}
+
+.cards-product.grouped .cards-product-card-body h4 {
+  margin-bottom: 0;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  line-height: 26px;
+}
+
+.cards-product.grouped .cards-product-card-body h5 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.cards-product.grouped .cards-product-card-body > p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+/* ---- blue-light: security guarantee panels, a grey-blue panel then an RBC blue one
+   (source .security-blocks-wpr .security-block / .guarantee-block) ---- */
+.cards-product.blue-light {
+  margin-inline: 0;
+}
+
+.cards-product.blue-light > ul {
+  gap: 60px;
+  padding: 0;
+}
+
+.cards-product.blue-light > ul > li {
+  padding: 32px;
+  border: 0;
+  border-radius: 16px;
+  background-color: #e1ebef;
+}
+
+.cards-product.blue-light > ul > li:nth-child(even) {
+  background-color: var(--brand-blue-dark);
+  color: var(--background-color);
+}
+
+.cards-product.blue-light > ul > li:nth-child(even) :is(h2, h3, h4, p, a:any-link) {
+  color: inherit;
+}
+
+.cards-product.blue-light .cards-product-card-image,
+.cards-product.blue-light .cards-product-card-image > p {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.cards-product.blue-light .cards-product-card-image img {
+  width: auto;
+  max-width: none;
+  height: 95px;
+}
+
+.cards-product.blue-light .cards-product-card-image > p {
+  flex: 1 1 auto;
+}
+
+/* the deposit-insurance badge beside the lock keeps its 125px width */
+.cards-product.blue-light .cards-product-card-image picture + picture img {
+  width: 125px;
+  height: auto;
+}
+
+.cards-product.blue-light .cards-product-card-body {
+  padding: 32px 0 0;
+}
+
+.cards-product.blue-light .cards-product-card-body :is(h2, h3, h4) {
+  margin-bottom: 16px;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  line-height: 30px;
+}
+
+/* ---- image-orange: offer steps, white cards on a light panel with an orange pill
+   (source .rounded-corners[background #F3F7F8; padding 24px] > .block-wpr) ---- */
+.cards-product.image-orange {
+  margin-inline: 0;
+  padding: 24px;
+  background-color: var(--light-blue-grey-color);
+}
+
+.cards-product.image-orange > ul {
+  gap: 40px;
+  padding: 0;
+}
+
+.cards-product.image-orange > ul > li {
+  border: 0;
+  border-radius: 8px;
+}
+
+.cards-product.image-orange .cards-product-card-body :is(h4, h5) {
+  margin: 0 0 15px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.cards-product.image-orange .cards-product-card-body > p:first-child + :is(h4, h5) {
+  margin-top: 22px;
+}
+
+.cards-product.image-orange .cards-product-card-body > p:first-child + p {
+  margin-top: 22px;
+}
+
+.cards-product.image-orange .cards-product-card-body ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.cards-product.image-orange .cards-product-card-body ul > li {
+  position: relative;
+  padding-left: 15px;
+}
+
+.cards-product.image-orange .cards-product-card-body ul > li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+}
+
+.cards-product.image-orange .cards-product-card-body strong {
+  font-weight: 700;
+}
+
+.cards-product.image-orange .cards-product-card-body li + li {
+  margin-top: 10px;
+}
+
+/* eyebrow pill (source .snipe.pill) */
+.cards-product.image-orange .cards-product-card-body > p:first-child:not(:last-child) {
+  align-self: flex-start;
+  margin-bottom: 0;
+  border-radius: 2px;
+  padding: 2px 8px;
+  background-color: #ffba00;
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+/* ---- apply (several cards): partner logo tiles with a bold caption, closed by a text-only
+   heading card (source .col-3 .block-wpr .img-responsive[border-radius 8px]) ---- */
+.cards-product.apply:not(.cards-product-single) > ul > li {
+  border: 0;
+  background-color: transparent;
+}
+
+.cards-product.apply:not(.cards-product-single) .cards-product-card-image img {
+  border-radius: 8px;
+}
+
+.cards-product.apply:not(.cards-product-single) .cards-product-card-body {
+  padding: 15px 0 0;
+}
+
+.cards-product.apply:not(.cards-product-single) .cards-product-card-body > p:only-child {
+  font-weight: 500;
+}
+
+.cards-product.apply:not(.cards-product-single) .cards-product-card-no-image .cards-product-card-body {
+  padding: 25px 0 0;
+}
+
+.cards-product.apply:not(.cards-product-single) .cards-product-card-body :is(h2, h3) {
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.cards-product.apply:not(.cards-product-single) .cards-product-card-body > p.cards-product-card-action {
+  margin-top: 0;
+  border: 0;
+  padding: 0;
+}
+
+.cards-product.apply:not(.cards-product-single) .cards-product-card-body > p.cards-product-card-action > a:not(.button)::before {
+  content: none;
+}
+
+.cards-product.apply:not(.cards-product-single) .cards-product-card-body > p.cards-product-card-action::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 10px;
+  margin-left: 8px;
+  background-color: var(--link-color);
+  mask: var(--cards-product-chevron) no-repeat center / 6px 10px;
+}
+
+/* ---- blue-2: apply call-to-action, the card art on a dark gradient panel beside the heading
+   (source .ssr-cta-template .cta-card-img-container / .cta-img.mar-dbl) ---- */
+.cards-product.blue-2 > ul > li {
+  gap: 30px;
+  border: 0;
+  background-color: transparent;
+}
+
+.cards-product.blue-2 .cards-product-card-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 30px;
+  background: linear-gradient(135deg, #b9bbbd 0%, #3d4250 50%, #00081a 100%);
+}
+
+.cards-product.blue-2 .cards-product-card-image img {
+  width: 278px;
+  max-width: 100%;
+}
+
+.cards-product.blue-2 .cards-product-card-body {
+  justify-content: center;
+  padding: 0;
+}
+
+.cards-product.blue-2 .cards-product-card-body :is(h2, h3) {
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.cards-product.blue-2 .cards-product-card-body > p.cards-product-card-action {
+  margin-top: 0;
+  border: 0;
+  padding: 0;
+}
+
+/* ---- tinted: light-blue rounded tiles; a photo sits at the foot of the tile, an icon above the
+   heading (catalog screenshots of the chequing / advantage banking tiles) ---- */
+.cards-product.tinted > ul > li {
+  overflow: hidden;
+  border: 0;
+  border-radius: 12px;
+  background-color: #eef7fc;
+}
+
+.cards-product.tinted .cards-product-card-image {
+  order: 1;
+  margin-top: auto;
+}
+
+.cards-product.tinted .cards-product-card-image img:not([src*='#icon']) {
+  width: auto;
+  max-height: 370px;
+  margin-left: auto;
+}
+
+.cards-product.tinted .cards-product-card-image:has(img[src*='#icon']) {
+  order: -1;
+  margin-top: 0;
+  padding: 30px 30px 0;
+}
+
+.cards-product.tinted .cards-product-card-image img[src*='#icon'] {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.cards-product.tinted .cards-product-card-body {
+  flex: 0 0 auto;
+  padding: 30px;
+}
+
+.cards-product.tinted .cards-product-card-image:has(img[src*='#icon']) + .cards-product-card-body {
+  flex: 1 1 auto;
+}
+
+.cards-product.tinted .cards-product-card-body :is(h2, h3, h4) {
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+.cards-product.tinted .cards-product-card-body > p.cards-product-card-action {
+  border-top: 0;
+  padding-top: 15px;
+  text-align: right;
+}
+
+/* ---- tinted-2: centred icon tiles (source .block-wpr.rounded-corners, .icon-40);
+   a swipeable row of 195px tiles on mobile ---- */
+.cards-product.tinted-2 {
+  text-align: center;
+}
+
+.cards-product.tinted-2 > ul {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-block: 15px;
+  scroll-padding-inline: var(--cards-product-gutter);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.cards-product.tinted-2 > ul > li {
+  flex: 0 0 195px;
+  border: 0;
+  border-radius: 16px;
+  scroll-snap-align: start;
+}
+
+.cards-product.tinted-2 .cards-product-card-image {
+  order: -1;
+  padding-top: 40px;
+}
+
+.cards-product.tinted-2 .cards-product-card-image img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.cards-product.tinted-2 .cards-product-card-body {
+  padding: 15px 16px 40px;
+}
+
+.cards-product.tinted-2 .cards-product-card-body > p:first-child {
+  margin-bottom: 7.5px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.cards-product.tinted-2 .cards-product-card-body > p:not(:first-child) {
+  margin-top: 0;
+  border: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+/* ---- header-strip: coloured label bar across the top of each card ---- */
 .cards-product .cards-product-card-strip {
   order: -2;
   display: flex;
@@ -175,39 +1065,152 @@
   margin: 0;
 }
 
-/* photo-overlay*: photo fills the card, text sits on top */
-.cards-product.photo-overlay > ul > li,
-.cards-product.photo-overlay-2 > ul > li,
-.cards-product.photo-overlay-audience > ul > li,
-.cards-product.photo-overlay-audience-2 > ul > li {
+/* ---- photo-overlay*: the photo is the card background, text sits on top ---- */
+.cards-product[class*=' photo-overlay'] > ul > li {
+  overflow: hidden;
   min-height: 350px;
   border: 0;
+  background-position: center;
+  background-size: cover;
 }
 
-.cards-product.photo-overlay .cards-product-card-image,
-.cards-product.photo-overlay-2 .cards-product-card-image,
-.cards-product.photo-overlay-audience .cards-product-card-image,
-.cards-product.photo-overlay-audience-2 .cards-product-card-image {
-  position: absolute;
-  inset: 0;
+/* photo-overlay: partner offer tiles, logo, text and a white chevron link on the photo
+   (source .exclusive-offer-container.gap-24.text-white.pad-b) */
+.cards-product.photo-overlay {
+  margin-inline: 0;
+  padding-bottom: 15px;
+  color: var(--background-color);
 }
 
-.cards-product.photo-overlay .cards-product-card-image img,
-.cards-product.photo-overlay-2 .cards-product-card-image img,
-.cards-product.photo-overlay-audience .cards-product-card-image img,
-.cards-product.photo-overlay-audience-2 .cards-product-card-image img {
-  height: 100%;
-  aspect-ratio: auto;
+.cards-product.photo-overlay > ul {
+  grid-auto-rows: 1fr;
+  gap: 24px;
+  padding: 0;
 }
 
-.cards-product.photo-overlay .cards-product-card-body,
-.cards-product.photo-overlay-2 .cards-product-card-body,
-.cards-product.photo-overlay-audience .cards-product-card-body,
-.cards-product.photo-overlay-audience-2 .cards-product-card-body {
-  position: relative;
+/* the tile colour behind transparent partner artwork is not authored: navy keeps the white text legible */
+.cards-product.photo-overlay > ul > li {
+  min-height: 0;
+  border-radius: 12px;
+  background-color: var(--brand-navy);
 }
 
-/* tiers: one rate/tier row per item */
+.cards-product.photo-overlay .cards-product-card-body {
+  padding: 24px;
+}
+
+.cards-product.photo-overlay .cards-product-card-body > p,
+.cards-product.photo-overlay .cards-product-card-body > p:nth-last-child(2) {
+  margin: 0;
+  color: inherit;
+  font-weight: 400;
+}
+
+/* partner logo (source .img-container) */
+.cards-product.photo-overlay .cards-product-card-body > p:first-child:has(> picture) {
+  display: flex;
+  align-items: center;
+  height: 87px;
+  line-height: 0;
+}
+
+.cards-product.photo-overlay .cards-product-card-body > p:first-child picture {
+  width: 100%;
+}
+
+.cards-product.photo-overlay .cards-product-card-body > p:first-child img {
+  width: auto;
+  max-width: 100%;
+  height: 60px;
+}
+
+.cards-product.photo-overlay .cards-product-card-body > p.cards-product-card-action {
+  margin: auto 0 12px;
+  border: 0;
+  padding-top: 25px;
+}
+
+.cards-product.photo-overlay .cards-product-card-body a:any-link {
+  color: inherit;
+}
+
+/* source .standalone-link-after-white: white chevron 8px after the label, outside the link box */
+.cards-product.photo-overlay .cards-product-card-body > p.cards-product-card-action > a:not(.button)::before {
+  content: none;
+}
+
+.cards-product.photo-overlay .cards-product-card-body > p.cards-product-card-action:has(> a:not(.button))::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 10px;
+  margin-left: 8px;
+  background-color: currentcolor;
+  mask: var(--cards-product-chevron) no-repeat center / 6px 10px;
+}
+
+/* photo-overlay-audience*: 500px photo tiles, a white caption box at the foot
+   (source .block-wpr.pos-rel > .block-inner.pos-abs > .block-wpr) */
+.cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) {
+  margin-bottom: 15px;
+}
+
+.cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) > ul > li {
+  justify-content: flex-end;
+  min-height: 500px;
+  border-radius: 8px;
+}
+
+.cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) .cards-product-card-body {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: fit-content;
+  max-width: 430px;
+  margin: 15px;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: var(--background-color);
+}
+
+.cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) .cards-product-card-body :is(h2, h3, h4) {
+  margin-bottom: 7.5px;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 25px;
+}
+
+/* yellow accent bar between the heading and the link */
+.cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) .cards-product-card-body > p.cards-product-card-action {
+  margin-top: 0;
+  border: 0;
+  padding: 0;
+}
+
+.cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) .cards-product-card-body > p.cards-product-card-action::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 4px;
+  margin-bottom: 14.5px;
+  background-color: #ffba00;
+}
+
+.cards-product.photo-overlay-audience-2 .cards-product-card-body > p.cards-product-card-action::before {
+  background-color: var(--brand-blue);
+}
+
+/* source .chevron-right.standalone-link: chevron in a 16px right padding */
+.cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) .cards-product-card-action > a:any-link:not(.button) {
+  padding-right: 16px;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10"><path fill="%23006ac3" d="M.85 10L0 9.2l4.33-4.28L.01.82.84 0 6 4.9.85 10z"/></svg>') no-repeat right center / 6px 10px;
+}
+
+.cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) .cards-product-card-body > p.cards-product-card-action > a:not(.button)::before {
+  content: none;
+}
+
+/* ---- tiers: one rate/tier row per item ---- */
 .cards-product.tiers > ul {
   grid-template-columns: 1fr;
   gap: 0;
@@ -224,37 +1227,311 @@
 
 @media (width >= 600px) {
   /* horizontal / apply / single-card panels: image beside text */
-  .cards-product.horizontal > ul > li,
-  .cards-product.horizontal-2 > ul > li,
-  .cards-product.apply > ul > li,
-  .cards-product.cards-product-single:not(.photo-overlay, .photo-overlay-2) > ul > li {
+  .cards-product:is(.horizontal, .horizontal-2, .cards-product-single):not([class*=' photo-overlay'], .tinted) > ul > li {
     flex-direction: row;
   }
 
-  .cards-product.horizontal .cards-product-card-image,
-  .cards-product.horizontal-2 .cards-product-card-image,
-  .cards-product.apply .cards-product-card-image,
-  .cards-product.cards-product-single:not(.photo-overlay, .photo-overlay-2) .cards-product-card-image {
+  .cards-product:is(.horizontal, .horizontal-2, .cards-product-single):not([class*=' photo-overlay'], .tinted) .cards-product-card-image {
     flex: 0 0 40%;
   }
 
-  .cards-product.horizontal .cards-product-card-image img,
-  .cards-product.horizontal-2 .cards-product-card-image img,
-  .cards-product.apply .cards-product-card-image img {
+  .cards-product:is(.horizontal, .horizontal-2, .apply.cards-product-single) .cards-product-card-image img {
     height: 100%;
-    aspect-ratio: auto;
-  }
-
-  .cards-product.cards-product-single > ul {
-    grid-template-columns: 1fr;
+    object-fit: cover;
   }
 }
 
 @media (width >= 900px) {
-  .cards-product.horizontal > ul,
-  .cards-product.horizontal-2 > ul {
-    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  .cards-product {
+    --cards-product-gutter: 15px;
+    --cards-product-pad: 20px;
   }
+
+  .cards-product > ul {
+    grid-template-columns: repeat(var(--cards-product-cols, 3), minmax(0, 1fr));
+    gap: 30px calc(2 * var(--cards-product-gutter));
+  }
+
+  /* one column per card up to five (source .grid-half / -one-third / -one-fourth); larger sets wrap */
+  .cards-product > ul:has(> li:only-child) {
+    --cards-product-cols: 1;
+  }
+
+  .cards-product > ul:has(> li:nth-child(2):last-child) {
+    --cards-product-cols: 2;
+  }
+
+  .cards-product > ul:has(> li:nth-child(4):last-child),
+  .cards-product > ul:has(> li:nth-child(7)) {
+    --cards-product-cols: 4;
+  }
+
+  .cards-product > ul:has(> li:nth-child(5):last-child) {
+    --cards-product-cols: 5;
+  }
+
+  .cards-product.alt {
+    --cards-product-pad: 30px;
+
+    margin-inline: -15px;
+  }
+
+  .cards-product.alt .cards-product-card-body :is(h2, h3, h4, h5, h6) {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .cards-product.image-3,
+  .cards-product.image {
+    --cards-product-pad: 20px;
+  }
+
+  .cards-product.alt-2 .cards-product-card-body,
+  .cards-product.alt-2 > ul > li + li .cards-product-card-body {
+    padding: 30px 30px 35px;
+  }
+
+  .cards-product.alt-2 .cards-product-card-image {
+    top: 30px;
+    right: 80px;
+  }
+
+  .cards-product.alt-2 .cards-product-card-image img {
+    width: 125px;
+    height: 159px;
+  }
+
+  .cards-product.alt-2 > ul > li + li .cards-product-card-image img {
+    width: 152px;
+    height: 199px;
+  }
+
+  .cards-product.alt-2 .cards-product-card-body > p.button-wrapper:last-child {
+    margin-top: 0;
+  }
+
+  .cards-product.alt-2 > ul > li + li .cards-product-card-body a.button:any-link {
+    max-width: none;
+  }
+
+  .cards-product.alt-2 > ul > li + li .cards-product-card-image {
+    top: 36px;
+    right: 0;
+  }
+
+  .cards-product.alt-2 .cards-product-card-body :is(h2, h3, h4) {
+    max-width: 320px;
+    font-size: 24px;
+    line-height: 38px;
+  }
+
+  .cards-product.alt-2 .cards-product-card-body a.button:any-link {
+    display: inline-flex;
+  }
+
+  .cards-product.image-4 {
+    margin-inline: 0;
+  }
+
+  .cards-product.image-4 > ul {
+    gap: 30px;
+  }
+
+  .cards-product.image-4 .cards-product-card-image img {
+    height: 232px;
+  }
+
+  .cards-product.image-4 .cards-product-card-body :is(h2, h3, h4) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .cards-product.shadow-2 > ul {
+    gap: 32px;
+  }
+
+  .cards-product.shadow-2 .cards-product-card-image img {
+    height: 200px;
+    object-fit: fill;
+  }
+
+  .cards-product.shadow-2 .cards-product-card-body :is(h2, h3, h4) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .cards-product.shadow {
+    max-width: 958px;
+    margin-inline: auto;
+  }
+
+  .cards-product.shadow > ul {
+    gap: 30px;
+  }
+
+  /* desktop rows share the tallest tile's height, content centred */
+  .cards-product.shadow > ul > li {
+    min-height: 236px;
+  }
+
+  .cards-product.light-image-2 {
+    padding-bottom: 30px;
+  }
+
+  .cards-product.light-image-2 > ul {
+    gap: 30px;
+  }
+
+  .cards-product.light-image-2 .cards-product-card-body > p.cards-product-card-action {
+    padding-top: 5px;
+  }
+
+  .cards-product.light-image-2 .cards-product-card-body > p:first-child {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  /* the two fixed-width panels are centred in a 1140px row */
+  .cards-product.blue-light {
+    max-width: 1140px;
+    margin-inline: auto;
+  }
+
+  .cards-product.blue-light > ul {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .cards-product.blue-light > ul > li {
+    box-sizing: border-box;
+    flex: 0 1 546px;
+    margin-top: 96px;
+  }
+
+  .cards-product.blue-light > ul > li:first-child {
+    flex-basis: 482px;
+    margin-top: 32px;
+  }
+
+  .cards-product.blue-light .cards-product-card-image,
+  .cards-product.blue-light .cards-product-card-image > p {
+    align-items: flex-end;
+  }
+
+  .cards-product.blue-light .cards-product-card-image img {
+    height: 165px;
+  }
+
+  .cards-product.blue-light .cards-product-card-body > p:last-child {
+    padding-bottom: 30px;
+  }
+
+  .cards-product.blue-light .cards-product-card-body :is(h2, h3, h4) {
+    font-size: 36px;
+    line-height: 45px;
+  }
+
+  .cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) {
+    margin-bottom: 30px;
+  }
+
+  .cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) .cards-product-card-body {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .cards-product:is(.photo-overlay-audience, .photo-overlay-audience-2) .cards-product-card-body :is(h2, h3, h4) {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .cards-product.image-orange > ul {
+    gap: 80px;
+  }
+
+  .cards-product.image-orange .cards-product-card-body :is(h4, h5) {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .cards-product.apply:not(.cards-product-single) .cards-product-card-body :is(h2, h3) {
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  .cards-product.blue-2 > ul > li {
+    gap: 60px;
+  }
+
+  .cards-product.blue-2.cards-product-single .cards-product-card-image {
+    flex: 0 0 398px;
+    padding: 60px;
+  }
+
+  .cards-product.blue-2 .cards-product-card-body :is(h2, h3) {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .cards-product.image-blue .cards-product-card-body :is(h2, h3) {
+    font-size: 28px;
+  }
+
+  .cards-product.image-blue .cards-product-card-body ul {
+    padding-left: 65px;
+  }
+
+  .cards-product.tinted .cards-product-card-body :is(h2, h3, h4) {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .cards-product.tinted-2 > ul {
+    display: grid;
+    gap: 30px;
+    overflow: visible;
+    padding-block: 0;
+  }
+
+  .cards-product.tinted-2 .cards-product-card-body > p:first-child {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .cards-product.light-image {
+    margin-inline: -15px;
+  }
+
+  .cards-product.light-image > ul {
+    padding: 0 15px;
+  }
+
+  .cards-product.light-image .cards-product-card-body {
+    padding: 32px;
+  }
+
+  .cards-product.light-image .cards-product-card-body :is(h2, h3, h4) {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+  }
+
+  .cards-product.photo-overlay {
+    margin-inline: 0;
+    padding-bottom: 30px;
+  }
+
+  .cards-product.photo-overlay > ul {
+    gap: 24px;
+    padding: 0;
+  }
+
+  .cards-product.photo-overlay .cards-product-card-body > p:first-child:has(> picture) {
+    margin-bottom: 15px;
+  }
+
 
   /* featured: first card wide, remaining cards stacked beside it */
   .cards-product.featured > ul {
@@ -265,29 +1542,34 @@
     grid-row: span 2;
   }
 
+  .cards-product.horizontal > ul,
+  .cards-product.horizontal-2 > ul {
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  }
+
   /* image: award tiles side by side */
-  .cards-product.image {
+  .cards-product.image:has(.cards-product-card-logo) {
     --cards-product-award-gap: 24px;
     --cards-product-award-img: 118px;
   }
 
-  .cards-product.image > ul {
+  .cards-product.image:has(.cards-product-card-logo) > ul {
     flex-direction: row;
     justify-content: center;
     gap: 30px;
   }
 
-  .cards-product.image > ul > li {
+  .cards-product.image:has(.cards-product-card-logo) > ul > li {
     flex: 0 1 326px;
     max-width: 370px;
   }
 
-  .cards-product.image .cards-product-card-body h3 {
+  .cards-product.image:has(.cards-product-card-logo) .cards-product-card-body h3 {
     font-size: var(--heading-font-size-m);
     line-height: 26px;
   }
 
-  .cards-product.image .cards-product-card-body > :is(h2, h3, h4) + p:not(:last-child) {
+  .cards-product.image:has(.cards-product-card-logo) .cards-product-card-body > :is(h2, h3, h4) + p:not(:last-child) {
     font-size: 18px;
     line-height: 27px;
   }

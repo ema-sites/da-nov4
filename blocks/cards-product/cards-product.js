@@ -12,6 +12,23 @@ function optimizeImages(root) {
 
 const hasOption = (block, list) => list.some((o) => block.classList.contains(o));
 
+/*
+ * photo-overlay options: the card photo is a backdrop behind the text (a CSS background on
+ * the source), so it becomes the card's background image instead of an <img> in the flow.
+ */
+function photoToBackground(li) {
+  const cell = li.querySelector(':scope > .cards-product-card-image');
+  const img = cell?.querySelector('img');
+  if (!img) return;
+  const url = new URL(img.getAttribute('src'), window.location.href);
+  const src = url.origin === window.location.origin && !/\.svg$/i.test(url.pathname)
+    ? `${url.pathname}?width=750&format=webply&optimize=medium`
+    : url.href;
+  li.style.backgroundImage = `url("${src}")`;
+  li.classList.add('cards-product-card-photo');
+  cell.remove();
+}
+
 const LOGO_MAX_PX = 400;
 
 /*
@@ -82,7 +99,26 @@ export default function decorate(block) {
       li.append(div);
     });
 
+    // a bold link opening the card body is its title, not a call-to-action button
+    li.querySelectorAll('.cards-product-card-body > p.button-wrapper:first-child:not(:last-child)').forEach((p) => {
+      const a = p.querySelector('a.button');
+      if (!a) return;
+      const strong = document.createElement('strong');
+      strong.append(...a.childNodes);
+      a.className = '';
+      a.append(strong);
+      p.className = '';
+    });
+
+    // a closing paragraph holding nothing but one link is the card's action row
+    li.querySelectorAll('.cards-product-card-body > p:last-child').forEach((p) => {
+      const links = p.querySelectorAll('a');
+      if (links.length === 1 && p.textContent.trim() === links[0].textContent.trim()
+        && !p.querySelector('img')) p.classList.add('cards-product-card-action');
+    });
+
     if (!li.querySelector('.cards-product-card-image')) li.classList.add('cards-product-card-no-image');
+    if ([...block.classList].some((c) => c.startsWith('photo-overlay'))) photoToBackground(li);
     // a card with a single destination becomes fully clickable
     const links = li.querySelectorAll('.cards-product-card-body a');
     if (links.length === 1) li.classList.add('cards-product-card-linked');
